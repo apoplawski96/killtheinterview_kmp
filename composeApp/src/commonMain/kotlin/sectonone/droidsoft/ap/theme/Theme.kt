@@ -208,7 +208,7 @@ val DarkColorPalette = KTIColors(
 
 @Composable
 fun KTITheme(
-    themeMode: AppThemeMode,
+    themeMode: AppThemeMode = AppThemeMode.SYSTEM,
     isPreview: Boolean = true,
     content: @Composable () -> Unit = {},
 ) {

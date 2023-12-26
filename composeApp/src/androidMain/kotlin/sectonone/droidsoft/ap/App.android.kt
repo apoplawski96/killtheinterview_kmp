@@ -6,8 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import sectonone.droidsoft.ap.di.initKoin
 
 class AndroidApp : Application() {
+
     companion object {
         lateinit var INSTANCE: AndroidApp
     }
@@ -15,10 +17,15 @@ class AndroidApp : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+
+        initKoin {
+
+        }
     }
 }
 
 class AppActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

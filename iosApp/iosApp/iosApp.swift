@@ -4,6 +4,11 @@ import ComposeApp
 
 @main
 struct iosApp: App {
+
+    init() {
+        SharedModuleKt.doInitKoin()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
