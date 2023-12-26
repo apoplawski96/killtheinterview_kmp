@@ -42,6 +42,11 @@ import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
 @Composable
+internal fun JSApp() = AppTheme {
+    InitialUi()
+}
+
+@Composable
 internal fun App() = AppTheme {
 //    InitialUi()
     KTITheme {
