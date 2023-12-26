@@ -9,6 +9,5 @@ class WelcomeScreenModel : ScreenModel {
     }
 
     fun navigateToAuthenticationScreen() {
-        // TODO
     }
 }

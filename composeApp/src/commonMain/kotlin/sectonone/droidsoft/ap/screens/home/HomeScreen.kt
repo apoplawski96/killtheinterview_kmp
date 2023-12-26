@@ -12,6 +12,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountTree
+import androidx.compose.material.icons.filled.CoPresent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -147,7 +150,6 @@ private fun HomeScreenFeedSection(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSubCategoryClick: (SubCategory) -> Unit,
 ) {
-    // TODO: Migrate to LazyColumn when feed grows
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
@@ -186,15 +188,15 @@ private fun MenuItems(
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         items.forEach { homeItem ->
-//            KTICardWithIllustration(
-//                item = KTICardItem(value = homeItem, label = homeItem.displayName),
-//                onClick = onItemClicked,
-//                fontWeight = FontWeight.W500,
-//                imageResource = when (homeItem) {
-//                    HomeScreenMenuItem.AI_INTERVIEW -> SharedRes.images.undraw_certificate_re_yadi
-//                    HomeScreenMenuItem.QUESTIONS_CATEGORIES -> SharedRes.images.undraw_programming_re_kg9v
-//                }
-//            )
+            KTICardWithIllustration(
+                item = KTICardItem(value = homeItem, label = homeItem.displayName),
+                onClick = onItemClicked,
+                fontWeight = FontWeight.W500,
+                imageResource = when (homeItem) {
+                    HomeScreenMenuItem.AI_INTERVIEW -> Icons.Default.CoPresent
+                    HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.AccountTree
+                }
+            )
             KTIVerticalSpacer(height = 12.dp)
         }
     }
