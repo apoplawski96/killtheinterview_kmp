@@ -102,7 +102,7 @@ val kti_accent = Color(0xFFD55951)
 val kti_softblack = Color(0xFF15191F)
 val kti_secondary_text = Color(0xFF15191F)
 val kti_divider = Color(0xFFBDBDBD)
-val kti_green = Color(0xFF1F5F2B)
+val kti_green = Color(0xFF54b37e)
 
 val kti_grey = Color(0xFFCFCFCF)
 val kti_background_grey = Color(0xFFDDDDDD)

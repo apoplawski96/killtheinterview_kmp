@@ -19,7 +19,7 @@ fun KTIColumnWithGradient(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = getGradientBrush()),
+            .background(brush = backgroundGradientBrush),
     ) {
         content.invoke()
     }
@@ -40,7 +40,7 @@ fun KTIBoxWithGradientBackground(
     }
 }
 
-private fun getGradientBrush() = Brush.verticalGradient(
+val backgroundGradientBrush = Brush.verticalGradient(
     0.0f to kti_softwhite,
     1.0f to kti_grey
 )

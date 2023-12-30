@@ -2,6 +2,8 @@ package sectonone.droidsoft.ap.compose
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -56,7 +58,6 @@ fun KTIButton(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun KTIButtonShared(
     label: String,
@@ -65,7 +66,7 @@ fun KTIButtonShared(
     backgroundColorDisabled: Color = backgroundColor.copy(alpha = 0.7f),
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    icon: ImageVector?,
+    icon: ImageVector? = null,
     iconColor: Color = kti_softblack,
     enabled: Boolean = true,
 ) {
@@ -75,22 +76,48 @@ fun KTIButtonShared(
             backgroundColor = backgroundColor,
             disabledBackgroundColor = backgroundColorDisabled,
         ),
-        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 12.dp),
-        shape = RoundedCornerShape(16.dp),
+        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 12.dp),
+        shape = RoundedCornerShape(6.dp),
         modifier = modifier,
         enabled = enabled,
     ) {
         KTITextNew(
             text = label,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.W400,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W600,
             color = labelColor,
             modifier = Modifier.padding(vertical = 12.dp),
             overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
         if (icon != null) {
             KTIIcon(imageResource = icon, tint = iconColor, size = 20.dp)
         }
+    }
+}
+
+@Composable
+fun KTIFloatingActionButton(
+    onClick: () -> Unit,
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = kti_accent,
+    backgroundColorDisabled: Color = backgroundColor.copy(alpha = 0.7f),
+    iconColor: Color = white,
+    enabled: Boolean = true,
+) {
+    Button(
+        onClick = { if (enabled) onClick.invoke() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor,
+            disabledBackgroundColor = backgroundColorDisabled,
+        ),
+        contentPadding = PaddingValues(8.dp),
+        shape = CircleShape,
+        modifier = modifier then Modifier.size(44.dp),
+        enabled = enabled,
+    ) {
+        KTIIcon(imageResource = icon, tint = iconColor, size = 24.dp)
     }
 }
 

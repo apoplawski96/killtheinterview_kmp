@@ -1,15 +1,18 @@
 package sectonone.droidsoft.ap.screens.interviewCurated
 
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -18,13 +21,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Crop
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,16 +32,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import sectonone.droidsoft.ap.compose.KTIButtonShared
 import sectonone.droidsoft.ap.compose.KTIChatTopAppBar
-import sectonone.droidsoft.ap.compose.KTIColumnWithGradient
+import sectonone.droidsoft.ap.compose.KTIFloatingActionButton
 import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
 import sectonone.droidsoft.ap.compose.KTIIcon
+import sectonone.droidsoft.ap.compose.KTIScaffold
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.compose.LoadingAnimation
@@ -50,7 +49,13 @@ import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
-import sectonone.droidsoft.ap.theme.*
+import sectonone.droidsoft.ap.theme.kti_dark_blue
+import sectonone.droidsoft.ap.theme.kti_dark_grey
+import sectonone.droidsoft.ap.theme.kti_green
+import sectonone.droidsoft.ap.theme.kti_grey
+import sectonone.droidsoft.ap.theme.kti_light_blue
+import sectonone.droidsoft.ap.theme.kti_softblack
+import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal class InterviewChatScreen(private val categories: List<TopCategory>) : Screen {
 
@@ -98,8 +103,30 @@ private fun InterviewChatScreenContent(
     currentQuestion: Question?,
 ) {
     val isAnswerExpanded = rememberSaveable(screenStateChat) { mutableStateOf(false) }
-    KTIColumnWithGradient {
-        KTIChatTopAppBar()
+    val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value  }
+    KTIScaffold(
+        topBar = {
+            KTIChatTopAppBar()
+        },
+        bottomBar = {
+            ControlSection(
+                addPointClick = onAddPointClick,
+                noPointClick = onNoPointClick,
+                inputEnabled = inputEnabled,
+                showAnswerClick = setIsAnswerExpanded,
+                isAnswerExpanded = isAnswerExpanded.value,
+            )
+        },
+        floatingActionButton = {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isAnswerExpanded.value.not() && inputEnabled,
+                enter = scaleIn(),
+                exit = scaleOut(),
+            ) {
+                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark)
+            }
+        }
+    ) {
         when (screenStateChat) {
             is InterviewChatScreenModel.ViewStateChat.InterviewActive -> {
                 Column(
@@ -130,8 +157,10 @@ private fun InterviewChatScreenContent(
                             item { KTIVerticalSpacer(height = 8.dp) }
                         }
                         androidx.compose.animation.AnimatedVisibility(
-                            isAnswerExpanded.value,
-                            modifier = Modifier.align(Alignment.BottomEnd).padding(start = 32.dp, end = 16.dp, bottom = 4.dp)
+                            visible = isAnswerExpanded.value,
+                            modifier = Modifier.align(Alignment.BottomEnd).padding(start = 32.dp, end = 16.dp, bottom = 4.dp),
+                            enter = scaleIn(),
+                            exit = scaleOut(),
                         ) {
                             Column(
                                 modifier = Modifier
@@ -146,6 +175,7 @@ private fun InterviewChatScreenContent(
                                     .background(kti_softwhite)
                                     .padding(vertical = 8.dp, horizontal = 12.dp)
                                     .verticalScroll(rememberScrollState())
+                                    .clickable { setIsAnswerExpanded.invoke() }
                             ) {
                                 KTIVerticalSpacer(4.dp)
                                 KTIIcon(Icons.Default.Info, size = 16.dp)
@@ -159,7 +189,7 @@ private fun InterviewChatScreenContent(
                         noPointClick = onNoPointClick,
                         modifier = Modifier.weight(1f),
                         inputEnabled = inputEnabled,
-                        showAnswerClick = { isAnswerExpanded.value = !isAnswerExpanded.value },
+                        showAnswerClick = setIsAnswerExpanded,
                         isAnswerExpanded = isAnswerExpanded.value,
                     )
                 }
@@ -170,6 +200,80 @@ private fun InterviewChatScreenContent(
             }
         }
     }
+
+
+//    KTIColumnWithGradient {
+//        KTIChatTopAppBar()
+//        when (screenStateChat) {
+//            is InterviewChatScreenModel.ViewStateChat.InterviewActive -> {
+//                Column(
+//                    modifier = Modifier.fillMaxSize(),
+//                    verticalArrangement = Arrangement.Bottom,
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    Box(Modifier.weight(10f)) {
+//                        LazyColumn(
+//                            modifier = Modifier.align(Alignment.TopCenter),
+//                            contentPadding = PaddingValues(horizontal = 16.dp),
+//                            state = chatListState,
+//                        ) {
+//                            item { KTIVerticalSpacer(height = 8.dp) }
+//                            itemsIndexed(
+//                                items = screenStateChat.chatItems,
+//                                key = { i, it -> "${it.hashCode()}, index: $i" }) { _, chatItem ->
+//                                when (chatItem) {
+//                                    is InterviewChatItemUiModel.CandidateMessage -> {
+//                                        CandidateBubbleChatItem(chatItem)
+//                                    }
+//
+//                                    is InterviewChatItemUiModel.InterviewerMessage -> {
+//                                        InterviewerBubbleChatItem(chatItem)
+//                                    }
+//                                }
+//                            }
+//                            item { KTIVerticalSpacer(height = 8.dp) }
+//                        }
+//                        androidx.compose.animation.AnimatedVisibility(
+//                            isAnswerExpanded.value,
+//                            modifier = Modifier.align(Alignment.BottomEnd).padding(start = 32.dp, end = 16.dp, bottom = 4.dp)
+//                        ) {
+//                            Column(
+//                                modifier = Modifier
+//                                    .clip(
+//                                        RoundedCornerShape(
+//                                            topEnd = radius,
+//                                            topStart = radius,
+//                                            bottomStart = radius,
+//                                            bottomEnd = 0.dp,
+//                                        )
+//                                    )
+//                                    .background(kti_softwhite)
+//                                    .padding(vertical = 8.dp, horizontal = 12.dp)
+//                                    .verticalScroll(rememberScrollState())
+//                            ) {
+//                                KTIVerticalSpacer(4.dp)
+//                                KTIIcon(Icons.Default.Info, size = 16.dp)
+//                                KTIVerticalSpacer(4.dp)
+//                                KTITextNew(text = currentQuestion?.answer ?: "Current question is null")
+//                            }
+//                        }
+//                    }
+//                    ControlSection(
+//                        addPointClick = onAddPointClick,
+//                        noPointClick = onNoPointClick,
+//                        modifier = Modifier.weight(1f),
+//                        inputEnabled = inputEnabled,
+//                        showAnswerClick = { isAnswerExpanded.value = !isAnswerExpanded.value },
+//                        isAnswerExpanded = isAnswerExpanded.value,
+//                    )
+//                }
+//            }
+//
+//            is InterviewChatScreenModel.ViewStateChat.InterviewFinished -> {
+//                KTITextNew("no questions left", fontSize = 16.sp, fontWeight = FontWeight.W700)
+//            }
+//        }
+//    }
 }
 
 private val radius = 24.dp
@@ -224,8 +328,9 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
 
 @Composable
 private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiModel.CandidateMessage) {
+    val paddingBottom = if (chatItem is InterviewChatItemUiModel.CandidateMessage.Writing) 32.dp else 4.dp
     Row(
-        modifier = Modifier.padding(vertical = 4.dp),
+        modifier = Modifier.padding(top = 4.dp, bottom = paddingBottom),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -269,7 +374,7 @@ private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiM
 }
 
 @Composable
-private fun ColumnScope.ControlSection(
+private fun ControlSection(
     addPointClick: () -> Unit,
     noPointClick: () -> Unit,
     showAnswerClick: () -> Unit,
@@ -277,42 +382,46 @@ private fun ColumnScope.ControlSection(
     isAnswerExpanded: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier then Modifier.fillMaxWidth().background(Color.Transparent)) {
-        Divider(color = kti_grey, thickness = 1.5.dp)
+    Column(
+        modifier = modifier then Modifier
+            .fillMaxWidth()
+            .sizeIn(minHeight = 80.dp)
+            .background(kti_softwhite),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             KTIButtonShared(
                 label = "I knew it!",
                 onClick = addPointClick,
-//                icon = SharedRes.images.check_new,
                 iconColor = if (inputEnabled) kti_softwhite else kti_grey,
                 enabled = inputEnabled,
                 backgroundColor = kti_green,
                 labelColor = if (inputEnabled) kti_softwhite else kti_grey,
-                icon = Icons.Default.Check
+                modifier = Modifier.weight(1f),
             )
+            KTIHorizontalSpacer(width = 16.dp)
             KTIButtonShared(
-                label = "I was confused :(",
+                label = "Confused :(",
                 onClick = noPointClick,
-//                icon = SharedRes.images.cross_new,
                 iconColor = if (inputEnabled) kti_softwhite else kti_grey,
                 enabled = inputEnabled,
-                backgroundColor = if (inputEnabled) kti_red_wrong else kti_red_wrong.copy(alpha = 0.7f),
-                labelColor = if (inputEnabled) kti_softblack else kti_grey,
-                icon = Icons.Default.Crop
+                backgroundColor = if (inputEnabled) kti_grey else kti_grey.copy(alpha = 0.7f),
+                labelColor = if (inputEnabled) kti_dark_grey.copy(alpha = 0.9f) else kti_dark_grey.copy(alpha = 0.6f),
+                modifier = Modifier.weight(1f),
             )
-            KTIButtonShared(
-                label = if (isAnswerExpanded.not()) "Show answer" else "Hide answer",
-                onClick = showAnswerClick,
-                icon = if (isAnswerExpanded.not()) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
-                iconColor = if (inputEnabled) kti_softblack else kti_grey,
-                enabled = inputEnabled,
-                backgroundColor = kti_softwhite,
-                labelColor = if (inputEnabled) kti_softblack else kti_grey,
-            )
+//            KTIButtonShared(
+//                label = if (isAnswerExpanded.not()) "Show answer" else "Hide answer",
+//                onClick = showAnswerClick,
+//                icon = if (isAnswerExpanded.not()) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
+//                iconColor = if (inputEnabled) kti_softblack else kti_grey,
+//                enabled = inputEnabled,
+//                backgroundColor = kti_softwhite,
+//                labelColor = if (inputEnabled) kti_softblack else kti_grey,
+//            )
         }
     }
 }
