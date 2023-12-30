@@ -132,6 +132,13 @@ val kti_light_grey = Color(0xFFF6F6F6)
 val kti_black_60alpha = Color(0x99000000)
 val kti_black_30alpha = Color(0x4D000000)
 
+val kti_pinterest_dark = Color(0xFF101223)
+val kti_pinterest_grey = Color(0xFF252738)
+val kti_pinterest_accent = Color(0xFF3aa0ff)
+
+val kti_pinterest_white = Color(0xFFfbfbfb)
+val kti_pinterest_light_grey = Color(0xFFefefef)
+
 @Stable
 class KTIColors(
     primary: Color,
@@ -169,6 +176,10 @@ class KTIColors(
     mauve: Color,
     countDownTimerButton: Color,
     isDark: Boolean,
+    appBars: Color,
+    background: Color,
+    chatAccent: Color,
+    chatPrimary: Color,
 ) {
     var primary by mutableStateOf(primary)
         private set
@@ -240,6 +251,15 @@ class KTIColors(
         private set
     var isDark by mutableStateOf(isDark)
         private set
+    var appBars by mutableStateOf(appBars)
+        private set
+    var background by mutableStateOf(background)
+        private set
+    var chatAccent by mutableStateOf(chatAccent)
+        private set
+    var chatPrimary by mutableStateOf(chatPrimary)
+        private set
+
 
     fun copy(): KTIColors = KTIColors(
         primary = primary,
@@ -276,7 +296,8 @@ class KTIColors(
         purple = purple,
         mauve = mauve,
         countDownTimerButton = countDownTimerButton,
-        isDark = isDark
+        isDark = isDark,
+        appBars = appBars, background = background, chatAccent = chatAccent, chatPrimary = chatPrimary
     )
 
     fun update(other: KTIColors) {
@@ -315,6 +336,10 @@ class KTIColors(
         mauve = other.mauve
         countDownTimerButton = other.countDownTimerButton
         isDark = other.isDark
+        appBars = other.appBars
+        background = other.background
+        chatAccent = other.chatAccent
+        chatPrimary = other.chatPrimary
     }
 }
 

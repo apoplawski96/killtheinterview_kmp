@@ -165,7 +165,11 @@ val LightColorPalette = KTIColors(
     purple = kti_purple,
     mauve = kti_mauve,
     countDownTimerButton = kti_dark_blue,
-    isDark = false
+    isDark = false,
+    appBars = kti_pinterest_white,
+    background = kti_pinterest_light_grey,
+    chatAccent = kti_accent,
+    chatPrimary = kti_pinterest_white,
 )
 
 val DarkColorPalette = KTIColors(
@@ -203,7 +207,11 @@ val DarkColorPalette = KTIColors(
     purple = kti_purple,
     mauve = kti_mauve,
     countDownTimerButton = white,
-    isDark = true
+    isDark = true,
+    appBars = kti_pinterest_dark,
+    background = kti_pinterest_dark,
+    chatAccent = kti_accent,
+    chatPrimary = kti_pinterest_grey,
 )
 
 @Composable

@@ -41,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.AppTheme
+import sectonone.droidsoft.ap.theme.AppThemeMode
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
@@ -52,7 +53,7 @@ internal fun JSApp() = AppTheme {
 @Composable
 internal fun App() = AppTheme {
 //    InitialUi()
-    KTITheme {
+    KTITheme(themeMode = AppThemeMode.LIGHT) {
         Navigator(HomeScreen) { navigator ->
             Column(
                 modifier = Modifier
