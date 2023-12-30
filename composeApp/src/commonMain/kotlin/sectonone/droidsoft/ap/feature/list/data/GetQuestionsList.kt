@@ -37,6 +37,7 @@ class GetQuestionsList(
 
         Result.Success(questions = result)
     } catch (e: Exception) {
+        println("2137 - error, exception: $e")
         Result.Error
     }
 }

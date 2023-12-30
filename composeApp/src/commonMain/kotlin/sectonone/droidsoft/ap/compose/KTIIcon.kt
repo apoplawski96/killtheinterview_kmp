@@ -1,6 +1,5 @@
 package sectonone.droidsoft.ap.compose
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -11,11 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.kti_softblack
 
 @Composable
@@ -97,7 +93,12 @@ fun KTIBackIcon() {
 @Composable
 fun KTIBackButton() {
     val navigator = LocalNavigator.currentOrThrow
-    KTIIconButton(onClick = { navigator.pop() }) {
+    KTIIconButton(
+        onClick = {
+            println("2137 - onClick")
+            navigator.pop()
+        }
+    ) {
         KTIBackIcon()
     }
 }

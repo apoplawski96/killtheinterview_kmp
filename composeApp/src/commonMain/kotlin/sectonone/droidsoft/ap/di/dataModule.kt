@@ -8,6 +8,7 @@ import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompte
 import sectonone.droidsoft.ap.feature.subcategories.data.SubCategoriesRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import sectonone.droidsoft.ap.json.SharedFileReader
 
 val dataModule = module {
     singleOf(::QuestionsDataSource)
@@ -16,4 +17,5 @@ val dataModule = module {
     singleOf(::QuestionsRepository)
     singleOf(::OpenAIPrompter)
     singleOf(::AIInterviewQuestionsPrompter)
+    singleOf(::SharedFileReader)
 }

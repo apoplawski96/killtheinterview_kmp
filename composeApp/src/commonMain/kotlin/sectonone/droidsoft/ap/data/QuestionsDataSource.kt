@@ -1,8 +1,9 @@
 package sectonone.droidsoft.ap.data
 
-import sectonone.droidsoft.ap.common.JsonFileReader
-import sectonone.droidsoft.ap.model.schema.QuestionSchema
 import kotlinx.serialization.json.Json
+import sectonone.droidsoft.ap.json.OtherFileReader
+import sectonone.droidsoft.ap.json.SharedFileReader
+import sectonone.droidsoft.ap.model.schema.QuestionSchema
 
 private const val FILE_NAME_DROID = "questions_android.json"
 private const val FILE_NAME_DROID_FLOW = "questions_android_flow.json"
@@ -39,7 +40,11 @@ private val files = listOf(
     FILE_NAME_PROGRAMMING_PARADIGMS,
 )
 
-class QuestionsDataSource(private val jsonFileReader: JsonFileReader) {
+class QuestionsDataSource(
+    private val sharedFileReader: SharedFileReader,
+) {
+
+    val otherFileReader = OtherFileReader()
 
     fun getAll(): List<QuestionSchema> = buildList {
         files.forEach { fileName ->
@@ -74,7 +79,9 @@ class QuestionsDataSource(private val jsonFileReader: JsonFileReader) {
         decodeQuestionsFromFile(FILE_NAME_PROGRAMMING_PARADIGMS)
 
     private fun decodeQuestionsFromFile(fileName: String): List<QuestionSchema> {
-        val jsonFileContent = jsonFileReader.readJsonFile(fileName)
+        val jsonFileContent = sharedFileReader.loadJsonFile(fileName) ?: return emptyList()
+//        val jsonFileContent = otherFileReader.loadJsonFile(fileName)
+
         return Json.decodeFromString(jsonFileContent)
     }
 }

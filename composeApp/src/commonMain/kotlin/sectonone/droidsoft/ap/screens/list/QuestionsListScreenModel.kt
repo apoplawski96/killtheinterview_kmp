@@ -40,8 +40,7 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
     private val _sortMode: MutableSharedFlow<SortMode> = MutableSharedFlow()
     private val sortMode: SharedFlow<SortMode> = _sortMode
 
-    private val _selectedDifficulties: MutableStateFlow<List<Difficulty>> = MutableStateFlow(
-        Difficulty.values().toList())
+    private val _selectedDifficulties: MutableStateFlow<List<Difficulty>> = MutableStateFlow(Difficulty.entries)
     val selectedDifficulties: StateFlow<List<Difficulty>> = _selectedDifficulties
 
     private val _scoreboard: MutableStateFlow<Scoreboard> = MutableStateFlow(Scoreboard(0, 0))

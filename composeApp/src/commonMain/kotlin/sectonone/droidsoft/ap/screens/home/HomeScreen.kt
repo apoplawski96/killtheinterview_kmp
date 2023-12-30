@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.screens.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICardSmallWithUnderText
 import sectonone.droidsoft.ap.compose.KTICardWithIllustration
@@ -93,6 +95,7 @@ private fun HomeScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         KTITopAppBar(isNested = false)
+        Image(painterResource("image.png"), "")
         HelloSection()
         KTIVerticalSpacer(height = 32.dp)
         IllustrationSection()
