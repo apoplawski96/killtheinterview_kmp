@@ -10,19 +10,9 @@ class QuestionsRepository(
     private val questionsMapper: QuestionsMapper,
 ) {
 
-    fun getAllQuestions(): List<Question> {
-        return fetchAndMapQuestions()
-    }
-
-    fun getQuestionsForCategories(categories: List<TopCategory>): List<Question> {
-
-        return fetchAndMapQuestions().filter { question ->
-//            categories.contains(question.topCategory)
+    suspend fun getQuestionsForCategories(categories: List<TopCategory>): List<Question> {
+        return questionsMapper.map(questionsDataSource.getAll()).filter { question ->
             categories.any { it == question.topCategory }
         }
-    }
-
-    private fun fetchAndMapQuestions(): List<Question> {
-        return questionsMapper.map(questionsDataSource.getAll())
     }
 }

@@ -66,12 +66,10 @@ class InterviewChatScreenModel(
     )
 
     fun initQuestions(categories: List<TopCategory>) {
-        val questions = questionsRepository.getQuestionsForCategories(categories)
-
-        questionsBase.clear()
-        questionsBase.addAll(questions)
-
         screenModelScope.launch {
+            val questions = questionsRepository.getQuestionsForCategories(categories)
+            questionsBase.clear()
+            questionsBase.addAll(questions)
             emitInterviewerProgressObject()
             delay(interval)
             emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("Hello candidate."))

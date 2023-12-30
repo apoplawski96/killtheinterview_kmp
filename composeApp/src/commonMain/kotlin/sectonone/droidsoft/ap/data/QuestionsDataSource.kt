@@ -1,8 +1,7 @@
 package sectonone.droidsoft.ap.data
 
 import kotlinx.serialization.json.Json
-import sectonone.droidsoft.ap.json.OtherFileReader
-import sectonone.droidsoft.ap.json.SharedFileReader
+import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.model.schema.QuestionSchema
 
 private const val FILE_NAME_DROID = "questions_android.json"
@@ -40,19 +39,15 @@ private val files = listOf(
     FILE_NAME_PROGRAMMING_PARADIGMS,
 )
 
-class QuestionsDataSource(
-    private val sharedFileReader: SharedFileReader,
-) {
+class QuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) {
 
-    val otherFileReader = OtherFileReader()
-
-    fun getAll(): List<QuestionSchema> = buildList {
+    suspend fun getAll(): List<QuestionSchema> = buildList {
         files.forEach { fileName ->
             addAll(decodeQuestionsFromFile(fileName))
         }
     }
 
-    fun getQuestionsAndroid(): List<QuestionSchema> = decodeQuestionsFromFile(FILE_NAME_DROID) +
+    suspend fun getQuestionsAndroid(): List<QuestionSchema> = decodeQuestionsFromFile(FILE_NAME_DROID) +
             decodeQuestionsFromFile(FILE_NAME_DROID_FLOW) +
             decodeQuestionsFromFile(FILE_NAME_DROID_COROUTINES) +
             decodeQuestionsFromFile(FILE_NAME_DROID_LIFECYCLE) +
@@ -63,25 +58,23 @@ class QuestionsDataSource(
             decodeQuestionsFromFile(FILE_NAME_DROID_CORE) +
             decodeQuestionsFromFile(FILE_NAME_DROID_COMPOSE)
 
-    fun getQuestionsIOS(): List<QuestionSchema> =
+    suspend fun getQuestionsIOS(): List<QuestionSchema> =
         decodeQuestionsFromFile(FILE_NAME_IOS)
 
-    fun getQuestionsDesignPatterns(): List<QuestionSchema> =
+    suspend fun getQuestionsDesignPatterns(): List<QuestionSchema> =
         decodeQuestionsFromFile(FILE_NAME_DESIGN_PATTERNS)
 
-    fun getQuestionsGit(): List<QuestionSchema> =
+    suspend fun getQuestionsGit(): List<QuestionSchema> =
         decodeQuestionsFromFile(FILE_NAME_GIT)
 
-    fun getQuestionsKotlin(): List<QuestionSchema> =
+    suspend fun getQuestionsKotlin(): List<QuestionSchema> =
         decodeQuestionsFromFile(FILE_NAME_KOTLIN)
 
-    fun getQuestionsProgrammingParadigms(): List<QuestionSchema> =
+    suspend fun getQuestionsProgrammingParadigms(): List<QuestionSchema> =
         decodeQuestionsFromFile(FILE_NAME_PROGRAMMING_PARADIGMS)
 
-    private fun decodeQuestionsFromFile(fileName: String): List<QuestionSchema> {
-        val jsonFileContent = sharedFileReader.loadJsonFile(fileName) ?: return emptyList()
-//        val jsonFileContent = otherFileReader.loadJsonFile(fileName)
-
+    private suspend fun decodeQuestionsFromFile(fileName: String): List<QuestionSchema> {
+        val jsonFileContent = resourcesFileReader.readFile(fileName) ?: return emptyList()
         return Json.decodeFromString(jsonFileContent)
     }
 }

@@ -15,7 +15,7 @@ class GetQuestionsList(
         data object Error : Result
     }
 
-    operator fun invoke(topCategory: TopCategory, subCategory: SubCategory?): Result = try {
+    suspend operator fun invoke(topCategory: TopCategory, subCategory: SubCategory?): Result = try {
         val questionsRaw = when(topCategory) {
             TopCategory.ANDROID -> questionsDataSource.getQuestionsAndroid()
             TopCategory.GIT -> questionsDataSource.getQuestionsGit()

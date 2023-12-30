@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.di
 
+import kotlinx.coroutines.Dispatchers
 import sectonone.droidsoft.ap._legacy.QuestionsRepository
 import sectonone.droidsoft.ap.data.QuestionsDataSource
 import sectonone.droidsoft.ap.feature.categories.data.CategoriesRepository
@@ -8,6 +9,7 @@ import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompte
 import sectonone.droidsoft.ap.feature.subcategories.data.SubCategoriesRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.json.SharedFileReader
 
 val dataModule = module {
@@ -18,4 +20,5 @@ val dataModule = module {
     singleOf(::OpenAIPrompter)
     singleOf(::AIInterviewQuestionsPrompter)
     singleOf(::SharedFileReader)
+    single { ResourcesFileReader(defaultDispatcher = Dispatchers.Default) }
 }

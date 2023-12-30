@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.feature.home.data.GetHomeScreenFeedItems
-import sectonone.droidsoft.ap.json.OtherFileReader
 import sectonone.droidsoft.ap.model.HomeScreenFeedItem
 
 class HomeScreenModel(
@@ -27,9 +26,6 @@ class HomeScreenModel(
             _viewState.update {
                 ViewState.HomeItems(items = getHomeScreenFeedItems.get())
             }
-
-            val fileReader = OtherFileReader()
-            fileReader.loadJsonFile("questions_git.json")
         }
     }
 }

@@ -53,21 +53,23 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
     val viewState: StateFlow<ViewState> = _viewState
 
     fun initialize(topCategory: TopCategory, subCategory: SubCategory?) {
-        val result = when (val questions = getQuestions.invoke(topCategory, subCategory)) {
-            is GetQuestionsList.Result.Success -> {
-                _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
-                ViewState.QuestionsLoaded(questions.questions.sortedBy { it.difficulty })
+        screenModelScope.launch {
+            val result = when (val questions = getQuestions.invoke(topCategory, subCategory)) {
+                is GetQuestionsList.Result.Success -> {
+                    _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
+                    ViewState.QuestionsLoaded(questions.questions.sortedBy { it.difficulty })
+                }
+                is GetQuestionsList.Result.Error -> {
+                    ViewState.Error
+                }
             }
-            is GetQuestionsList.Result.Error -> {
-                ViewState.Error
-            }
+
+            _viewState.update { result }
+
+            collectSelectedDifficultiesUpdates()
+            collectSortModeUpdates()
+            collectAnsweredQuestionsUpdates()
         }
-
-        _viewState.update { result }
-
-        collectSelectedDifficultiesUpdates()
-        collectSortModeUpdates()
-        collectAnsweredQuestionsUpdates()
     }
 
     fun toggleBottomSheet() {
