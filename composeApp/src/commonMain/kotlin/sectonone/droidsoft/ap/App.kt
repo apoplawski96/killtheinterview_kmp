@@ -54,10 +54,15 @@ internal fun App() = AppTheme {
 //    InitialUi()
     KTITheme {
         Navigator(HomeScreen) { navigator ->
-            SlideTransition(navigator)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.safeDrawing)
+            ) {
+                SlideTransition(navigator)
+            }
         }
     }
-
 }
 
 internal expect fun openUrl(url: String?)

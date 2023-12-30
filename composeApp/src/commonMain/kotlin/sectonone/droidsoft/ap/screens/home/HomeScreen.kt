@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.CoPresent
@@ -44,6 +45,8 @@ import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.categories.CategoriesScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.kti_background_grey
+import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal object HomeScreen : Screen {
 
@@ -86,30 +89,31 @@ private fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSubCategoryClick: (SubCategory) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(KTITheme.colors.backgroundSurface)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        KTITopAppBar(isNested = false)
-        Image(painterResource("image.png"), "")
-        HelloSection()
-        KTIVerticalSpacer(height = 32.dp)
-        IllustrationSection()
-        when (state) {
-            is HomeScreenModel.ViewState.HomeItems -> {
-                HomeScreenFeedSection(
-                    feed = state.items,
-                    onMenuItemClicked = onMenuItemClicked,
-                    onSubCategoryClick = onSubCategoryClick
-                )
-            }
+    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.backgroundSurface) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(KTITheme.colors.backgroundSurface)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+//            Image(painterResource("image.png"), "")
+            HelloSection()
+            KTIVerticalSpacer(height = 32.dp)
+            IllustrationSection()
+            when (state) {
+                is HomeScreenModel.ViewState.HomeItems -> {
+                    HomeScreenFeedSection(
+                        feed = state.items,
+                        onMenuItemClicked = onMenuItemClicked,
+                        onSubCategoryClick = onSubCategoryClick
+                    )
+                }
 
-            is HomeScreenModel.ViewState.Loading -> {
-                CircularProgressIndicator()
+                is HomeScreenModel.ViewState.Loading -> {
+                    CircularProgressIndicator()
+                }
             }
         }
     }
