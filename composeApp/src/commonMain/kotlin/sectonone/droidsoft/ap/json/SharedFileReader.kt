@@ -4,10 +4,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.resource
 
-expect class SharedFileReader() {
-    fun loadJsonFile(fileName: String): String?
-}
-
 class ResourcesFileReader(private val defaultDispatcher: CoroutineDispatcher) {
 
     suspend fun readFile(fileName: String): String? {
