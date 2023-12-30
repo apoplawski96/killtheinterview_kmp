@@ -60,7 +60,7 @@ fun KTIButton(
 
 @Composable
 fun KTIButtonShared(
-    label: String,
+    label: String?,
     labelColor: Color = kti_softblack,
     backgroundColor: Color = kti_accent,
     backgroundColorDisabled: Color = backgroundColor.copy(alpha = 0.7f),
@@ -81,15 +81,17 @@ fun KTIButtonShared(
         modifier = modifier,
         enabled = enabled,
     ) {
-        KTITextNew(
-            text = label,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W600,
-            color = labelColor,
-            modifier = Modifier.padding(vertical = 12.dp),
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1
-        )
+        if (label != null) {
+            KTITextNew(
+                text = label,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                color = labelColor,
+                modifier = Modifier.padding(vertical = 12.dp),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
+        }
         if (icon != null) {
             KTIIcon(imageResource = icon, tint = iconColor, size = 20.dp)
         }

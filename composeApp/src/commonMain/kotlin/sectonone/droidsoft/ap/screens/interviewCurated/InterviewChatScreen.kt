@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -118,13 +119,13 @@ private fun InterviewChatScreenContent(
             )
         },
         floatingActionButton = {
-            androidx.compose.animation.AnimatedVisibility(
-                visible = isAnswerExpanded.value.not() && inputEnabled,
-                enter = scaleIn(),
-                exit = scaleOut(),
-            ) {
-                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark)
-            }
+//            androidx.compose.animation.AnimatedVisibility(
+//                visible = isAnswerExpanded.value.not() && inputEnabled,
+//                enter = scaleIn(),
+//                exit = scaleOut(),
+//            ) {
+//                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark)
+//            }
         }
     ) {
         when (screenStateChat) {
@@ -159,8 +160,6 @@ private fun InterviewChatScreenContent(
                         androidx.compose.animation.AnimatedVisibility(
                             visible = isAnswerExpanded.value,
                             modifier = Modifier.align(Alignment.BottomEnd).padding(start = 32.dp, end = 16.dp, bottom = 4.dp),
-                            enter = scaleIn(),
-                            exit = scaleOut(),
                         ) {
                             Column(
                                 modifier = Modifier
@@ -413,6 +412,8 @@ private fun ControlSection(
                 labelColor = if (inputEnabled) kti_dark_grey.copy(alpha = 0.9f) else kti_dark_grey.copy(alpha = 0.6f),
                 modifier = Modifier.weight(1f),
             )
+            KTIHorizontalSpacer(width = 16.dp)
+            KTIFloatingActionButton(onClick = showAnswerClick, icon = Icons.Default.QuestionMark)
 //            KTIButtonShared(
 //                label = if (isAnswerExpanded.not()) "Show answer" else "Hide answer",
 //                onClick = showAnswerClick,

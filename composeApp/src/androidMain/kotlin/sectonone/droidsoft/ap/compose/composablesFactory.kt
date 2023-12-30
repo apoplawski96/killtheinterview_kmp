@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.QuestionAnswer
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_grey
@@ -40,8 +44,7 @@ private fun ControlSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier
-                .padding(horizontal = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             KTIButtonShared(
@@ -62,6 +65,12 @@ private fun ControlSection(
                 backgroundColor = if (inputEnabled) kti_grey else kti_grey.copy(alpha = 0.7f),
                 labelColor = if (inputEnabled) kti_dark_grey.copy(alpha = 0.9f) else kti_dark_grey.copy(alpha = 0.6f),
                 modifier = Modifier.weight(1f),
+            )
+            KTIHorizontalSpacer(width = 16.dp)
+//            KTIButtonShared(label = null, onClick = {}, icon = Icons.Default.QuestionMark, backgroundColor = kti_accent, iconColor = kti_softwhite)
+            KTIFloatingActionButton(
+                onClick = showAnswerClick,
+                icon = Icons.Default.QuestionMark,
             )
 //            KTIButtonShared(
 //                label = if (isAnswerExpanded.not()) "Show answer" else "Hide answer",
