@@ -65,7 +65,9 @@ internal class InterviewChatScreen(private val categories: List<TopCategory>) : 
 
         val chatListState = rememberLazyListState()
 
-        LaunchedEffect(null) { screenModel.initQuestions(categories) }
+        LaunchedEffect(null) {
+            screenModel.initQuestions(categories)
+        }
 
         LaunchedEffect(chatState, inputEnabledState) {
             if (chatState is InterviewChatScreenModel.ViewStateChat.InterviewActive && chatState.chatItems.isNotEmpty()) {

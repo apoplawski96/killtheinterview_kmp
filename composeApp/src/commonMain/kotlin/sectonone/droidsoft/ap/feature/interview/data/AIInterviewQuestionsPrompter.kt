@@ -35,11 +35,7 @@ class AIInterviewQuestionsPrompter(
               },
         """.trimIndent()
 
-        println("2137- hello kurwa")
-
         val promptResponse = openAIPrompter.executePrompt(prompt)
-
-        println("2137 - response: $promptResponse")
 
         if (promptResponse.isNullOrEmpty() || promptResponse.isBlank()) {
             ResultJson.Error

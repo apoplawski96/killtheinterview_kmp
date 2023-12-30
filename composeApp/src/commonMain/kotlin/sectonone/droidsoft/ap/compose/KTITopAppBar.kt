@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 
 @Composable
@@ -77,16 +78,15 @@ fun KTIChatTopAppBar() {
         horizontalArrangement = Arrangement.Start,
     ) {
         KTIBackButton()
-        // TODO: Fix
-//        Image(
-//            painter = dev.icerock.moko.resources.compose.painterResource(SharedRes.images.avatar),
-//            contentDescription = "",
-//            modifier = Modifier.clip(CircleShape).size(44.dp).drawBehind {
-//                rotate(rotationAnimation.value) {
-//                    drawCircle(rainbowColorsBrush, style = Stroke(4f))
-//                }
-//            }
-//        )
+        Image(
+            painter = painterResource("avatar.png"),
+            contentDescription = "",
+            modifier = Modifier.clip(CircleShape).size(44.dp).drawBehind {
+                rotate(rotationAnimation.value) {
+                    drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                }
+            }
+        )
         KTIHorizontalSpacer(16.dp)
         Column {
             KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500)

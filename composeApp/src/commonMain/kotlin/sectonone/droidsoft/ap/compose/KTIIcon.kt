@@ -95,7 +95,6 @@ fun KTIBackButton() {
     val navigator = LocalNavigator.currentOrThrow
     KTIIconButton(
         onClick = {
-            println("2137 - onClick")
             navigator.pop()
         }
     ) {
