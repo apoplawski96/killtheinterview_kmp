@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
+import kotlinx.coroutines.Dispatchers
+import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.KTITheme
@@ -43,7 +46,7 @@ import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
 @Composable
 internal fun JSApp() = AppTheme {
-    InitialUi()
+    InitialUi(ResourcesFileReader(Dispatchers.Default))
 }
 
 @Composable
@@ -60,12 +63,25 @@ internal fun App() = AppTheme {
 internal expect fun openUrl(url: String?)
 
 @Composable
-private fun InitialUi() {
+private fun InitialUi(fileReader: ResourcesFileReader) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
 
+    var jsonState by remember { mutableStateOf("") }
+
+    LaunchedEffect(null) {
+        val json = fileReader.readFile("questions_git.json") ?: "CAN'T READ FILE"
+        jsonState = json
+    }
+
     Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+
+        Text(
+            text = jsonState,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(16.dp)
+        )
 
         Row(
             horizontalArrangement = Arrangement.Center
