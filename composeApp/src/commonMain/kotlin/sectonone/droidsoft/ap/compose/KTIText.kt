@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_text_icons
 
@@ -49,7 +50,7 @@ fun KTITextNew(
     fontSize: TextUnit = 14.sp,
     fontWeight: FontWeight = FontWeight.W400,
     modifier: Modifier = Modifier,
-    color: Color = kti_softblack,
+    color: Color = ktiColors.textMain,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     textAlign: TextAlign = TextAlign.Start,

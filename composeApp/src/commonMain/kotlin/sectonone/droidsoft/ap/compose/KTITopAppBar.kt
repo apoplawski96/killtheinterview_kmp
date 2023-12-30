@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_softwhite
 import sectonone.droidsoft.ap.theme.white
@@ -76,7 +77,7 @@ fun KTIChatTopAppBar() {
         )
     )
     Row(
-        modifier = Modifier.fillMaxWidth().background(white),
+        modifier = Modifier.fillMaxWidth().background(KTITheme.colors.appBars),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {

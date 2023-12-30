@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.kti_softblack
 
 @Composable
@@ -86,8 +87,8 @@ fun KTIIconButton(
 //}
 
 @Composable
-fun KTIBackIcon() {
-    Icon(Icons.Filled.ArrowBack, "Back Icon", tint = kti_softblack)
+fun KTIBackIcon(tint: Color = KTITheme.colors.onPrimary) {
+    Icon(Icons.Filled.ArrowBack, "Back Icon", tint = tint)
 }
 
 @Composable

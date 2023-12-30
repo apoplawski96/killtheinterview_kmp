@@ -279,3 +279,6 @@ internal object KTITheme {
 }
 
 
+val ktiColors: KTIColors
+    @Composable
+    get() = KTITheme.colors

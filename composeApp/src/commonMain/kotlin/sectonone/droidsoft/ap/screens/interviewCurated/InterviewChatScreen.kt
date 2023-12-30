@@ -1,7 +1,5 @@
 package sectonone.droidsoft.ap.screens.interviewCurated
 
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,6 +47,8 @@ import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
+import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_dark_blue
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_green
@@ -171,7 +170,7 @@ private fun InterviewChatScreenContent(
                                             bottomEnd = 0.dp,
                                         )
                                     )
-                                    .background(kti_softwhite)
+                                    .background(ktiColors.appBars)
                                     .padding(vertical = 8.dp, horizontal = 12.dp)
                                     .verticalScroll(rememberScrollState())
                                     .clickable { setIsAnswerExpanded.invoke() }
@@ -295,7 +294,7 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
                         bottomEnd = 0.dp,
                     )
                 )
-                .background(kti_dark_blue)
+                .background(ktiColors.secondary)
                 .padding(vertical = 8.dp, horizontal = 12.dp)
         ) {
             when (chatItem) {
@@ -304,7 +303,7 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
                         text = chatItem.message,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
-                        color = kti_softwhite,
+                        color = ktiColors.onSecondary,
                     )
                 }
 
@@ -313,12 +312,12 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
                         text = chatItem.question.question,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
-                        color = kti_softwhite,
+                        color = ktiColors.onSecondary,
                     )
                 }
 
                 InterviewChatItemUiModel.InterviewerMessage.Writing -> {
-                    LoadingAnimation()
+                    LoadingAnimation(circleColor = ktiColors.onSecondary)
                 }
             }
         }
@@ -327,7 +326,7 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
 
 @Composable
 private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiModel.CandidateMessage) {
-    val paddingBottom = if (chatItem is InterviewChatItemUiModel.CandidateMessage.Writing) 32.dp else 4.dp
+    val paddingBottom = 4.dp
     Row(
         modifier = Modifier.padding(top = 4.dp, bottom = paddingBottom),
         horizontalArrangement = Arrangement.Start,
@@ -343,7 +342,7 @@ private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiM
                         bottomEnd = radius,
                     )
                 )
-                .background(kti_light_blue)
+                .background(ktiColors.chatPrimary)
                 .padding(vertical = 8.dp, horizontal = 12.dp)
         ) {
             when (chatItem) {
@@ -364,7 +363,7 @@ private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiM
                 }
 
                 InterviewChatItemUiModel.CandidateMessage.Writing -> {
-                    LoadingAnimation(circleColor = kti_softblack)
+                    LoadingAnimation(circleColor = ktiColors.textMain)
                 }
             }
         }
@@ -385,7 +384,7 @@ private fun ControlSection(
         modifier = modifier then Modifier
             .fillMaxWidth()
             .sizeIn(minHeight = 80.dp)
-            .background(kti_softwhite),
+            .background(KTITheme.colors.appBars),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

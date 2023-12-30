@@ -11,6 +11,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import sectonone.droidsoft.ap.theme.KTITheme
 
 @Composable
 fun KTIScaffold(
@@ -30,11 +31,12 @@ fun KTIScaffold(
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
-        containerColor = Color.Transparent,
+        containerColor = KTITheme.colors.background,
         contentWindowInsets = contentWindowInsets
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().background(backgroundGradientBrush)) {
-            content.invoke(paddingValues)
-        }
+//        Box(modifier = Modifier.fillMaxSize().background(backgroundGradientBrush)) {
+//            content.invoke(paddingValues)
+//        }
+        content.invoke(paddingValues)
     }
 }
