@@ -89,7 +89,7 @@ fun KTIButtonShared(
                 color = labelColor,
                 modifier = Modifier.padding(vertical = 12.dp),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
             )
         }
         if (icon != null) {

@@ -290,9 +290,10 @@ fun KTICardContainer(
         elevation = 2.dp,
         border = BorderStroke(1.dp, color = borderColor),
         modifier = Modifier
-            .clickable { onClick.invoke() }
+            .clickableNoRipple { onClick.invoke() }
             .fillMaxWidth()
-            .heightIn(height),
+            .heightIn(height)
+            .padding(4.dp),
     ) {
         content.invoke()
     }

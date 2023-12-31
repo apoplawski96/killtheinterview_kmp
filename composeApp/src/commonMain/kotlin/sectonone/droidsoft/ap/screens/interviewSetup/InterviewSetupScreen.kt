@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.screens.interviewSetup
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.GridVariant
 import sectonone.droidsoft.ap.compose.KTIBoxWithGradientBackground
-import sectonone.droidsoft.ap.compose.KTIButton
+import sectonone.droidsoft.ap.compose.KTIButtonShared
 import sectonone.droidsoft.ap.compose.KTICardContainer
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
@@ -43,8 +44,9 @@ import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.categories.CategoriesScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
-import sectonone.droidsoft.ap.theme.KTITheme
-import sectonone.droidsoft.ap.theme.*
+import sectonone.droidsoft.ap.theme.ktiColors
+import sectonone.droidsoft.ap.theme.kti_accent
+import sectonone.droidsoft.ap.theme.kti_grey
 
 internal object InterviewSetupScreen : Screen {
 
@@ -80,7 +82,7 @@ private fun InterviewSetupScreenContent(
 ) {
     KTIBoxWithGradientBackground {
         Column(
-            modifier = Modifier.fillMaxSize().background(KTITheme.colors.backgroundSurface),
+            modifier = Modifier.fillMaxSize().background(ktiColors.background),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             KTITopAppBar(title = "Select categories")
@@ -88,10 +90,10 @@ private fun InterviewSetupScreenContent(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(1),
+                    columns = GridCells.Fixed(2),
                     state = lazyGridState,
                     modifier = Modifier.weight(10f),
-                    contentPadding = PaddingValues(horizontal = 16.dp)
+                    contentPadding = PaddingValues(horizontal = 8.dp)
                 ) {
                     item { KTIVerticalSpacer(height = 8.dp) }
                     item { KTIVerticalSpacer(height = 8.dp) }
@@ -102,23 +104,26 @@ private fun InterviewSetupScreenContent(
                                 onCategoryClick = onCategoryClick
                             )
                         }
-                        item { KTIVerticalSpacer(height = 12.dp) }
                     }
                 }
-                Column(
-                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    val isActive = categories.any { it.isSelected }
-                    KTIButton(
-                        label = "Go to interview",
-                        labelColor = if (isActive) kti_softblack else kti_light_grey,
-                        backgroundColor = kti_accent,
-                        onClick = onGoToInterviewClick,
-                        enabled = isActive
-                    )
+                val isActive = categories.any { it.isSelected }
+                AnimatedVisibility(visible = isActive) {
+                    Column(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        KTIButtonShared(
+                            label = "Go to interview",
+                            labelColor = ktiColors.onSecondary,
+                            backgroundColor = kti_accent,
+                            onClick = onGoToInterviewClick,
+                            enabled = isActive,
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                        )
+                    }
                 }
+
             }
         }
     }
@@ -130,29 +135,24 @@ private fun SelectableCategoryCard(
     onCategoryClick: (SelectableCategory) -> Unit,
 ) {
     val borderColor = if (item.isSelected) kti_accent else kti_grey
-//    Card(
-//        shape = RoundedCornerShape(size = 16.dp),
-//        backgroundColor = Color.Transparent,
-//        border = BorderStroke(width = 2.dp, color = borderColor),
-//        modifier = Modifier
-//            .clickableNoRipple { onCategoryClick.invoke(item) }
-//            .heightIn(min = 96.dp)
-//            .fillMaxWidth()
-//            .padding(4.dp),
-//        elevation = 0.dp
-//    ) {
-//        Row(
-//            modifier = Modifier.padding(12.dp).fillMaxSize(),
-//        ) {
-//            KTITextNew(
-//                text = item.category.displayName,
-//                maxLines = 2,
-//                overflow = TextOverflow.Ellipsis,
-//                fontWeight = FontWeight.Normal,
-//                fontSize = 16.sp,
-//                color = kti_softblack,
-//                modifier = Modifier.weight(8f).align(Alignment.Bottom)
-//            )
+    KTICardContainer(
+        onClick = { onCategoryClick.invoke(item) },
+//        borderColor = borderColor,
+        height = 92.dp,
+        backgroundColor = if (item.isSelected.not()) ktiColors.chatPrimary else ktiColors.secondary,
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp).fillMaxSize(),
+        ) {
+            KTITextNew(
+                text = item.category.displayName,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                color = if (item.isSelected.not()) ktiColors.textMain else ktiColors.onSecondary,
+                modifier = Modifier.weight(8f).align(Alignment.Bottom)
+            )
 //            Box(Modifier.weight(1.5f).align(Alignment.Top)) {
 //                Box(
 //                    modifier = Modifier
@@ -165,71 +165,6 @@ private fun SelectableCategoryCard(
 //                        .align(Alignment.TopCenter)
 //                )
 //            }
-//        }
-//    }
-
-    KTICardContainer(onClick = { onCategoryClick.invoke(item) }, borderColor = borderColor, height = 92.dp) {
-        Row(
-            modifier = Modifier.padding(12.dp).fillMaxSize(),
-        ) {
-            KTITextNew(
-                text = item.category.displayName,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                color = kti_softblack,
-                modifier = Modifier.weight(8f).align(Alignment.Bottom)
-            )
-            Box(Modifier.weight(1.5f).align(Alignment.Top)) {
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .border(
-                            width = if (item.isSelected) 8.dp else 1.dp,
-                            color = if (item.isSelected) kti_accent else kti_grey
-                        )
-                        .align(Alignment.TopCenter)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun InterviewSetupScreenContent(
-    state: CategoriesScreenModel.ViewState,
-    onCategoryClick: (TopCategory?) -> Unit,
-    lazyGridState: LazyGridState
-) {
-    KTIBoxWithGradientBackground {
-        when (state) {
-            is CategoriesScreenModel.ViewState.CategoriesLoaded -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    KTITopAppBar(title = "Categories")
-                    KTIGridWithCards(
-                        items = state.categories.map { topCategory ->
-                            KTICardItem(
-                                value = topCategory,
-                                label = topCategory.displayName
-                            )
-                        },
-                        onClick = onCategoryClick,
-                        state = lazyGridState,
-                        variant = GridVariant.TOP_CATEGORY,
-                    )
-                    KTIVerticalSpacer(height = 64.dp)
-//                    KTIIllustration(imageResource = SharedRes.images.undraw_scientist_ft0o)
-                }
-            }
-
-            is CategoriesScreenModel.ViewState.Loading -> {
-                KTICircularProgressIndicator()
-            }
         }
     }
 }
