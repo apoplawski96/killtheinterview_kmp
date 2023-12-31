@@ -19,9 +19,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,10 +42,8 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 import sectonone.droidsoft.ap.theme.ktiColors
-import sectonone.droidsoft.ap.theme.kti_dark_grey
-import sectonone.droidsoft.ap.theme.kti_softwhite
-import sectonone.droidsoft.ap.theme.white
 
 @Composable
 fun KTITopAppBar(
@@ -80,23 +84,29 @@ fun KTIChatTopAppBar() {
     Row(
         modifier = Modifier.fillMaxWidth().background(KTITheme.colors.appBars),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        KTIBackButton()
-        Image(
-            painter = painterResource("avatar.png"),
-            contentDescription = "",
-            modifier = Modifier.clip(CircleShape).size(44.dp).drawBehind {
-                rotate(rotationAnimation.value) {
-                    drawCircle(rainbowColorsBrush, style = Stroke(4f))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            KTIBackButton()
+            Image(
+                painter = painterResource("avatar.png"),
+                contentDescription = "",
+                modifier = Modifier.clip(CircleShape).size(44.dp).drawBehind {
+                    rotate(rotationAnimation.value) {
+                        drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                    }
                 }
+            )
+            KTIHorizontalSpacer(16.dp)
+            Column {
+                KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
+                KTITextNew("Online", fontSize = 12.sp, color = ktiColors.textVariant2)
             }
-        )
-        KTIHorizontalSpacer(16.dp)
-        Column {
-            KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
-            KTITextNew("Online", fontSize = 12.sp, color = ktiColors.textVariant2)
         }
+        TopBarIconsSection()
     }
 }
 
@@ -115,31 +125,25 @@ private fun RowScope.LeftSection(
 }
 
 @Composable
+private fun ThemeToggle() {
+    var isDark by LocalThemeIsDark.current
+    IconButton(
+        onClick = { isDark = !isDark }
+    ) {
+        Icon(
+            modifier = Modifier.padding(8.dp).size(20.dp),
+            imageVector = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
 private fun TopBarIconsSection() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {
-        KTIIconButton(
-            onClick = {
-//                showNotYetImplementedToast(context)
-            }
-        ) {
-            KTIIcon(imageResource = Icons.Default.Book, size = 24.dp)
-        }
-        KTIIconButton(
-            onClick = {
-//                showNotYetImplementedToast(context)
-            }
-        ) {
-            KTIIcon(imageResource = Icons.Default.Person, size = 24.dp)
-        }
-        KTIIconButton(
-            onClick = {
-//                showNotYetImplementedToast(context)
-            }
-        ) {
-            KTIIcon(imageResource = Icons.Default.Menu, size = 24.dp)
-        }
+        ThemeToggle()
     }
 }

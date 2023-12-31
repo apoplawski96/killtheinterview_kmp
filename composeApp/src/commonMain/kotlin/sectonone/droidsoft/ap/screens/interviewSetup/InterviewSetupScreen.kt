@@ -83,7 +83,7 @@ private fun InterviewSetupScreenContent(
             modifier = Modifier.fillMaxSize().background(KTITheme.colors.backgroundSurface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            KTITopAppBar(title = "Select categories", iconsSection = { })
+            KTITopAppBar(title = "Select categories")
             Column(
                 modifier = Modifier.fillMaxSize(),
             ) {

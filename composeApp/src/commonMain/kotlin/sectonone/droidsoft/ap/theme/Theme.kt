@@ -15,6 +15,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -215,13 +216,9 @@ val DarkColorPalette = KTIColors(
 )
 
 @Composable
-fun KTITheme(
-    themeMode: AppThemeMode = AppThemeMode.SYSTEM,
-    content: @Composable () -> Unit = {},
-) {
-    val darkTheme = themeMode.isDarkTheme()
-
-    val colors = if (darkTheme) {
+fun KTITheme(content: @Composable () -> Unit = {}) {
+    val isDark by LocalThemeIsDark.current
+    val colors = if (isDark) {
         DarkColorPalette
     } else {
         LightColorPalette
@@ -232,20 +229,12 @@ fun KTITheme(
             colors = debugColors(),
             shapes = Shapes,
         ) {
-            ProvideKTIRipple(darkTheme = darkTheme) {
+            ProvideKTIRipple(darkTheme = isDark) {
                 content()
             }
         }
     }
 }
-
-@Composable
-fun AppThemeMode.isDarkTheme() =
-    when (this) {
-        AppThemeMode.SYSTEM -> isSystemInDarkTheme()
-        AppThemeMode.DARK -> true
-        AppThemeMode.LIGHT -> false
-    }
 
 internal object KTITheme {
 
