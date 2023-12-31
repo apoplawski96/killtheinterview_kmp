@@ -132,7 +132,7 @@ fun <T> KTICardWithIllustration(
     onClick: (T) -> Unit,
     imageResource: ImageVector,
     fontWeight: FontWeight = FontWeight(400),
-    backgroundColor: Color = ktiColors.chatPrimary,
+    backgroundColor: Color = ktiColors.backgroundSurfaceVariant,
     textColor: Color = ktiColors.textMain,
     labelSize: TextUnit = 16.sp,
 ) {

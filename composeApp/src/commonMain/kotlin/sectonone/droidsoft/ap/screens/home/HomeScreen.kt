@@ -91,16 +91,14 @@ private fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSubCategoryClick: (SubCategory) -> Unit,
 ) {
-    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.background) {
+    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.backgroundSurface) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(KTITheme.colors.background)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-//            Image(painterResource("image.png"), "")
             HelloSection()
             KTIVerticalSpacer(height = 32.dp)
             IllustrationSection()
