@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.compose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -12,8 +13,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.KTITheme
-import sectonone.droidsoft.ap.theme.kti_softblack
 
 @Composable
 fun KTIIcon(
@@ -25,34 +26,18 @@ fun KTIIcon(
     Icon(imageVector = imageResource, contentDescription = null, modifier = modifier then Modifier.size(size), tint = tint)
 }
 
-//@Composable
-//fun KTIIcon(
-//    imageResource: ImageResource,
-//    modifier: Modifier = Modifier,
-//    size: Dp = 24.dp,
-//    tint: Color = KTITheme.colors.textMain,
-//    contentDescription: String? = null,
-//) {
-//    Icon(
-//        painter = dev.icerock.moko.resources.compose.painterResource(imageResource),
-//        contentDescription = contentDescription,
-//        modifier = modifier then Modifier.size(size),
-//        tint = tint
-//    )
-//}
-//
-//@Composable
-//fun KTIIllustration(
-//    imageResource: ImageResource,
-//    modifier: Modifier = Modifier,
-//    contentDescription: String? = null,
-//) {
-//    Image(
-//        painter = dev.icerock.moko.resources.compose.painterResource(imageResource),
-//        contentDescription = contentDescription,
-//        modifier = modifier
-//    )
-//}
+@Composable
+fun KTIIllustration(
+    resourcePath: String,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Image(
+        painter = painterResource(resourcePath),
+        contentDescription = contentDescription,
+        modifier = modifier
+    )
+}
 
 @Composable
 fun KTIIconButton(
@@ -94,11 +79,7 @@ fun KTIBackIcon(tint: Color = KTITheme.colors.onPrimary) {
 @Composable
 fun KTIBackButton() {
     val navigator = LocalNavigator.currentOrThrow
-    KTIIconButton(
-        onClick = {
-            navigator.pop()
-        }
-    ) {
+    KTIIconButton(onClick = { navigator.pop() }) {
         KTIBackIcon()
     }
 }

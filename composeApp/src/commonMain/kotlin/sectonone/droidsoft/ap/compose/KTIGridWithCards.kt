@@ -1,6 +1,7 @@
 package sectonone.droidsoft.ap.compose
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_grayish
 import sectonone.droidsoft.ap.theme.kti_grayish_light
@@ -129,8 +132,8 @@ fun <T> KTICardWithIllustration(
     onClick: (T) -> Unit,
     imageResource: ImageVector,
     fontWeight: FontWeight = FontWeight(400),
-    backgroundColor: Color = kti_softwhite,
-    textColor: Color = kti_softblack,
+    backgroundColor: Color = ktiColors.chatPrimary,
+    textColor: Color = ktiColors.textMain,
     labelSize: TextUnit = 16.sp,
 ) {
     Card(
@@ -147,23 +150,15 @@ fun <T> KTICardWithIllustration(
                 .fillMaxWidth()
                 .heightIn(cardMinHeight)
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(2f)
-                    .heightIn(cardMinHeight),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Bottom,
-            ) {
-                KTITextNew(
-                    text = item.label,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    fontWeight = fontWeight,
-                    fontSize = labelSize,
-                    color = textColor,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-                )
-            }
+            KTITextNew(
+                text = item.label,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = fontWeight,
+                fontSize = labelSize,
+                color = textColor,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).weight(2f).align(Alignment.Bottom)
+            )
             Box(
                 modifier = Modifier
                     .weight(1.2f)
@@ -171,8 +166,7 @@ fun <T> KTICardWithIllustration(
                     .padding(horizontal = 16.dp, vertical = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
-//                KTIIllustration(imageResource, modifier = Modifier.size(128.dp))
-                KTIIcon(imageResource, size = 128.dp)
+                KTIIcon(imageResource, size = 128.dp, tint = ktiColors.textMain)
             }
         }
     }
@@ -242,7 +236,7 @@ fun <T> KTICardSmallWithUnderText(
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight(300),
             fontSize = 12.sp,
-            color = kti_softblack,
+            color = ktiColors.textVariant,
             textAlign = TextAlign.Center
         )
     }

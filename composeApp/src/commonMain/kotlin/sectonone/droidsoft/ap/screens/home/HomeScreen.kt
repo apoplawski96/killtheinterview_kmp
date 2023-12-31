@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -33,6 +34,7 @@ import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICardSmallWithUnderText
 import sectonone.droidsoft.ap.compose.KTICardWithIllustration
 import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
+import sectonone.droidsoft.ap.compose.KTIIllustration
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
@@ -89,11 +91,11 @@ private fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSubCategoryClick: (SubCategory) -> Unit,
 ) {
-    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.backgroundSurface) {
+    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.background) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(KTITheme.colors.backgroundSurface)
+                .background(KTITheme.colors.background)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -145,6 +147,7 @@ private fun HelloSection() {
 
 @Composable
 private fun IllustrationSection() {
+//    KTIIllustration(resourcePath = "undraw_podcast.png", modifier = Modifier.size(256.dp))
 //    KTIIllustration(
 //        imageResource = SharedRes.images.undraw_certificate_re_yadi,
 //        modifier = Modifier.height(256.dp)
@@ -224,7 +227,7 @@ private fun RandomSubCategoriesCarousel(
             text = "Categories for ${topCategory.displayName}",
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
         LazyRow {
             item { KTIHorizontalSpacer(width = 16.dp) }
