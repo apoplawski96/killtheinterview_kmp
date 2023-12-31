@@ -2,26 +2,23 @@ package sectonone.droidsoft.ap.screens.interviewSetup
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,19 +26,13 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import sectonone.droidsoft.ap.compose.GridVariant
-import sectonone.droidsoft.ap.compose.KTIBoxWithGradientBackground
+import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTIButtonShared
 import sectonone.droidsoft.ap.compose.KTICardContainer
-import sectonone.droidsoft.ap.compose.KTICardItem
-import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
-import sectonone.droidsoft.ap.compose.KTIGridWithCards
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.TopCategory
-import sectonone.droidsoft.ap.screens.categories.CategoriesScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -80,12 +71,14 @@ private fun InterviewSetupScreenContent(
     onGoToInterviewClick: () -> Unit,
     lazyGridState: LazyGridState,
 ) {
-    KTIBoxWithGradientBackground {
+    Scaffold(
+        topBar = { KTITopAppBar(isNested = true, title = "Select categories") },
+        backgroundColor = ktiColors.backgroundSurface,
+    ) {
         Column(
-            modifier = Modifier.fillMaxSize().background(ktiColors.background),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            KTITopAppBar(title = "Select categories")
             Column(
                 modifier = Modifier.fillMaxSize(),
             ) {
@@ -123,7 +116,6 @@ private fun InterviewSetupScreenContent(
                         )
                     }
                 }
-
             }
         }
     }
@@ -139,7 +131,7 @@ private fun SelectableCategoryCard(
         onClick = { onCategoryClick.invoke(item) },
 //        borderColor = borderColor,
         height = 92.dp,
-        backgroundColor = if (item.isSelected.not()) ktiColors.chatPrimary else ktiColors.secondary,
+        backgroundColor = if (item.isSelected.not()) ktiColors.backgroundSurfaceVariant else ktiColors.secondary,
     ) {
         Row(
             modifier = Modifier.padding(12.dp).fillMaxSize(),

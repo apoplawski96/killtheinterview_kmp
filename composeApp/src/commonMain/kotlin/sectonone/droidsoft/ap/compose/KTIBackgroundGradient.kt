@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import sectonone.droidsoft.ap.theme.kti_background_grey
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_grey
 import sectonone.droidsoft.ap.theme.kti_softwhite
 
@@ -26,7 +26,7 @@ fun KTIColumnWithGradient(
 }
 
 @Composable
-fun KTIBoxWithGradientBackground(
+fun KTIBackgroundSurface(
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit,
 ) {
@@ -34,7 +34,7 @@ fun KTIBoxWithGradientBackground(
         contentAlignment = contentAlignment,
         modifier = Modifier
             .fillMaxSize()
-            .background(kti_background_grey),
+            .background(ktiColors.backgroundSurface),
     ) {
         content.invoke()
     }

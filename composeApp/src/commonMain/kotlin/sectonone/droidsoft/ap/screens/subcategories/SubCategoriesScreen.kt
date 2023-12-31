@@ -12,7 +12,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.GridVariant
-import sectonone.droidsoft.ap.compose.KTIBoxWithGradientBackground
+import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.compose.KTIGridWithCards
@@ -57,7 +57,7 @@ fun SubCategoriesScreenContent(
     lazyGridState: LazyGridState,
     topCategory: TopCategory,
 ) {
-    KTIBoxWithGradientBackground {
+    KTIBackgroundSurface {
         when (state) {
             is SubCategoriesScreenModel.ViewState.Loading -> {
                 KTICircularProgressIndicator()

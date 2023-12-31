@@ -91,7 +91,10 @@ private fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSubCategoryClick: (SubCategory) -> Unit,
 ) {
-    Scaffold(topBar = { KTITopAppBar(isNested = false) }, backgroundColor = KTITheme.colors.backgroundSurface) {
+    Scaffold(
+        topBar = { KTITopAppBar(isNested = false) },
+        backgroundColor = KTITheme.colors.backgroundSurface
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

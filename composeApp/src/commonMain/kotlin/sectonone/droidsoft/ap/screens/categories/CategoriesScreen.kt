@@ -4,17 +4,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.GridVariant
-import sectonone.droidsoft.ap.compose.KTIBoxWithGradientBackground
+import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.compose.KTIGridWithCards
@@ -23,6 +25,7 @@ import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.subcategories.SubCategoriesScreen
+import sectonone.droidsoft.ap.theme.KTITheme
 
 internal object CategoriesScreen : Screen {
 
@@ -57,7 +60,10 @@ private fun CategoriesScreenContent(
     onCategoryClick: (TopCategory?) -> Unit,
     lazyGridState: LazyGridState
 ) {
-    KTIBoxWithGradientBackground {
+    Scaffold(
+        topBar = { KTITopAppBar(isNested = true, title = "Select categories") },
+        backgroundColor = Color.Green,
+    ) {
         when (state) {
             is CategoriesScreenModel.ViewState.CategoriesLoaded -> {
                 Column(
@@ -77,7 +83,6 @@ private fun CategoriesScreenContent(
                         variant = GridVariant.TOP_CATEGORY,
                     )
                     KTIVerticalSpacer(height = 64.dp)
-//                    KTIIllustration(imageResource = SharedRes.images.undraw_scientist_ft0o)
                 }
             }
 
