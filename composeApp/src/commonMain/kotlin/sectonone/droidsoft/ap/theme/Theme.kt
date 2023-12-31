@@ -210,9 +210,9 @@ val DarkColorPalette = KTIColors(
     countDownTimerButton = white,
     isDark = true,
     appBars = kti_pinterest_dark,
-    background = kti_pinterest_dark,
+    background = kti_pinterest_grey,
     chatAccent = kti_accent,
-    chatPrimary = kti_pinterest_grey,
+    chatPrimary = kti_pinterest_dark,
 )
 
 @Composable

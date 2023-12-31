@@ -94,7 +94,7 @@ fun KTIChatTopAppBar() {
             Image(
                 painter = painterResource("avatar.png"),
                 contentDescription = "",
-                modifier = Modifier.clip(CircleShape).size(44.dp).drawBehind {
+                modifier = Modifier.clip(CircleShape).size(36.dp).drawBehind {
                     rotate(rotationAnimation.value) {
                         drawCircle(rainbowColorsBrush, style = Stroke(4f))
                     }

@@ -15,6 +15,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.ktiColors
 
 @Composable
 fun KTIIcon(
@@ -72,7 +73,7 @@ fun KTIIconButton(
 //}
 
 @Composable
-fun KTIBackIcon(tint: Color = KTITheme.colors.onPrimary) {
+fun KTIBackIcon(tint: Color = ktiColors.textMain) {
     Icon(Icons.Filled.ArrowBack, "Back Icon", tint = tint)
 }
 

@@ -326,9 +326,8 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
 
 @Composable
 private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiModel.CandidateMessage) {
-    val paddingBottom = 4.dp
     Row(
-        modifier = Modifier.padding(top = 4.dp, bottom = paddingBottom),
+        modifier = Modifier.padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
