@@ -113,7 +113,7 @@ internal fun AppTheme(
         LocalThemeIsDark provides isDarkState
     ) {
         val isDark by isDarkState
-        SystemAppearance(!isDark)
+        SystemAppearance(isDark)
         MaterialTheme(
             colorScheme = if (isDark) DarkColorScheme else LightColorScheme,
             typography = AppTypography,
@@ -217,7 +217,6 @@ val DarkColorPalette = KTIColors(
 @Composable
 fun KTITheme(
     themeMode: AppThemeMode = AppThemeMode.SYSTEM,
-    isPreview: Boolean = true,
     content: @Composable () -> Unit = {},
 ) {
     val darkTheme = themeMode.isDarkTheme()
@@ -228,18 +227,6 @@ fun KTITheme(
         LightColorPalette
     }
 
-//    if (isPreview.not()) {
-//        val systemUiController = rememberSystemUiController()
-//
-//        SideEffect {
-//            systemUiController.setStatusBarColor(
-//                color = Color.Transparent,
-//                darkIcons = darkTheme.not()
-//            )
-//            systemUiController.setNavigationBarColor(colors.primary)
-//        }
-//    }
-
     ProvideKTIColors(colors = colors) {
         androidx.compose.material.MaterialTheme(
             colors = debugColors(),
@@ -249,9 +236,6 @@ fun KTITheme(
                 content()
             }
         }
-//        ProvideKTIRipple(darkTheme = darkTheme) {
-//            content()
-//        }
     }
 }
 

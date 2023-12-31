@@ -31,6 +31,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,6 +46,7 @@ import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.AppThemeMode
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
+import sectonone.droidsoft.ap.theme.ktiColors
 
 @Composable
 internal fun JSApp() = AppTheme {
@@ -52,8 +55,7 @@ internal fun JSApp() = AppTheme {
 
 @Composable
 internal fun App() = AppTheme {
-//    InitialUi()
-    KTITheme(themeMode = AppThemeMode.LIGHT) {
+    KTITheme {
         Navigator(HomeScreen) { navigator ->
             Column(
                 modifier = Modifier

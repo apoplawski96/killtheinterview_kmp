@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_softwhite
 import sectonone.droidsoft.ap.theme.white
@@ -93,8 +94,8 @@ fun KTIChatTopAppBar() {
         )
         KTIHorizontalSpacer(16.dp)
         Column {
-            KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500)
-            KTITextNew("Online", fontSize = 12.sp, color = kti_dark_grey)
+            KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
+            KTITextNew("Online", fontSize = 12.sp, color = ktiColors.textVariant2)
         }
     }
 }
