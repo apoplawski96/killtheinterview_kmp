@@ -103,9 +103,9 @@ fun KTIFloatingActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = kti_accent,
+    backgroundColor: Color = ktiColors.appBars,
     backgroundColorDisabled: Color = backgroundColor.copy(alpha = 0.7f),
-    iconColor: Color = white,
+    iconColor: Color = ktiColors.textMain,
     enabled: Boolean = true,
 ) {
     Button(

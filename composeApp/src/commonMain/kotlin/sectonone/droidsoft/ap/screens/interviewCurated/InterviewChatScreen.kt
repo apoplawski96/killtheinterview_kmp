@@ -1,5 +1,12 @@
 package sectonone.droidsoft.ap.screens.interviewCurated
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +37,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -118,13 +130,33 @@ private fun InterviewChatScreenContent(
             )
         },
         floatingActionButton = {
-//            androidx.compose.animation.AnimatedVisibility(
-//                visible = isAnswerExpanded.value.not() && inputEnabled,
-//                enter = scaleIn(),
-//                exit = scaleOut(),
-//            ) {
-//                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark)
-//            }
+            val infiniteTransition = rememberInfiniteTransition()
+            val rotationAnimation = infiniteTransition.animateFloat(
+                initialValue = 0f,
+                targetValue = 360f,
+                animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing))
+            )
+            val rainbowColorsBrush = Brush.horizontalGradient(
+                listOf(
+                    Color.Red,
+                    Color.Magenta,
+                    Color.Blue,
+                    Color.Cyan,
+                    Color.Green,
+                    Color.Yellow,
+                )
+            )
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isAnswerExpanded.value.not() && inputEnabled,
+                enter = scaleIn(),
+                exit = scaleOut(),
+            ) {
+                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark, modifier = Modifier.drawBehind {
+                    rotate(rotationAnimation.value) {
+                        drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                    }
+                })
+            }
         }
     ) {
         when (screenStateChat) {
@@ -410,8 +442,8 @@ private fun ControlSection(
                 labelColor = if (inputEnabled) kti_dark_grey.copy(alpha = 0.9f) else kti_dark_grey.copy(alpha = 0.6f),
                 modifier = Modifier.weight(1f),
             )
-            KTIHorizontalSpacer(width = 16.dp)
-            KTIFloatingActionButton(onClick = showAnswerClick, icon = Icons.Default.QuestionMark)
+//            KTIHorizontalSpacer(width = 16.dp)
+//            KTIFloatingActionButton(onClick = showAnswerClick, icon = Icons.Default.QuestionMark)
 //            KTIButtonShared(
 //                label = if (isAnswerExpanded.not()) "Show answer" else "Hide answer",
 //                onClick = showAnswerClick,
