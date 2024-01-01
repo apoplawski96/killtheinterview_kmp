@@ -61,12 +61,9 @@ import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
-import sectonone.droidsoft.ap.theme.kti_dark_blue
 import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_grey
-import sectonone.droidsoft.ap.theme.kti_light_blue
-import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal class InterviewChatScreen(private val categories: List<TopCategory>) : Screen {
@@ -115,7 +112,7 @@ private fun InterviewChatScreenContent(
     currentQuestion: Question?,
 ) {
     val isAnswerExpanded = rememberSaveable(screenStateChat) { mutableStateOf(false) }
-    val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value  }
+    val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value }
     KTIScaffold(
         topBar = {
             KTIChatTopAppBar()
@@ -151,11 +148,15 @@ private fun InterviewChatScreenContent(
                 enter = scaleIn(),
                 exit = scaleOut(),
             ) {
-                KTIFloatingActionButton(onClick = setIsAnswerExpanded, icon = Icons.Default.QuestionMark, modifier = Modifier.drawBehind {
-                    rotate(rotationAnimation.value) {
-                        drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                KTIFloatingActionButton(
+                    onClick = setIsAnswerExpanded,
+                    icon = Icons.Default.QuestionMark,
+                    modifier = Modifier.drawBehind {
+                        rotate(rotationAnimation.value) {
+                            drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                        }
                     }
-                })
+                )
             }
         }
     ) {
@@ -358,8 +359,9 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
 
 @Composable
 private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiModel.CandidateMessage) {
+    val paddingBottom = if (chatItem is InterviewChatItemUiModel.CandidateMessage.Writing) 20.dp else 8.dp
     Row(
-        modifier = Modifier.padding(vertical = 8.dp),
+        modifier = Modifier.padding(top = 8.dp, bottom = paddingBottom),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {

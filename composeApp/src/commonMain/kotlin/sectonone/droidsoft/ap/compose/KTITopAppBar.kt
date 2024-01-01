@@ -102,7 +102,7 @@ fun KTIChatTopAppBar() {
             )
             KTIHorizontalSpacer(16.dp)
             Column {
-                KTITextNew("Mr interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
+                KTITextNew("Mr Interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
                 KTITextNew("Online", fontSize = 12.sp, color = ktiColors.textVariant2)
             }
         }

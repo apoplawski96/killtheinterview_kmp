@@ -22,7 +22,7 @@ fun KTIIcon(
     imageResource: ImageVector,
     modifier: Modifier = Modifier,
     size: Dp = Dp.Unspecified,
-    tint: Color = Color.Unspecified,
+    tint: Color = ktiColors.textMain,
 ) {
     Icon(imageVector = imageResource, contentDescription = null, modifier = modifier then Modifier.size(size), tint = tint)
 }
