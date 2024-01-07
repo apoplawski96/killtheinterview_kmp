@@ -4,14 +4,30 @@ package sectonone.droidsoft.ap.screens.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.compose.KTIColumnWithGradient
 import sectonone.droidsoft.ap.compose.KTIText
@@ -41,9 +59,12 @@ import sectonone.droidsoft.ap.model.SubCategory
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.list.components.ListScreenBottomSheetContent
 import sectonone.droidsoft.ap.screens.list.components.ListScreenScoreBar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.theme.*
+import sectonone.droidsoft.ap.theme.ktiColors
+import sectonone.droidsoft.ap.theme.kti_accent
+import sectonone.droidsoft.ap.theme.kti_divider
+import sectonone.droidsoft.ap.theme.kti_green
+import sectonone.droidsoft.ap.theme.kti_softblack
+import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal class QuestionsListScreen(
     private val topCategory: TopCategory?,
@@ -106,7 +127,7 @@ fun ListScreen(
         )
     }
 
-    ListScreenContent(
+    ListScreenContentNew(
         viewState = viewState,
         bottomSheetContent = {
             ListScreenBottomSheetContent(
@@ -127,6 +148,73 @@ fun ListScreen(
         markAsAnswered = { question -> viewModel.markQuestionAsAnswered(question) },
         markAsUnanswered = { question -> viewModel.markQuestionAsUnanswered(question) },
     )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ListScreenContentNew(
+    viewState: QuestionsListScreenModel.ViewState,
+    bottomSheetState: ModalBottomSheetState,
+    bottomSheetContent: @Composable () -> Unit,
+    onToggleBottomSheetClick: () -> Unit,
+    topBarTitle: String,
+    sortDropdownMenuDisplayed: Boolean,
+    toggleDropdownMenu: () -> Unit,
+    onSortModeClick: (QuestionsListScreenModel.SortMode) -> Unit,
+    markAsAnswered: (Question) -> Unit,
+    markAsUnanswered: (Question) -> Unit,
+    questionsAnsweredCount: Int,
+    questionsTotalCount: Int,
+) {
+    Scaffold(
+        topBar = { KTITopAppBar(title = topBarTitle) },
+        backgroundColor = ktiColors.backgroundSurface,
+        content = {
+            when (viewState) {
+                is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
+                    QuestionList(
+                        questions = viewState.questions,
+                        markAsAnswered = markAsAnswered,
+                        markAsUnanswered = markAsUnanswered,
+                        questionsTotalCount = questionsTotalCount,
+                        questionsAnsweredCount = questionsAnsweredCount
+                    )
+                }
+
+                is QuestionsListScreenModel.ViewState.Loading -> {
+                    KTICircularProgressIndicator()
+                }
+
+                QuestionsListScreenModel.ViewState.Error -> {
+                    KTIText(text = "Error!")
+                }
+            }
+        }
+    )
+
+//    KTIScaffold(
+//        topBar = { KTIChatTopAppBar() },
+//    ) {
+//        when (viewState) {
+//            is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
+//                QuestionList(
+//                    questions = viewState.questions,
+//                    markAsAnswered = markAsAnswered,
+//                    markAsUnanswered = markAsUnanswered,
+//                    questionsTotalCount = questionsTotalCount,
+//                    questionsAnsweredCount = questionsAnsweredCount
+//                )
+//            }
+//
+//            is QuestionsListScreenModel.ViewState.Loading -> {
+//                KTICircularProgressIndicator()
+//            }
+//
+//            QuestionsListScreenModel.ViewState.Error -> {
+//                KTIText(text = "Error!")
+//            }
+//        }
+//    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -172,10 +260,9 @@ private fun ListScreenContent(
             modifier = Modifier.fillMaxSize(),
         ) {
             KTIColumnWithGradient {
-                KTITopAppBar(
-                    title = topBarTitle,
-                    iconsSection = {
-                        IconButton(onClick = onToggleBottomSheetClick) {
+                KTITopAppBar(title = topBarTitle)
+//                    iconsSection = {
+//                        IconButton(onClick = onToggleBottomSheetClick) {
 //                            if (bottomSheetState.isVisible) {
 //                                Icon(
 //                                    imageVector = Icons.Filled.KeyboardArrowDown,
@@ -189,7 +276,7 @@ private fun ListScreenContent(
 //                                    tint = kti_accent
 //                                )
 //                            }
-                        }
+            }
 //                        IconButton(onClick = toggleDropdownMenu) {
 //                            KTIIcon(drawableRes = R.drawable.ic_sort, tint = kti_soft_black)
 //                        }
@@ -209,26 +296,25 @@ private fun ListScreenContent(
 //                                }
 //                            }
 //                        }
-                    }
-                )
-                when (viewState) {
-                    is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
-                        QuestionList(
-                            questions = viewState.questions,
-                            markAsAnswered = markAsAnswered,
-                            markAsUnanswered = markAsUnanswered,
-                            questionsTotalCount = questionsTotalCount,
-                            questionsAnsweredCount = questionsAnsweredCount
-                        )
-                    }
+//                    }
+//                )
+            when (viewState) {
+                is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
+                    QuestionList(
+                        questions = viewState.questions,
+                        markAsAnswered = markAsAnswered,
+                        markAsUnanswered = markAsUnanswered,
+                        questionsTotalCount = questionsTotalCount,
+                        questionsAnsweredCount = questionsAnsweredCount
+                    )
+                }
 
-                    is QuestionsListScreenModel.ViewState.Loading -> {
-                        KTICircularProgressIndicator()
-                    }
+                is QuestionsListScreenModel.ViewState.Loading -> {
+                    KTICircularProgressIndicator()
+                }
 
-                    QuestionsListScreenModel.ViewState.Error -> {
-                        KTIText(text = "Error!")
-                    }
+                QuestionsListScreenModel.ViewState.Error -> {
+                    KTIText(text = "Error!")
                 }
             }
         }
@@ -245,7 +331,7 @@ private fun QuestionList(
     questionsAnsweredCount: Int,
     questionsTotalCount: Int,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column {
         ListScreenScoreBar(score = questionsAnsweredCount, total = questionsTotalCount)
         LazyColumn {
             itemsIndexed(
@@ -277,7 +363,7 @@ private fun QuestionItem(
                 if (isAnswered.value) {
                     kti_green
                 } else {
-                    kti_softwhite
+                    ktiColors.backgroundSurfaceVariant
                 }
             )
     ) {
@@ -362,7 +448,7 @@ private fun QuestionTopSection(
         text = "${question.topCategory.displayName}, ${question.subCategory?.displayName}",
         fontSize = 10.sp,
         fontWeight = FontWeight.W300,
-        color = kti_softblack.copy(alpha = 0.6f),
+        color = ktiColors.textMain.copy(alpha = 0.6f),
         modifier = Modifier.padding(horizontal = 10.dp),
         lineHeight = 6.sp,
     )
@@ -379,7 +465,7 @@ private fun QuestionTitle(
         fontSize = 14.sp,
         fontWeight = if (isAnswered.not()) FontWeight.SemiBold else FontWeight.Normal,
         modifier = Modifier.padding(horizontal = horizontalPadding + 2.dp),
-        color = if (isAnswered.not()) kti_softblack else kti_softwhite,
+        color = if (isAnswered.not()) ktiColors.textMain else kti_softwhite,
         lineHeight = 14.sp,
     )
     KTIVerticalSpacer(height = if (isAnswered.not()) 4.dp else 0.dp)

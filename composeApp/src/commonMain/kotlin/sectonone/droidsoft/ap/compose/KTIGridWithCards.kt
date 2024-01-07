@@ -33,13 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sectonone.droidsoft.ap.theme.ktiColors
-import sectonone.droidsoft.ap.theme.kti_accent
-import sectonone.droidsoft.ap.theme.kti_grayish
-import sectonone.droidsoft.ap.theme.kti_grayish_light
-import sectonone.droidsoft.ap.theme.kti_softblack
-import sectonone.droidsoft.ap.theme.kti_softwhite
-import sectonone.droidsoft.ap.theme.white
+import sectonone.droidsoft.ap.theme.*
 
 data class KTICardItem<T>(
     val value: T,
@@ -103,7 +97,7 @@ fun <T> KTICard(
         modifier = Modifier
             .clickableNoRipple { onClick.invoke(item.value) }
             .padding(padding)
-            .heightIn(min = 96.dp)
+            .heightIn(min = 92.dp)
             .fillMaxWidth(),
         elevation = 2.dp
     ) {

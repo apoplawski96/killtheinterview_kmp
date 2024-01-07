@@ -137,6 +137,7 @@ private fun HelloSection() {
             fontWeight = FontWeight.SemiBold,
             color = KTITheme.colors.textMain
         )
+        KTIVerticalSpacer(2.dp)
         KTITextNew(
             text = "It's time to prepare for your next interview!",
             fontSize = 12.sp,
@@ -230,6 +231,7 @@ private fun RandomSubCategoriesCarousel(
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
+        KTIVerticalSpacer(8.dp)
         LazyRow {
             item { KTIHorizontalSpacer(width = 16.dp) }
             itemsIndexed(

@@ -10,13 +10,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.GridVariant
-import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.compose.KTIGridWithCards
@@ -25,7 +23,7 @@ import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.subcategories.SubCategoriesScreen
-import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.ktiColors
 
 internal object CategoriesScreen : Screen {
 
@@ -53,7 +51,6 @@ internal object CategoriesScreen : Screen {
     }
 }
 
-
 @Composable
 private fun CategoriesScreenContent(
     state: CategoriesScreenModel.ViewState,
@@ -61,8 +58,8 @@ private fun CategoriesScreenContent(
     lazyGridState: LazyGridState
 ) {
     Scaffold(
-        topBar = { KTITopAppBar(isNested = true, title = "Select categories") },
-        backgroundColor = Color.Green,
+        topBar = { KTITopAppBar(isNested = true, title = "Categories") },
+        backgroundColor = ktiColors.backgroundSurface,
     ) {
         when (state) {
             is CategoriesScreenModel.ViewState.CategoriesLoaded -> {
@@ -70,7 +67,6 @@ private fun CategoriesScreenContent(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    KTITopAppBar(title = "Categories")
                     KTIGridWithCards(
                         items = state.categories.map { topCategory ->
                             KTICardItem(
