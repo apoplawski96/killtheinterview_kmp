@@ -342,12 +342,20 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
                 }
 
                 is InterviewChatItemUiModel.InterviewerMessage.QuestionAsked -> {
-                    KTITextNew(
-                        text = chatItem.question.question,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.W400,
-                        color = ktiColors.onSecondary,
-                    )
+                    Column() {
+                        KTITextNew(
+                            text = chatItem.question.categories.toString(),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.W400,
+                            color = ktiColors.onSecondary.copy(alpha = 0.8f),
+                        )
+                        KTITextNew(
+                            text = chatItem.question.question,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W400,
+                            color = ktiColors.onSecondary,
+                        )
+                    }
                 }
 
                 InterviewChatItemUiModel.InterviewerMessage.Writing -> {
