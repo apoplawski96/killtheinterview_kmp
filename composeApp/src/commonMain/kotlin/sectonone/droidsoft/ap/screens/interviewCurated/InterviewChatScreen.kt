@@ -56,6 +56,7 @@ import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.compose.LoadingAnimation
 import sectonone.droidsoft.ap.di.getScreenModel
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
@@ -66,7 +67,7 @@ import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_grey
 import sectonone.droidsoft.ap.theme.kti_softwhite
 
-internal class InterviewChatScreen(private val categories: List<TopCategory>) : Screen {
+internal class InterviewChatScreen(private val categories: List<Category>) : Screen {
 
     @Composable
     override fun Content() {
@@ -80,7 +81,7 @@ internal class InterviewChatScreen(private val categories: List<TopCategory>) : 
         val chatListState = rememberLazyListState()
 
         LaunchedEffect(null) {
-            screenModel.initQuestions(categories)
+            screenModel.initQuestionsV2(categories)
         }
 
         LaunchedEffect(chatState, inputEnabledState) {

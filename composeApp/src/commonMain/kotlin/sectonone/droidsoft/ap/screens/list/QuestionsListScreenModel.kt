@@ -2,6 +2,9 @@ package sectonone.droidsoft.ap.screens.list
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import sectonone.droidsoft.ap.feature.list.data.GetQuestionsList
 import sectonone.droidsoft.ap.model.Difficulty
 import sectonone.droidsoft.ap.model.Question
@@ -17,13 +20,13 @@ import kotlinx.coroutines.launch
 class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : ScreenModel {
 
     sealed interface ViewState {
-        object Loading : ViewState
-        object Error : ViewState
+        data object Loading : ViewState
+        data object Error : ViewState
         data class QuestionsLoaded(val questions: List<Question>) : ViewState
     }
 
     sealed interface ViewEvent {
-        object ToggleBottomSheet : ViewEvent
+        data object ToggleBottomSheet : ViewEvent
     }
 
     enum class SortMode(val displayName: String) {
@@ -59,6 +62,7 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
                     _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
                     ViewState.QuestionsLoaded(questions.questions.sortedBy { it.difficulty })
                 }
+
                 is GetQuestionsList.Result.Error -> {
                     ViewState.Error
                 }
@@ -70,6 +74,8 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
         }
+
+        val coroutineScope = CoroutineScope(SupervisorJob())
     }
 
     fun toggleBottomSheet() {
@@ -136,7 +142,7 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
                 val currentViewState = viewState.value
                 if (currentViewState is ViewState.QuestionsLoaded) {
                     val questions = currentViewState.questions
-                    val sortedQuestions = when(sortMode) {
+                    val sortedQuestions = when (sortMode) {
                         SortMode.BY_DIFFICULTY_ASCENDING -> questions.sortedBy { it.difficulty }
                         SortMode.BY_DIFFICULTY_DESCENDING -> questions.sortedByDescending { it.difficulty }
                         SortMode.RANDOMIZED -> questions.shuffled()

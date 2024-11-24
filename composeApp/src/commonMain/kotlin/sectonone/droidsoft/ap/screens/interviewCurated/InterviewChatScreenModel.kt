@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.model.Category
 import kotlin.random.Random
 
 private const val interval = 200L
@@ -29,7 +30,7 @@ class InterviewChatScreenModel(
 
     sealed interface ViewStateChat {
         data class InterviewActive(val chatItems: List<InterviewChatItemUiModel>) : ViewStateChat
-        object InterviewFinished : ViewStateChat
+        data object InterviewFinished : ViewStateChat
     }
 
     private val questionsBase = mutableListOf<Question>()
@@ -54,7 +55,9 @@ class InterviewChatScreenModel(
 
     val currentQuestion = screenState.map { screenState ->
         if (screenState is ViewStateChat.InterviewActive) {
-            val question = screenState.chatItems.lastOrNull { it is InterviewChatItemUiModel.InterviewerMessage.QuestionAsked } as? InterviewChatItemUiModel.InterviewerMessage.QuestionAsked
+            val question = screenState.chatItems.lastOrNull {
+                it is InterviewChatItemUiModel.InterviewerMessage.QuestionAsked
+            } as? InterviewChatItemUiModel.InterviewerMessage.QuestionAsked
             question?.question
         } else {
             null
@@ -70,7 +73,21 @@ class InterviewChatScreenModel(
             val questions = questionsRepository.getQuestionsForCategories(categories)
             questionsBase.clear()
             questionsBase.addAll(questions)
-            emitInterviewerProgressObject()
+            emitInterviewerProgress()
+            delay(interval)
+            emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("Hello candidate."))
+            dropNextQuestion()
+        }
+    }
+
+    fun initQuestionsV2(categories: List<Category>) {
+        screenModelScope.launch {
+            val questions = questionsRepository.getQuestions(categories).also {
+                println("2137 - categories: $categories, questions: $it")
+            }
+            questionsBase.clear()
+            questionsBase.addAll(questions)
+            emitInterviewerProgress()
             delay(interval)
             emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("Hello candidate."))
             dropNextQuestion()
@@ -110,11 +127,11 @@ class InterviewChatScreenModel(
             val randomQuestion = questionsBase.removeAt(randomIndex)
 
             delay(interval)
-            emitInterviewerProgressObject()
+            emitInterviewerProgress()
             delay(interval)
             emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.QuestionAsked(randomQuestion))
             delay(interval)
-            emitCandidateProgressObject()
+            emitCandidateProgress()
         } else {
             _screenState.value = ViewStateChat.InterviewFinished
         }
@@ -130,23 +147,23 @@ class InterviewChatScreenModel(
 
     private suspend fun emitInterviewerPositiveResponse() {
         delay(interval)
-        emitInterviewerProgressObject()
+        emitInterviewerProgress()
         delay(interval)
         emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("That's a great answer!"))
     }
 
     private suspend fun emitInterviewerNegativeResponse() {
         delay(interval)
-        emitInterviewerProgressObject()
+        emitInterviewerProgress()
         delay(interval)
         emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("No worries. Let's try with another question."))
     }
 
-    private fun emitInterviewerProgressObject() {
+    private fun emitInterviewerProgress() {
         addProgressObjectAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.Writing)
     }
 
-    private fun emitCandidateProgressObject() {
+    private fun emitCandidateProgress() {
         addProgressObjectAndUpdateTheState(InterviewChatItemUiModel.CandidateMessage.Writing)
     }
 

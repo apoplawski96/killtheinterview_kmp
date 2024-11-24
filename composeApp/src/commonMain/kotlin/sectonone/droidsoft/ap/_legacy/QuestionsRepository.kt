@@ -2,6 +2,7 @@ package sectonone.droidsoft.ap._legacy
 
 import sectonone.droidsoft.ap.data.QuestionsDataSource
 import sectonone.droidsoft.ap.feature.list.data.QuestionsMapper
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.TopCategory
 
@@ -15,4 +16,12 @@ class QuestionsRepository(
             categories.any { it == question.topCategory }
         }
     }
+
+    suspend fun getQuestions(categories: List<Category>): List<Question> =
+        questionsMapper.mapV2(questionsDataSource.getAllV2())
+            .filter { question ->
+                categories.any { inputCategory ->
+                    question.categories.any { it.name == inputCategory.name }
+                }
+            }.distinct()
 }

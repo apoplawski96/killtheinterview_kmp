@@ -2,11 +2,13 @@ package sectonone.droidsoft.ap.feature.list.data
 
 import sectonone.droidsoft.ap.model.schema.QuestionSchema
 import sectonone.droidsoft.ap._legacy.DeprecatedCategory
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Difficulty
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.SubCategory
 import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.model.allSubCategoriesFlatten
+import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
 
 class QuestionsMapper {
 
@@ -22,6 +24,23 @@ class QuestionsMapper {
                 subCategory = getSubCategoryForName(questionSchema.subCategory),
                 topCategoryId = questionSchema.topCategoryId,
                 subCategoryId = questionSchema.subCategoryId,
+                categories = questionSchema.categories?.mapNotNull {
+                    Category.getForKey(it)
+                } ?: emptyList()
+            )
+        }
+
+    fun mapV2(questions: List<QuestionSchemaV2>): List<Question> =
+        questions.map { questionSchema ->
+            Question(
+                id = questionSchema.id,
+                answer = questionSchema.answer,
+                question = questionSchema.question,
+                category = DeprecatedCategory.Android,
+                difficulty = Difficulty.Intermediate,
+                categories = questionSchema.categories.mapNotNull {
+                    Category.getForKey(it)
+                } ?: emptyList()
             )
         }
 

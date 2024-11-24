@@ -56,7 +56,7 @@ internal object InterviewSetupScreen : Screen {
             onGoToInterviewClick = {
                 navigator.push(
                     InterviewChatScreen(
-                        categories = categoriesState.filter { it.isSelected }.map { it.category }
+                        categories = categoriesState.filter { it.isSelected }.map { it.categoryV2 }
                     )
                 )
             }
@@ -137,7 +137,7 @@ private fun SelectableCategoryCard(
             modifier = Modifier.padding(12.dp).fillMaxSize(),
         ) {
             KTITextNew(
-                text = item.category.displayName,
+                text = item.categoryV2.displayName,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Normal,

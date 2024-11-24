@@ -12,4 +12,5 @@ data class Question(
     val difficulty: Difficulty = Difficulty.Beginner,
     val question: String,
     val answer: String,
+    val categories: List<Category> = emptyList()
 )

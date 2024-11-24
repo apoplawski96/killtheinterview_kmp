@@ -3,26 +3,25 @@ package sectonone.droidsoft.ap.data
 import kotlinx.serialization.json.Json
 import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.model.schema.QuestionSchema
+import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
 
-private const val FILE_NAME_DROID = "questions_android.json"
-private const val FILE_NAME_DROID_FLOW = "questions_android_flow.json"
-private const val FILE_NAME_DROID_COROUTINES = "questions_android_coroutines.json"
-private const val FILE_NAME_DROID_LIFECYCLE = "questions_android_lifecycle.json"
-private const val FILE_NAME_DROID_SECURITY = "questions_android_security.json"
-private const val FILE_NAME_DROID_ARCHITECTURE = "questions_android_architecture.json"
-private const val FILE_NAME_DROID_CONFIGURATION = "questions_android_configuration.json"
-private const val FILE_NAME_DROID_VIEW_MODEL = "questions_android_viewmodel.json"
-private const val FILE_NAME_DROID_CORE = "questions_android_core.json"
-private const val FILE_NAME_DROID_COMPOSE = "questions_android_compose.json"
+private const val FILE_NAME_DROID_FLOW = "v2_questions_android_flow.json"
+private const val FILE_NAME_DROID_COROUTINES = "v2_questions_android_coroutines.json"
+private const val FILE_NAME_DROID_LIFECYCLE = "v2_questions_android_lifecycle.json"
+private const val FILE_NAME_DROID_SECURITY = "v2_questions_android_security.json"
+private const val FILE_NAME_DROID_ARCHITECTURE = "v2_questions_android_architecture.json"
+private const val FILE_NAME_DROID_CONFIGURATION = "v2_questions_android_configuration.json"
+private const val FILE_NAME_DROID_VIEW_MODEL = "v2_questions_android_viewmodel.json"
+private const val FILE_NAME_DROID_CORE = "v2_questions_android_core.json"
+private const val FILE_NAME_DROID_COMPOSE = "v2_questions_android_compose.json"
 
-private const val FILE_NAME_IOS = "questions_ios.json"
-private const val FILE_NAME_DESIGN_PATTERNS = "questions_design_patterns.json"
-private const val FILE_NAME_KOTLIN = "questions_kotlin.json"
-private const val FILE_NAME_GIT = "questions_git.json"
-private const val FILE_NAME_PROGRAMMING_PARADIGMS = "questions_programming_paradigms.json"
+private const val FILE_NAME_IOS = "v2_questions_ios.json"
+private const val FILE_NAME_DESIGN_PATTERNS = "v2_questions_design_patterns.json"
+private const val FILE_NAME_KOTLIN = "v2_questions_kotlin.json"
+private const val FILE_NAME_GIT = "v2_questions_git.json"
+private const val FILE_NAME_PROGRAMMING_PARADIGMS = "v2_questions_programming_paradigms.json"
 
 private val files = listOf(
-    FILE_NAME_DROID,
     FILE_NAME_DROID_FLOW,
     FILE_NAME_DROID_COROUTINES,
     FILE_NAME_DROID_LIFECYCLE,
@@ -47,7 +46,13 @@ class QuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) 
         }
     }
 
-    suspend fun getQuestionsAndroid(): List<QuestionSchema> = decodeQuestionsFromFile(FILE_NAME_DROID) +
+    suspend fun getAllV2(): List<QuestionSchemaV2> = buildList {
+        files.forEach { fileName ->
+            addAll(decodeQuestionsFromFileV2(fileName))
+        }
+    }
+
+    suspend fun getQuestionsAndroid(): List<QuestionSchema> =
             decodeQuestionsFromFile(FILE_NAME_DROID_FLOW) +
             decodeQuestionsFromFile(FILE_NAME_DROID_COROUTINES) +
             decodeQuestionsFromFile(FILE_NAME_DROID_LIFECYCLE) +
@@ -75,6 +80,13 @@ class QuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) 
 
     private suspend fun decodeQuestionsFromFile(fileName: String): List<QuestionSchema> {
         val jsonFileContent = resourcesFileReader.readFile(fileName) ?: return emptyList()
+        println("2137 - json file content: $jsonFileContent")
+        return Json.decodeFromString(jsonFileContent)
+    }
+
+    private suspend fun decodeQuestionsFromFileV2(fileName: String): List<QuestionSchemaV2> {
+        val jsonFileContent = resourcesFileReader.readFile(fileName) ?: return emptyList()
+        println("2137 - json file content: $jsonFileContent")
         return Json.decodeFromString(jsonFileContent)
     }
 }

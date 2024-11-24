@@ -1,0 +1,26 @@
+package sectonone.droidsoft.ap.model
+
+enum class Category(val key: String, val displayName: String) {
+    Android("android", "Android"),
+    AndroidAppArchitecture("android_architecture", "Android App Architecture"),
+    Compose("compose", "Compose"),
+    AndroidConfiguration("android_configuration", "Android Configuration"),
+    AndroidCore("android_core", "Android Core"),
+    Coroutines("coroutines", "Coroutines"),
+    Flow("flow", "Flow"),
+    AndroidLifecycle("android_lifecycle", "Android Lifecycle"),
+    AndroidSecurity("android_security", "Android Security"),
+    AndroidViewModel("android_viewmodel", "Android ViewModel"),
+    DesignPatterns("design_patterns", "Design Patterns"),
+    Git("git", "Git"),
+    IOS("ios", "iOS"),
+    Kotlin("kotlin", "Kotlin"),
+    ProgrammingParadigms("programming_paradigms", "Programming Paradigms")
+    ;
+
+    companion object {
+        fun getForKey(key: String?): Category? {
+            return entries.find { it.key == key }
+        }
+    }
+}
