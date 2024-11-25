@@ -78,10 +78,10 @@ private fun InitialUi(fileReader: ResourcesFileReader) {
 
     var jsonState by remember { mutableStateOf("") }
 
-    LaunchedEffect(null) {
-        val json = fileReader.readFile("questions_git.json") ?: "CAN'T READ FILE"
-        jsonState = json
-    }
+//    LaunchedEffect(null) {
+//        val json = fileReader.readFile("questions_git.json") ?: "CAN'T READ FILE"
+//        jsonState = json
+//    }
 
     Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
 

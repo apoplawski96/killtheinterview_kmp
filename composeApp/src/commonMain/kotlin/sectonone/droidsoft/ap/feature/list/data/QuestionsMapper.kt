@@ -40,7 +40,7 @@ class QuestionsMapper {
                 difficulty = Difficulty.Intermediate,
                 categories = questionSchema.categories.mapNotNull {
                     Category.getForKey(it)
-                } ?: emptyList()
+                }
             )
         }
 
