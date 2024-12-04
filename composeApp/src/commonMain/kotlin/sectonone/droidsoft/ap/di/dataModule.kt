@@ -1,9 +1,9 @@
 package sectonone.droidsoft.ap.di
 
 import kotlinx.coroutines.Dispatchers
-import sectonone.droidsoft.ap._legacy.QuestionsRepository
+import sectonone.droidsoft.ap.data.QuestionsRepository
 import sectonone.droidsoft.ap.data.QuestionsDataSource
-import sectonone.droidsoft.ap.feature.categories.data.CategoriesRepository
+import sectonone.droidsoft.ap.data.CategoriesRepository
 import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
 import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompter
 import sectonone.droidsoft.ap.feature.subcategories.data.SubCategoriesRepository

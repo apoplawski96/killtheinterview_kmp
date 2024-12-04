@@ -1,7 +1,6 @@
 package sectonone.droidsoft.ap.feature.list.data
 
 import sectonone.droidsoft.ap.model.schema.QuestionSchema
-import sectonone.droidsoft.ap._legacy.DeprecatedCategory
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Difficulty
 import sectonone.droidsoft.ap.model.Question
@@ -18,7 +17,6 @@ class QuestionsMapper {
                 id = questionSchema.id,
                 answer = questionSchema.answer,
                 question = questionSchema.question,
-                category = DeprecatedCategory.Android,
                 difficulty = Difficulty.getForName(questionSchema.difficulty) ?: Difficulty.Intermediate,
                 topCategory = TopCategory.getForName(questionSchema.topCategory) ?: return@mapNotNull null,
                 subCategory = getSubCategoryForName(questionSchema.subCategory),
@@ -36,7 +34,6 @@ class QuestionsMapper {
                 id = questionSchema.id,
                 answer = questionSchema.answer,
                 question = questionSchema.question,
-                category = DeprecatedCategory.Android,
                 difficulty = Difficulty.Intermediate,
                 categories = questionSchema.categories.mapNotNull {
                     Category.getForKey(it)

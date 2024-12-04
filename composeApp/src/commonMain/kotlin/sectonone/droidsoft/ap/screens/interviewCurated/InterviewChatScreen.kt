@@ -58,7 +58,6 @@ import sectonone.droidsoft.ap.compose.LoadingAnimation
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -81,11 +80,11 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
         val chatListState = rememberLazyListState()
 
         LaunchedEffect(null) {
-            screenModel.initQuestionsV2(categories)
+            screenModel.initQuestions(categories)
         }
 
         LaunchedEffect(chatState, inputEnabledState) {
-            if (chatState is InterviewChatScreenModel.ViewStateChat.InterviewActive && chatState.chatItems.isNotEmpty()) {
+            if (chatState is InterviewChatScreenModel.ViewState.InterviewActive && chatState.chatItems.isNotEmpty()) {
                 chatListState.animateScrollToItem(chatState.chatItems.lastIndex)
             }
         }
@@ -104,8 +103,8 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
 
 @Composable
 private fun InterviewChatScreenContent(
-    screenStateChat: InterviewChatScreenModel.ViewStateChat,
-    scoreboardState: InterviewChatScreenModel.Scoreboard,
+    screenStateChat: InterviewChatScreenModel.ViewState,
+    scoreboardState: InterviewChatScreenModel.ScoreboardState,
     onAddPointClick: () -> Unit,
     onNoPointClick: () -> Unit,
     inputEnabled: Boolean,
@@ -162,7 +161,7 @@ private fun InterviewChatScreenContent(
         }
     ) {
         when (screenStateChat) {
-            is InterviewChatScreenModel.ViewStateChat.InterviewActive -> {
+            is InterviewChatScreenModel.ViewState.InterviewActive -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Bottom,
@@ -227,85 +226,11 @@ private fun InterviewChatScreenContent(
                 }
             }
 
-            is InterviewChatScreenModel.ViewStateChat.InterviewFinished -> {
+            is InterviewChatScreenModel.ViewState.InterviewFinished -> {
                 KTITextNew("no questions left", fontSize = 16.sp, fontWeight = FontWeight.W700)
             }
         }
     }
-
-
-//    KTIColumnWithGradient {
-//        KTIChatTopAppBar()
-//        when (screenStateChat) {
-//            is InterviewChatScreenModel.ViewStateChat.InterviewActive -> {
-//                Column(
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalArrangement = Arrangement.Bottom,
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    Box(Modifier.weight(10f)) {
-//                        LazyColumn(
-//                            modifier = Modifier.align(Alignment.TopCenter),
-//                            contentPadding = PaddingValues(horizontal = 16.dp),
-//                            state = chatListState,
-//                        ) {
-//                            item { KTIVerticalSpacer(height = 8.dp) }
-//                            itemsIndexed(
-//                                items = screenStateChat.chatItems,
-//                                key = { i, it -> "${it.hashCode()}, index: $i" }) { _, chatItem ->
-//                                when (chatItem) {
-//                                    is InterviewChatItemUiModel.CandidateMessage -> {
-//                                        CandidateBubbleChatItem(chatItem)
-//                                    }
-//
-//                                    is InterviewChatItemUiModel.InterviewerMessage -> {
-//                                        InterviewerBubbleChatItem(chatItem)
-//                                    }
-//                                }
-//                            }
-//                            item { KTIVerticalSpacer(height = 8.dp) }
-//                        }
-//                        androidx.compose.animation.AnimatedVisibility(
-//                            isAnswerExpanded.value,
-//                            modifier = Modifier.align(Alignment.BottomEnd).padding(start = 32.dp, end = 16.dp, bottom = 4.dp)
-//                        ) {
-//                            Column(
-//                                modifier = Modifier
-//                                    .clip(
-//                                        RoundedCornerShape(
-//                                            topEnd = radius,
-//                                            topStart = radius,
-//                                            bottomStart = radius,
-//                                            bottomEnd = 0.dp,
-//                                        )
-//                                    )
-//                                    .background(kti_softwhite)
-//                                    .padding(vertical = 8.dp, horizontal = 12.dp)
-//                                    .verticalScroll(rememberScrollState())
-//                            ) {
-//                                KTIVerticalSpacer(4.dp)
-//                                KTIIcon(Icons.Default.Info, size = 16.dp)
-//                                KTIVerticalSpacer(4.dp)
-//                                KTITextNew(text = currentQuestion?.answer ?: "Current question is null")
-//                            }
-//                        }
-//                    }
-//                    ControlSection(
-//                        addPointClick = onAddPointClick,
-//                        noPointClick = onNoPointClick,
-//                        modifier = Modifier.weight(1f),
-//                        inputEnabled = inputEnabled,
-//                        showAnswerClick = { isAnswerExpanded.value = !isAnswerExpanded.value },
-//                        isAnswerExpanded = isAnswerExpanded.value,
-//                    )
-//                }
-//            }
-//
-//            is InterviewChatScreenModel.ViewStateChat.InterviewFinished -> {
-//                KTITextNew("no questions left", fontSize = 16.sp, fontWeight = FontWeight.W700)
-//            }
-//        }
-//    }
 }
 
 private val radius = 24.dp

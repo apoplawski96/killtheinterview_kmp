@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.feature.categories.data
+package sectonone.droidsoft.ap.data
 
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.TopCategory

@@ -17,8 +17,7 @@ class GetRandomSubCategories(private val subCategoriesRepository: SubCategoriesR
                 topCategory.subCategories.isNotEmpty()
             }.random()
 
-        val subCategoriesForCategory =
-            subCategoriesRepository.getSubCategories(randomTopCategory).shuffled()
+        val subCategoriesForCategory = subCategoriesRepository.getSubCategories(randomTopCategory).shuffled()
 
         return Result(
             topCategory = randomTopCategory,

@@ -5,7 +5,7 @@ import sectonone.droidsoft.ap.model.HomeScreenMenuItem
 
 class GetHomeScreenFeedItems(private val getRandomSubCategories: GetRandomSubCategories) {
 
-    suspend fun get(): List<HomeScreenFeedItem> {
+    fun get(): List<HomeScreenFeedItem> {
         val randomSubCategoriesCarousel = getRandomSubCategories.invoke()
 
         return listOf(

@@ -1,7 +1,7 @@
 package sectonone.droidsoft.ap.screens.interviewSetup
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import sectonone.droidsoft.ap.feature.categories.data.CategoriesRepository
+import sectonone.droidsoft.ap.data.CategoriesRepository
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

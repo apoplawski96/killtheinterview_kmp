@@ -1,14 +1,10 @@
 package sectonone.droidsoft.ap.screens.home
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -29,12 +25,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTICardSmallWithUnderText
 import sectonone.droidsoft.ap.compose.KTICardWithIllustration
 import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
-import sectonone.droidsoft.ap.compose.KTIIllustration
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
@@ -47,8 +41,6 @@ import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.categories.CategoriesScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
-import sectonone.droidsoft.ap.theme.kti_background_grey
-import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal object HomeScreen : Screen {
 
@@ -184,6 +176,14 @@ private fun HomeScreenFeedSection(
                 is HomeScreenFeedItem.LastLearnedSubCategoriesCarousel -> {}
                 is HomeScreenFeedItem.LastLearnedSubCategory -> {}
                 is HomeScreenFeedItem.RandomBookmarkedQuestion -> {}
+
+                // IDEAS
+                // 1. Add interview history summary section with option to "View all"
+                // 2. Add search bar?
+                // 3. Random question
+                // 4. Add "About me" section
+                // 5. Add Onboarding
+                // 6. Random questions carousel with auto scroll and paging
             }
         }
     }

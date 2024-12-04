@@ -2,9 +2,8 @@ package sectonone.droidsoft.ap.screens.interviewCurated
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap._legacy.QuestionsRepository
+import sectonone.droidsoft.ap.data.QuestionsRepository
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.model.TopCategory
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
 import kotlinx.coroutines.delay
@@ -23,26 +22,26 @@ class InterviewChatScreenModel(
     private val questionsRepository: QuestionsRepository,
 ) : ScreenModel {
 
-    data class Scoreboard(
+    data class ScoreboardState(
         val questionsAnswered: Int,
         val questionsAsked: Int
     )
 
-    sealed interface ViewStateChat {
-        data class InterviewActive(val chatItems: List<InterviewChatItemUiModel>) : ViewStateChat
-        data object InterviewFinished : ViewStateChat
+    sealed interface ViewState {
+        data class InterviewActive(val chatItems: List<InterviewChatItemUiModel>) : ViewState
+        data object InterviewFinished : ViewState
     }
 
     private val questionsBase = mutableListOf<Question>()
 
-    private val _screenState = MutableStateFlow<ViewStateChat>(ViewStateChat.InterviewActive(chatItems = emptyList()))
+    private val _screenState = MutableStateFlow<ViewState>(ViewState.InterviewActive(chatItems = emptyList()))
     val screenState = _screenState.asStateFlow()
 
-    private val _scoreboardState = MutableStateFlow(Scoreboard(questionsAnswered = 0, questionsAsked = 0))
+    private val _scoreboardState = MutableStateFlow(ScoreboardState(questionsAnswered = 0, questionsAsked = 0))
     val scoreboardState = _scoreboardState.asStateFlow()
 
     val inputEnabled = screenState.map { screenState ->
-        if (screenState is ViewStateChat.InterviewActive) {
+        if (screenState is ViewState.InterviewActive) {
             screenState.chatItems.lastOrNull() is InterviewChatItemUiModel.CandidateMessage.Writing
         } else {
             false
@@ -54,7 +53,7 @@ class InterviewChatScreenModel(
     )
 
     val currentQuestion = screenState.map { screenState ->
-        if (screenState is ViewStateChat.InterviewActive) {
+        if (screenState is ViewState.InterviewActive) {
             val question = screenState.chatItems.lastOrNull {
                 it is InterviewChatItemUiModel.InterviewerMessage.QuestionAsked
             } as? InterviewChatItemUiModel.InterviewerMessage.QuestionAsked
@@ -68,23 +67,9 @@ class InterviewChatScreenModel(
         initialValue = null
     )
 
-    fun initQuestions(categories: List<TopCategory>) {
+    fun initQuestions(categories: List<Category>) {
         screenModelScope.launch {
-            val questions = questionsRepository.getQuestionsForCategories(categories)
-            questionsBase.clear()
-            questionsBase.addAll(questions)
-            emitInterviewerProgress()
-            delay(interval)
-            emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("Hello candidate."))
-            dropNextQuestion()
-        }
-    }
-
-    fun initQuestionsV2(categories: List<Category>) {
-        screenModelScope.launch {
-            val questions = questionsRepository.getQuestions(categories).also {
-                println("2137 - categories: $categories, questions: $it")
-            }
+            val questions = questionsRepository.getQuestions(categories)
             questionsBase.clear()
             questionsBase.addAll(questions)
             emitInterviewerProgress()
@@ -133,15 +118,15 @@ class InterviewChatScreenModel(
             delay(interval)
             emitCandidateProgress()
         } else {
-            _screenState.value = ViewStateChat.InterviewFinished
+            _screenState.value = ViewState.InterviewFinished
         }
     }
 
     private fun emitMessageItemAndUpdateTheState(item: InterviewChatItemUiModel) {
         val screenState = screenState.value
-        if (screenState is ViewStateChat.InterviewActive) {
+        if (screenState is ViewState.InterviewActive) {
             val updatedItems = screenState.chatItems.toMutableList().apply { add(item) }.filterNot { it is ProgressObject }
-            _screenState.value = ViewStateChat.InterviewActive(updatedItems)
+            _screenState.value = ViewState.InterviewActive(updatedItems)
         }
     }
 
@@ -169,9 +154,9 @@ class InterviewChatScreenModel(
 
     private fun addProgressObjectAndUpdateTheState(progressObject: InterviewChatItemUiModel) {
         val screenState = screenState.value
-        if (screenState is ViewStateChat.InterviewActive) {
+        if (screenState is ViewState.InterviewActive) {
             val updatedItems = screenState.chatItems.toMutableList().apply { add(progressObject) }
-            _screenState.value = ViewStateChat.InterviewActive(updatedItems)
+            _screenState.value = ViewState.InterviewActive(updatedItems)
         }
     }
 }
