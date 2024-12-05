@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.screens.list.components
+package sectonone.droidsoft.ap.screens.questionsList.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

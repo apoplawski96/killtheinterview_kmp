@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -41,14 +42,11 @@ data class KTICardItem<T>(
     val cardColor: Color? = null,
 )
 
-enum class GridVariant { TOP_CATEGORY, SUB_CATEGORY; }
-
 @Composable
 fun <T> KTIGridWithCards(
     items: List<KTICardItem<T>>,
-    onClick: (T?) -> Unit,
-    state: LazyGridState,
-    variant: GridVariant
+    onClick: (T) -> Unit,
+    state: LazyGridState = rememberLazyGridState(),
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = 2),
@@ -57,11 +55,6 @@ fun <T> KTIGridWithCards(
         content = {
             item { KTIVerticalSpacer(height = 8.dp) }
             item { KTIVerticalSpacer(height = 8.dp) }
-            if (variant == GridVariant.SUB_CATEGORY) {
-                item {
-                    AllCard(onClick = { onClick(null) })
-                }
-            }
             this.itemsIndexed(items = items) { index, item ->
                 KTICard(
                     item = item.applyColor(index),

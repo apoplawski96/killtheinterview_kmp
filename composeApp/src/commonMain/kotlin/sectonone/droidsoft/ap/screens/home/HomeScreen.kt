@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -26,19 +24,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.KTICardItem
-import sectonone.droidsoft.ap.compose.KTICardSmallWithUnderText
 import sectonone.droidsoft.ap.compose.KTICardWithIllustration
-import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
-import sectonone.droidsoft.ap.compose.applyColor
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.HomeScreenFeedItem
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.SubCategory
-import sectonone.droidsoft.ap.model.TopCategory
-import sectonone.droidsoft.ap.screens.categories.CategoriesScreen
+import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 
@@ -67,12 +60,11 @@ internal object HomeScreen : Screen {
 
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES -> {
                         navigator.push(
-                            CategoriesScreen
+                            CategoriesListScreen
                         )
                     }
                 }
             },
-            onSubCategoryClick = { subCategory -> }
         )
     }
 }
@@ -81,7 +73,6 @@ internal object HomeScreen : Screen {
 private fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
-    onSubCategoryClick: (SubCategory) -> Unit,
 ) {
     Scaffold(
         topBar = { KTITopAppBar(isNested = false) },
@@ -102,7 +93,6 @@ private fun HomeScreenContent(
                     HomeScreenFeedSection(
                         feed = state.items,
                         onMenuItemClicked = onMenuItemClicked,
-                        onSubCategoryClick = onSubCategoryClick
                     )
                 }
 
@@ -152,7 +142,6 @@ private fun IllustrationSection() {
 private fun HomeScreenFeedSection(
     feed: List<HomeScreenFeedItem>,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
-    onSubCategoryClick: (SubCategory) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -166,11 +155,7 @@ private fun HomeScreenFeedSection(
                 }
 
                 is HomeScreenFeedItem.RandomSubCategoriesCarousel -> {
-                    RandomSubCategoriesCarousel(
-                        onSubCategoryClick = onSubCategoryClick,
-                        subCategories = feedItem.subCategories,
-                        topCategory = feedItem.topCategory
-                    )
+
                 }
 
                 is HomeScreenFeedItem.LastLearnedSubCategoriesCarousel -> {}
@@ -184,6 +169,10 @@ private fun HomeScreenFeedSection(
                 // 4. Add "About me" section
                 // 5. Add Onboarding
                 // 6. Random questions carousel with auto scroll and paging
+                // 7. Library, saved questions, saved categories
+                // 8. "Explore" under search?
+                // 9. Animated icons that move every x seconds
+                // 10. Start with UI & mock data, then code functionality
             }
         }
     }
@@ -213,40 +202,3 @@ private fun MenuItems(
         }
     }
 }
-
-@Composable
-private fun RandomSubCategoriesCarousel(
-    onSubCategoryClick: (SubCategory) -> Unit,
-    subCategories: List<SubCategory>,
-    topCategory: TopCategory,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        KTITextNew(
-            text = "Categories for ${topCategory.displayName}",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
-        KTIVerticalSpacer(8.dp)
-        LazyRow {
-            item { KTIHorizontalSpacer(width = 16.dp) }
-            itemsIndexed(
-                items = subCategories,
-                key = { _, subCategory -> subCategory.id }) { index, subCategory ->
-                KTICardSmallWithUnderText(
-                    item = KTICardItem(
-                        value = subCategory,
-                        label = subCategory.displayName
-                    ).applyColor(index),
-                    onClick = onSubCategoryClick
-                )
-            }
-            item { KTIHorizontalSpacer(width = 16.dp) }
-        }
-    }
-}
-

@@ -1,21 +1,19 @@
-package sectonone.droidsoft.ap.screens.list
+package sectonone.droidsoft.ap.screens.questionsList
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import sectonone.droidsoft.ap.feature.list.data.GetQuestionsList
 import sectonone.droidsoft.ap.model.Difficulty
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.model.SubCategory
-import sectonone.droidsoft.ap.model.TopCategory
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.model.Category
 
 class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : ScreenModel {
 
@@ -55,9 +53,9 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
     private val _viewState: MutableStateFlow<ViewState> = MutableStateFlow(ViewState.Loading)
     val viewState: StateFlow<ViewState> = _viewState
 
-    fun initialize(topCategory: TopCategory, subCategory: SubCategory?) {
+    fun initialize(categories: List<Category>) {
         screenModelScope.launch {
-            val result = when (val questions = getQuestions.invoke(topCategory, subCategory)) {
+            val result = when (val questions = getQuestions.invoke(categories)) {
                 is GetQuestionsList.Result.Success -> {
                     _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
                     ViewState.QuestionsLoaded(questions.questions.sortedBy { it.difficulty })

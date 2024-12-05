@@ -1,6 +1,10 @@
 package sectonone.droidsoft.ap.model
 
-enum class Category(val key: String, val displayName: String) {
+enum class Category(
+    val key: String,
+    val displayName: String,
+    val fileName: String = "v2_questions_$key.json",
+) {
     Android("android", "Android"),
     AndroidAppArchitecture("android_architecture", "Android App Architecture"),
     Compose("compose", "Compose"),
@@ -15,7 +19,7 @@ enum class Category(val key: String, val displayName: String) {
     Git("git", "Git"),
     IOS("ios", "iOS"),
     Kotlin("kotlin", "Kotlin"),
-    ProgrammingParadigms("programming_paradigms", "Programming Paradigms")
+    ProgrammingParadigms("programming_paradigms", "Programming Paradigms"),
     ;
 
     companion object {

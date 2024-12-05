@@ -40,15 +40,15 @@ private val files = listOf(
 
 class QuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) {
 
-    suspend fun getAll(): List<QuestionSchema> = buildList {
-        files.forEach { fileName ->
-            addAll(decodeQuestionsFromFile(fileName))
-        }
-    }
-
     suspend fun getAllV2(): List<QuestionSchemaV2> = buildList {
         files.forEach { fileName ->
             addAll(decodeQuestionsFromFileV2(fileName))
+        }
+    }
+
+    suspend fun getQuestions(files: List<String>): List<QuestionSchemaV2> = buildList {
+        files.forEach { file ->
+            addAll(decodeQuestionsFromFileV2(file))
         }
     }
 

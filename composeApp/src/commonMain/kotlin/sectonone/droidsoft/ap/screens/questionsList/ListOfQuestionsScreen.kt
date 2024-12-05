@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package sectonone.droidsoft.ap.screens.list
+package sectonone.droidsoft.ap.screens.questionsList
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -54,11 +54,10 @@ import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIModalBottomSheetLayout
 import sectonone.droidsoft.ap.compose.clickableNoRipple
 import sectonone.droidsoft.ap.di.getScreenModel
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.model.SubCategory
-import sectonone.droidsoft.ap.model.TopCategory
-import sectonone.droidsoft.ap.screens.list.components.ListScreenBottomSheetContent
-import sectonone.droidsoft.ap.screens.list.components.ListScreenScoreBar
+import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenBottomSheetContent
+import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenScoreBar
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_divider
@@ -66,19 +65,17 @@ import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_softwhite
 
-internal class QuestionsListScreen(
-    private val topCategory: TopCategory?,
-    private val subCategory: SubCategory?,
+internal class ListOfQuestionsScreen(
+    private val categories: List<Category>,
 ) : Screen {
 
     @Composable
     override fun Content() {
         val screenModel: QuestionsListScreenModel = getScreenModel()
 
-        ListScreen(
+        ListOfQuestionsScreen(
             viewModel = screenModel,
-            topCategory = topCategory,
-            subCategory = subCategory
+            categories = categories
         )
     }
 }
@@ -86,13 +83,10 @@ internal class QuestionsListScreen(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListScreen(
+private fun ListOfQuestionsScreen(
     viewModel: QuestionsListScreenModel,
-    topCategory: TopCategory?,
-    subCategory: SubCategory?,
+    categories: List<Category>,
 ) {
-    if (topCategory == null) return
-
     val scope = rememberCoroutineScope()
 
     val viewState = viewModel.viewState.collectAsState().value
@@ -105,7 +99,7 @@ fun ListScreen(
 
     var sortDropdownMenuDisplayed by remember { mutableStateOf(false) }
 
-    val subCategoryTitle = subCategory?.displayName ?: topCategory.displayName
+    val subCategoryTitle = categories.first().displayName
 
     LaunchedEffect(null) {
         viewModel.viewEvents.collect { event ->
@@ -121,10 +115,7 @@ fun ListScreen(
     }
 
     LaunchedEffect(null) {
-        viewModel.initialize(
-            subCategory = subCategory,
-            topCategory = topCategory,
-        )
+        viewModel.initialize(categories)
     }
 
     ListScreenContentNew(

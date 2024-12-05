@@ -10,11 +10,6 @@ interface SubCategory {
     val color: Color
 }
 
-fun getSubCategoryForId(id: String?): SubCategory? =
-    allSubCategoriesFlatten.firstOrNull { subCategory: SubCategory ->
-        subCategory.id == id
-    }
-
 val allSubCategoriesFlatten: List<SubCategory> = listOf(
     AndroidSubCategory.entries + IOSSubCategory.entries
 ).flatten()
