@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import sectonone.droidsoft.ap.compose.GridVariant
 import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTIGridWithCards

@@ -154,12 +154,6 @@ private fun HomeScreenFeedSection(
                     MenuItems(items = feedItem.items, onItemClicked = onMenuItemClicked)
                 }
 
-                is HomeScreenFeedItem.RandomSubCategoriesCarousel -> {
-
-                }
-
-                is HomeScreenFeedItem.LastLearnedSubCategoriesCarousel -> {}
-                is HomeScreenFeedItem.LastLearnedSubCategory -> {}
                 is HomeScreenFeedItem.RandomBookmarkedQuestion -> {}
 
                 // IDEAS

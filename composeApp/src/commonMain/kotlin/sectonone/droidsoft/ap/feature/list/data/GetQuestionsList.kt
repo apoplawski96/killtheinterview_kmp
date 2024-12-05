@@ -3,8 +3,6 @@ package sectonone.droidsoft.ap.feature.list.data
 import sectonone.droidsoft.ap.data.QuestionsDataSource
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.model.SubCategory
-import sectonone.droidsoft.ap.model.TopCategory
 
 class GetQuestionsList(
     private val questionsDataSource: QuestionsDataSource,

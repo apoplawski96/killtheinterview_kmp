@@ -3,11 +3,9 @@ package sectonone.droidsoft.ap.feature.home.data
 import sectonone.droidsoft.ap.model.HomeScreenFeedItem
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
 
-class GetHomeScreenFeedItems(private val getRandomSubCategories: GetRandomSubCategories) {
+class GetHomeScreenFeedItems() {
 
     fun get(): List<HomeScreenFeedItem> {
-        val randomSubCategoriesCarousel = getRandomSubCategories.invoke()
-
         return listOf(
             HomeScreenFeedItem.MenuItems(
                 items = listOf(
@@ -15,10 +13,6 @@ class GetHomeScreenFeedItems(private val getRandomSubCategories: GetRandomSubCat
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES
                 )
             ),
-            HomeScreenFeedItem.RandomSubCategoriesCarousel(
-                subCategories = randomSubCategoriesCarousel.subCategories,
-                topCategory = randomSubCategoriesCarousel.topCategory,
-            )
         )
     }
 }

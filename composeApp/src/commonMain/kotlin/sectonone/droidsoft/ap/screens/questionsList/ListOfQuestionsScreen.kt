@@ -436,7 +436,7 @@ private fun QuestionTopSection(
     question: Question,
 ) {
     KTITextNew(
-        text = "${question.topCategory.displayName}, ${question.subCategory?.displayName}",
+        text = "categories should be here",
         fontSize = 10.sp,
         fontWeight = FontWeight.W300,
         color = ktiColors.textMain.copy(alpha = 0.6f),
