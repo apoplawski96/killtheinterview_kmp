@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.feature.home.data.GetHomeScreenFeedItems
+import sectonone.droidsoft.ap.feature.home.data.GetHomeFeed
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 
 class HomeScreenModel(
-    private val getHomeScreenFeedItems: GetHomeScreenFeedItems,
+    private val getHomeScreenFeedItems: GetHomeFeed,
 ) : ScreenModel {
 
     sealed interface ViewState {

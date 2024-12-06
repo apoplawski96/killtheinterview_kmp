@@ -45,7 +45,7 @@ private fun CategoriesListScreenContent(
                 items = items.map { category: Category ->
                     KTICardItem(
                         value = category,
-                        label = category.displayName
+                        label = category.displayName,
                     )
                 },
                 onClick = onClick,

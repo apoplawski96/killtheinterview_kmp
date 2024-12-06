@@ -108,7 +108,7 @@ private fun ItemCard(item: InterviewSummary) {
     LaunchedEffect(item.scorePercent) {
         animatedProgress.animateTo(
             targetValue = item.scorePercent,
-            animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing)
+            animationSpec = tween(durationMillis = 2000, easing = LinearOutSlowInEasing)
         )
     }
     // Animate text progress from 0% to item.scorePercentDisplay
@@ -116,7 +116,7 @@ private fun ItemCard(item: InterviewSummary) {
     LaunchedEffect(item.scorePercent) {
         animatedTextProgress.animateTo(
             targetValue = item.scorePercent * 100,
-            animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing)
+            animationSpec = tween(durationMillis = 2000, easing = LinearOutSlowInEasing)
         )
     }
 
@@ -125,7 +125,6 @@ private fun ItemCard(item: InterviewSummary) {
             .size(interviewSummaryCardSize)
             .clip(RoundedCornerShape(16.dp)),
         elevation = 4.dp,
-        // TODO: Set background to a mild blurred gradient. Gradients should be either in red, yellow or green shade, based on the successSummary property
         backgroundColor = ktiColors.backgroundSurfaceVariant
     ) {
         Column(Modifier.fillMaxWidth().padding(12.dp)) {

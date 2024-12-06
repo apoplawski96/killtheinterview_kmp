@@ -151,12 +151,12 @@ private fun HomeScreenFeedSection(
                 is UIHomeScreenSection.InterviewHistorySummary -> {
                     InterviewHistorySummaryLayout(feedItem)
                 }
-                is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
-                is UIHomeScreenSection.BookmarkedCategories -> TODO()
-                is UIHomeScreenSection.BookmarkedQuestions -> TODO()
                 is UIHomeScreenSection.RecommendedCategoriesCarousel -> {
                     RecommendedCategoriesLayout(feedItem)
                 }
+                is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
+                is UIHomeScreenSection.BookmarkedCategories -> TODO()
+                is UIHomeScreenSection.BookmarkedQuestions -> TODO()
                 is UIHomeScreenSection.DailyChallenge -> TODO()
                 is UIHomeScreenSection.RandomQuestionsCarousel -> TODO()
                 is UIHomeScreenSection.RecommendedCategory -> TODO()
@@ -177,9 +177,9 @@ private fun MenuItems(
     ) {
         items.forEach { homeItem ->
             KTICardWithIllustration(
-                item = KTICardItem(value = homeItem, label = homeItem.displayName),
+                item = KTICardItem(value = homeItem, label = homeItem.displayName, assetResourcePath = homeItem.assetResourcePath),
                 onClick = onItemClicked,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.W400,
                 imageResource = when (homeItem) {
                     HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.CoPresent
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.AccountTree

@@ -1,6 +1,7 @@
 package sectonone.droidsoft.ap.compose
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,12 +36,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.*
 
 data class KTICardItem<T>(
     val value: T,
     val label: String,
     val cardColor: Color? = null,
+    val assetResourcePath: String? = null,
 )
 
 enum class KTICardVariant { Simple, WithImageCover; }
@@ -122,7 +126,7 @@ fun <T> KTICard(
     }
 }
 
-private val cardMinHeight = 112.dp
+private val cardMinHeight = 86.dp
 
 @Composable
 fun <T> KTICardWithIllustration(
@@ -132,7 +136,7 @@ fun <T> KTICardWithIllustration(
     fontWeight: FontWeight = FontWeight(400),
     backgroundColor: Color = ktiColors.backgroundSurfaceVariant,
     textColor: Color = ktiColors.textMain,
-    labelSize: TextUnit = 16.sp,
+    labelSize: TextUnit = 14.sp,
 ) {
     Card(
         shape = RoundedCornerShape(size = 12.dp),
@@ -146,7 +150,8 @@ fun <T> KTICardWithIllustration(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(cardMinHeight)
+                .heightIn(cardMinHeight),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             KTITextNew(
                 text = item.label,
@@ -155,16 +160,22 @@ fun <T> KTICardWithIllustration(
                 fontWeight = fontWeight,
                 fontSize = labelSize,
                 color = textColor,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).weight(2f).align(Alignment.Bottom)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+//                    .weight(2f)
+                    .align(Alignment.Bottom),
             )
             Box(
                 modifier = Modifier
-                    .weight(1.2f)
+//                    .weight(1.2f)
                     .heightIn(cardMinHeight)
                     .padding(horizontal = 16.dp, vertical = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                KTIIcon(imageResource, size = 128.dp, tint = ktiColors.textMain)
+//                KTIIcon(imageResource, size = 128.dp, tint = ktiColors.textMain)
+                if (item.assetResourcePath != null) {
+                    Image(painterResource(item.assetResourcePath), contentDescription = null, modifier = Modifier.padding(vertical = 12.dp).size(72.dp))
+                }
             }
         }
     }

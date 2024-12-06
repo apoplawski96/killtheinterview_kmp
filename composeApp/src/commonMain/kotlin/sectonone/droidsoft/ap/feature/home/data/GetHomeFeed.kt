@@ -5,7 +5,7 @@ import sectonone.droidsoft.ap.model.HomeScreenMenuItem
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.screens.home.interviewsSummaryMock
 
-class GetHomeScreenFeedItems() {
+class GetHomeFeed {
 
     fun get(): List<UIHomeScreenSection> {
         return listOf(
@@ -15,14 +15,14 @@ class GetHomeScreenFeedItems() {
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES
                 )
             ),
-            UIHomeScreenSection.InterviewHistorySummary(
-                items = interviewsSummaryMock
-            ),
             UIHomeScreenSection.RecommendedCategoriesCarousel(
                 listOf(
                     Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
                 )
-            )
+            ),
+            UIHomeScreenSection.InterviewHistorySummary(
+                items = interviewsSummaryMock
+            ),
         )
     }
 }
