@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.theme.*
 
 data class KTICardItem<T>(
@@ -75,7 +76,9 @@ fun <T> KTIGridWithCards(
                         )
                     }
                     KTICardVariant.WithImageCover -> {
-                        // TODO
+                        if (item.value is Category) {
+                            CategoryWithCoverCard(item.value, padding = PaddingValues(8.dp), onClick = { onClick.invoke(item.value) })
+                        }
                     }
                 }
             }

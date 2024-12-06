@@ -10,6 +10,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
 import sectonone.droidsoft.ap.compose.KTICardItem
+import sectonone.droidsoft.ap.compose.KTICardVariant
 import sectonone.droidsoft.ap.compose.KTIGridWithCards
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.model.Category
@@ -24,6 +25,7 @@ internal object CategoriesListScreen : Screen {
 
         CategoriesListScreenContent(
             onClick = { category ->
+                println("2137 - category clicked: $category")
                 if (category != null) { // todo: remove nullability
                     navigator.push(ListOfQuestionsScreen(listOf(category)))
                 }
@@ -49,7 +51,7 @@ private fun CategoriesListScreenContent(
                     )
                 },
                 onClick = onClick,
-//                variant = GridVariant.SUB_CATEGORY,
+                variant = KTICardVariant.WithImageCover,
             )
         }
     }

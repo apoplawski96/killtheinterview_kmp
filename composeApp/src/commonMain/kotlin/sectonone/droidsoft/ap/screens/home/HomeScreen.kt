@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import sectonone.droidsoft.ap.compose.KTIAvatarWithAnimation
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTITextNew
@@ -89,7 +90,6 @@ fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
 ) {
     Scaffold(
-//        topBar = { KTITopAppBar(isNested = false) },
         backgroundColor = KTITheme.colors.backgroundSurface
     ) {
         Column(
@@ -99,7 +99,8 @@ fun HomeScreenContent(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HelloSection()
+            KTIVerticalSpacer(16.dp)
+            TopSection()
             KTIVerticalSpacer(height = 24.dp)
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
@@ -118,27 +119,31 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun HelloSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 18.dp),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Center
+private fun TopSection() {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        KTITextNew(
-            text = "Hello candidate",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = KTITheme.colors.textMain
-        )
-        KTIVerticalSpacer(2.dp)
-        KTITextNew(
-            text = "It's time to prepare for your next interview!",
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-            color = KTITheme.colors.textVariant2
-        )
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            KTITextNew(
+                text = "Hello candidate",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = KTITheme.colors.textMain
+            )
+            KTIVerticalSpacer(2.dp)
+            KTITextNew(
+                text = "It's time to prepare for your next interview!",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                color = KTITheme.colors.textVariant2
+            )
+        }
+        KTIAvatarWithAnimation(size = 44.dp, strokeWidth = 5f)
     }
 }
 
@@ -231,7 +236,11 @@ private fun MenuItems(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .padding(horizontal = 12.dp, vertical = 12.dp),
-                        color = ktiColors.textMain
+                        color = ktiColors.textMain,
+                        fontWeight = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> FontWeight.Normal
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> FontWeight.Medium
+                        }
                     )
                     KTIIcon(
                         tint = when (item.value) {

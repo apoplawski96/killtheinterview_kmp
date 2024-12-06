@@ -48,7 +48,8 @@ import sectonone.droidsoft.ap.theme.ktiColors
 @Composable
 fun KTITopAppBar(
     title: String? = null,
-    iconsSection: @Composable () -> Unit = { TopBarIconsSection() },
+    themeToggle: Boolean = false,
+    iconsSection: @Composable () -> Unit = { TopBarIconsSection(themeToggle) },
     isNested: Boolean = true,
 ) {
     Row(
@@ -64,23 +65,7 @@ fun KTITopAppBar(
 }
 
 @Composable
-fun KTIChatTopAppBar() {
-    val infiniteTransition = rememberInfiniteTransition()
-    val rotationAnimation = infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing))
-    )
-    val rainbowColorsBrush = Brush.horizontalGradient(
-        listOf(
-            Color.Red,
-            Color.Magenta,
-            Color.Blue,
-            Color.Cyan,
-            Color.Green,
-            Color.Yellow,
-        )
-    )
+fun KTIChatTopAppBar(themeToggle: Boolean = false) {
     Row(
         modifier = Modifier.fillMaxWidth().background(KTITheme.colors.appBars),
         verticalAlignment = Alignment.CenterVertically,
@@ -91,22 +76,14 @@ fun KTIChatTopAppBar() {
             horizontalArrangement = Arrangement.Start,
         ) {
             KTIBackButton()
-            Image(
-                painter = painterResource("avatar.png"),
-                contentDescription = "",
-                modifier = Modifier.clip(CircleShape).size(36.dp).drawBehind {
-                    rotate(rotationAnimation.value) {
-                        drawCircle(rainbowColorsBrush, style = Stroke(4f))
-                    }
-                }
-            )
+            KTIAvatarWithAnimation()
             KTIHorizontalSpacer(16.dp)
             Column {
                 KTITextNew("Mr Interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)
                 KTITextNew("Online", fontSize = 12.sp, color = ktiColors.textVariant2)
             }
         }
-        TopBarIconsSection()
+        TopBarIconsSection(themeToggle)
     }
 }
 
@@ -139,11 +116,11 @@ private fun ThemeToggle() {
 }
 
 @Composable
-private fun TopBarIconsSection() {
+private fun TopBarIconsSection(themeToggle: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {
-        ThemeToggle()
+        if (themeToggle) ThemeToggle()
     }
 }

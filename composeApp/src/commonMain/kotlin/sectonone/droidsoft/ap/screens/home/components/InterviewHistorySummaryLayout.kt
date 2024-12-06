@@ -63,7 +63,7 @@ fun InterviewHistorySummaryLayout(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
             when(variant) {

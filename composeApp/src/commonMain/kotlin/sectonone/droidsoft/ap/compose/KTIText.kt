@@ -60,7 +60,6 @@ fun KTITextNew(
 ) {
     Text(
         text = text,
-//        fontFamily = fontFamilyResource(getForWeight(fontWeight)),
         fontWeight = fontWeight,
         maxLines = maxLines,
         overflow = overflow,
