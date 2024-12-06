@@ -28,10 +28,16 @@ import sectonone.droidsoft.ap.compose.KTICardWithIllustration
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.HomeScreenFeedItem
+import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
+import sectonone.droidsoft.ap.model.InterviewConfiguration
+import sectonone.droidsoft.ap.model.InterviewSummary
+import sectonone.droidsoft.ap.model.interviewSummary
 import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
+import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 
@@ -52,7 +58,7 @@ internal object HomeScreen : Screen {
             state = viewState,
             onMenuItemClicked = { item ->
                 when (item) {
-                    HomeScreenMenuItem.AI_INTERVIEW -> {
+                    HomeScreenMenuItem.CHAT_INTERVIEW -> {
                         navigator.push(
                             InterviewSetupScreen
                         )
@@ -70,7 +76,7 @@ internal object HomeScreen : Screen {
 }
 
 @Composable
-private fun HomeScreenContent(
+fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
 ) {
@@ -87,7 +93,6 @@ private fun HomeScreenContent(
         ) {
             HelloSection()
             KTIVerticalSpacer(height = 32.dp)
-            IllustrationSection()
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
                     HomeScreenFeedSection(
@@ -130,17 +135,8 @@ private fun HelloSection() {
 }
 
 @Composable
-private fun IllustrationSection() {
-//    KTIIllustration(resourcePath = "undraw_podcast.png", modifier = Modifier.size(256.dp))
-//    KTIIllustration(
-//        imageResource = SharedRes.images.undraw_certificate_re_yadi,
-//        modifier = Modifier.height(256.dp)
-//    )
-}
-
-@Composable
 private fun HomeScreenFeedSection(
-    feed: List<HomeScreenFeedItem>,
+    feed: List<UIHomeScreenSection>,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
 ) {
     Column(
@@ -148,25 +144,21 @@ private fun HomeScreenFeedSection(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        feed.forEach { feedItem ->
+        feed.forEach { feedItem: UIHomeScreenSection ->
             when (feedItem) {
-                is HomeScreenFeedItem.MenuItems -> {
-                    MenuItems(items = feedItem.items, onItemClicked = onMenuItemClicked)
+                is UIHomeScreenSection.MenuItems -> {
+                    MenuItems(feedItem.items, onMenuItemClicked)
                 }
-
-                is HomeScreenFeedItem.RandomBookmarkedQuestion -> {}
-
-                // IDEAS
-                // 1. Add interview history summary section with option to "View all"
-                // 2. Add search bar?
-                // 3. Random question
-                // 4. Add "About me" section
-                // 5. Add Onboarding
-                // 6. Random questions carousel with auto scroll and paging
-                // 7. Library, saved questions, saved categories
-                // 8. "Explore" under search?
-                // 9. Animated icons that move every x seconds
-                // 10. Start with UI & mock data, then code functionality
+                is UIHomeScreenSection.InterviewHistorySummary -> {
+                    InterviewHistorySummaryLayout(feedItem)
+                }
+                is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
+                is UIHomeScreenSection.BookmarkedCategories -> TODO()
+                is UIHomeScreenSection.BookmarkedQuestions -> TODO()
+                is UIHomeScreenSection.CategoriesCarousel -> TODO()
+                is UIHomeScreenSection.DailyChallenge -> TODO()
+                is UIHomeScreenSection.RandomQuestionsCarousel -> TODO()
+                is UIHomeScreenSection.RecommendedCategory -> TODO()
             }
         }
     }
@@ -188,7 +180,7 @@ private fun MenuItems(
                 onClick = onItemClicked,
                 fontWeight = FontWeight.W500,
                 imageResource = when (homeItem) {
-                    HomeScreenMenuItem.AI_INTERVIEW -> Icons.Default.CoPresent
+                    HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.CoPresent
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.AccountTree
                 }
             )
@@ -196,3 +188,23 @@ private fun MenuItems(
         }
     }
 }
+
+val interviewsSummaryMock = listOf(
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3)),
+    interviewSummary(answeredCount = 20, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2)),
+    interviewSummary(answeredCount = 15, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3)),
+    interviewSummary(answeredCount = 5, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(4)),
+    interviewSummary(answeredCount = 8, failedCount = 1, categories = getRandomUniqueEnumValues<Category>(2)),
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2)),
+)
+
+val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
+    items = listOf(
+        UIHomeScreenSection.MenuItems(
+            items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.QUESTIONS_CATEGORIES)
+        ),
+        UIHomeScreenSection.InterviewHistorySummary(
+            items = interviewsSummaryMock
+        )
+    )
+)

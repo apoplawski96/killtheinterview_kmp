@@ -111,6 +111,12 @@ val black = Color(0xFF000000)
 val kti_offblack = Color(0xFF292929)
 val white = Color(0xFFFFFFFF)
 
+val white20 = white.copy(alpha = 0.2f) // 20% opacity
+val white30 = white.copy(alpha = 0.3f) // 30% opacity
+val white50 = white.copy(alpha = 0.5f) // 50% opacity
+val white70 = white.copy(alpha = 0.7f) // 70% opacity
+val white80 = white.copy(alpha = 0.8f) // 80% opacity
+
 val kti_red = Color(0xFFF0705A)
 val kti_error_red = Color(0xFFBC4042)
 val kti_bright_red = Color(0xFFAF1212)

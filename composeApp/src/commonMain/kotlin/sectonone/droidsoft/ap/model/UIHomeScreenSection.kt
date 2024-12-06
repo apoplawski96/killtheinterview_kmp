@@ -1,0 +1,55 @@
+package sectonone.droidsoft.ap.model
+
+// IDEAS
+// 1. Add interview history summary section with option to "View all"
+// 2. Add search bar?
+// 3. Random question
+// 4. Add "About me" section
+// 5. Add Onboarding
+// 6. Random questions carousel with auto scroll and paging
+// 7. Library, saved questions, saved categories
+// 8. "Explore" under search?
+// 9. Animated icons that move every x seconds
+// 10. Start with UI & mock data, then code functionality
+// 11. Daily challenge
+
+sealed interface UIHomeScreenSection {
+
+    data class MenuItems(
+        val items: List<HomeScreenMenuItem>
+    ) : UIHomeScreenSection
+
+    data class RandomBookmarkedQuestion(
+        val question: Question
+    ) : UIHomeScreenSection
+
+    data class InterviewHistorySummary(
+        val items: List<InterviewSummary>
+    ) : UIHomeScreenSection
+
+    data class RecommendedCategory(
+        val category: Category,
+        val headline: String,
+        val paragraph: String,
+    ) : UIHomeScreenSection
+
+    data class CategoriesCarousel(
+        val items: List<Category>
+    ) : UIHomeScreenSection
+
+    data class RandomQuestionsCarousel(
+        val items: List<Question>
+    ) : UIHomeScreenSection
+
+    data class DailyChallenge(
+        val title: String,
+    ) : UIHomeScreenSection
+
+    data class BookmarkedCategories(
+        val items: List<Category>
+    ) : UIHomeScreenSection
+
+    data class BookmarkedQuestions(
+        val items: List<Question>
+    ) : UIHomeScreenSection
+}

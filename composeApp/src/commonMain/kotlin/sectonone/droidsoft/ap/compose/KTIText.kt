@@ -17,6 +17,7 @@ import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_text_icons
 
+@Deprecated("Use KTITextNew instead.")
 @Composable
 fun KTIText(
     text: String,
