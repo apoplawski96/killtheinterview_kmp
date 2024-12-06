@@ -1,7 +1,7 @@
 package sectonone.droidsoft.ap.model
 
 // IDEAS
-// 1. Add interview history summary section with option to "View all"
+// 1. Add interview history summary section with option to "View all" // DONE
 // 2. Add search bar?
 // 3. Random question
 // 4. Add "About me" section

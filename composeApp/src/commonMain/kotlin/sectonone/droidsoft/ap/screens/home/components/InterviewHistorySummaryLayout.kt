@@ -3,7 +3,6 @@ package sectonone.droidsoft.ap.screens.home.components
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -41,10 +39,15 @@ import sectonone.droidsoft.ap.model.InterviewSummary
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 
+enum class InterviewHistorySummaryVariant { SingleRow, TwoRows; }
+
 @Composable
-fun InterviewHistorySummaryLayout(uiState: UIHomeScreenSection.InterviewHistorySummary) {
-    val itemCount = uiState.items.size // Replace with the actual list size
-    val cardSize = 164.dp // Adjust size as needed
+fun InterviewHistorySummaryLayout(
+    uiState: UIHomeScreenSection.InterviewHistorySummary,
+    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.SingleRow,
+) {
+    val itemCount = uiState.items.size
+    val cardSize = 164.dp
 
     Column {
         KTIVerticalSpacer(12.dp)
@@ -56,25 +59,40 @@ fun InterviewHistorySummaryLayout(uiState: UIHomeScreenSection.InterviewHistoryS
             KTITextNew("Your last interviews", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             KTITextNew("See all", fontSize = 12.sp, color = ktiColors.textVariant2)
         }
-        KTIVerticalSpacer(12.dp)
+        KTIVerticalSpacer(8.dp)
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
-            items(itemCount / 2) { index ->
-                Row {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        // First item in the row
-                        if (index * 2 < itemCount) {
-                            ItemCard(uiState.items[index * 2], cardSize)
+            when(variant) {
+                InterviewHistorySummaryVariant.SingleRow -> {
+                    items(itemCount) { index ->
+                        Row {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                ItemCard(uiState.items[index], cardSize)
+                            }
                         }
-                        // Second item in the row
-                        if ((index * 2) + 1 < itemCount) {
-                            ItemCard(uiState.items[(index * 2) + 1], cardSize)
+                    }
+                }
+                InterviewHistorySummaryVariant.TwoRows -> {
+                    items(itemCount / 2) { index ->
+                        Row {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                // First item in the row
+                                if (index * 2 < itemCount) {
+                                    ItemCard(uiState.items[index * 2], cardSize)
+                                }
+                                // Second item in the row
+                                if ((index * 2) + 1 < itemCount) {
+                                    ItemCard(uiState.items[(index * 2) + 1], cardSize)
+                                }
+                            }
                         }
                     }
                 }
