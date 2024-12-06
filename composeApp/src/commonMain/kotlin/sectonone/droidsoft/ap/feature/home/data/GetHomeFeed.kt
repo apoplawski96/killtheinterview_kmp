@@ -11,8 +11,8 @@ class GetHomeFeed {
         return listOf(
             UIHomeScreenSection.MenuItems(
                 items = listOf(
+                    HomeScreenMenuItem.QUESTIONS_CATEGORIES,
                     HomeScreenMenuItem.CHAT_INTERVIEW,
-                    HomeScreenMenuItem.QUESTIONS_CATEGORIES
                 )
             ),
             UIHomeScreenSection.RecommendedCategoriesCarousel(

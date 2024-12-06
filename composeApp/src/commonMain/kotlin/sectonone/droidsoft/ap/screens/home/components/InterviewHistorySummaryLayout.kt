@@ -45,7 +45,7 @@ val interviewSummaryCardSize = 164.dp
 @Composable
 fun InterviewHistorySummaryLayout(
     uiState: UIHomeScreenSection.InterviewHistorySummary,
-    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.SingleRow,
+    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.TwoRows,
 ) {
     val itemCount = uiState.items.size
 

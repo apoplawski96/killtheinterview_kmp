@@ -1,44 +1,53 @@
 package sectonone.droidsoft.ap.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountTree
-import androidx.compose.material.icons.filled.CoPresent
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.School
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.KTICardItem
-import sectonone.droidsoft.ap.compose.KTICardWithIllustration
+import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
 import sectonone.droidsoft.ap.compose.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
+import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.interviewSummary
 import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.ktiColors
+import sectonone.droidsoft.ap.theme.nightskyGradient
 
 internal object HomeScreen : Screen {
 
@@ -80,7 +89,7 @@ fun HomeScreenContent(
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
 ) {
     Scaffold(
-        topBar = { KTITopAppBar(isNested = false) },
+//        topBar = { KTITopAppBar(isNested = false) },
         backgroundColor = KTITheme.colors.backgroundSurface
     ) {
         Column(
@@ -91,7 +100,7 @@ fun HomeScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HelloSection()
-            KTIVerticalSpacer(height = 32.dp)
+            KTIVerticalSpacer(height = 24.dp)
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
                     HomeScreenFeedSection(
@@ -113,7 +122,7 @@ private fun HelloSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 18.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
@@ -148,12 +157,15 @@ private fun HomeScreenFeedSection(
                 is UIHomeScreenSection.MenuItems -> {
                     MenuItems(feedItem.items, onMenuItemClicked)
                 }
+
                 is UIHomeScreenSection.InterviewHistorySummary -> {
                     InterviewHistorySummaryLayout(feedItem)
                 }
+
                 is UIHomeScreenSection.RecommendedCategoriesCarousel -> {
                     RecommendedCategoriesLayout(feedItem)
                 }
+
                 is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
                 is UIHomeScreenSection.BookmarkedCategories -> TODO()
                 is UIHomeScreenSection.BookmarkedQuestions -> TODO()
@@ -176,15 +188,63 @@ private fun MenuItems(
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         items.forEach { homeItem ->
-            KTICardWithIllustration(
-                item = KTICardItem(value = homeItem, label = homeItem.displayName, assetResourcePath = homeItem.assetResourcePath),
-                onClick = onItemClicked,
-                fontWeight = FontWeight.W400,
-                imageResource = when (homeItem) {
-                    HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.CoPresent
-                    HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.AccountTree
-                }
+            val item = KTICardItem(
+                value = homeItem,
+                label = homeItem.displayName,
+                assetResourcePath = homeItem.assetResourcePath
             )
+            Button(
+                onClick = {
+                    onItemClicked.invoke(item.value)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(24.dp),
+                contentPadding = PaddingValues(),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .then(
+                            when (item.value) {
+                                HomeScreenMenuItem.CHAT_INTERVIEW -> Modifier.background(
+                                    brush = nightskyGradient,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+
+                                HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Modifier.background(
+                                    color = ktiColors.backgroundSurfaceVariant,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                            }
+                        )
+                            then Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    KTITextNew(
+                        text = item.label,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 12.dp),
+                        color = ktiColors.textMain
+                    )
+                    KTIIcon(
+                        tint = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> ktiColors.textMain
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> ktiColors.secondary
+                        },
+                        imageResource = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.School
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.PlayArrow
+                        }
+                    )
+                }
+            }
             KTIVerticalSpacer(height = 12.dp)
         }
     }

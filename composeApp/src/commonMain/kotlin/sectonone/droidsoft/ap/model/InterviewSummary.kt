@@ -34,6 +34,6 @@ fun interviewSummary(
     answeredCount: Int = 2,
     failedCount: Int = 10,
     configuration: InterviewConfiguration = InterviewConfiguration(),
-    interviewDate: String = "27 Dev 2024",
+    interviewDate: String = "27 Dec 2024",
     questionsHistory: List<QuestionHistory> = emptyList()
 ) = InterviewSummary(id, categories, questionsHistory, configuration, answeredCount, failedCount, interviewDate)
