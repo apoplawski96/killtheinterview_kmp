@@ -42,27 +42,38 @@ data class KTICardItem<T>(
     val cardColor: Color? = null,
 )
 
+enum class KTICardVariant { Simple, WithImageCover; }
+
 @Composable
 fun <T> KTIGridWithCards(
     items: List<KTICardItem<T>>,
     onClick: (T) -> Unit,
     state: LazyGridState = rememberLazyGridState(),
+    variant: KTICardVariant = KTICardVariant.Simple,
+    columns: GridCells = GridCells.Fixed(2)
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 2),
+        columns = columns,
         modifier = Modifier.padding(start = 8.dp, end = 8.dp),
         state = state,
         content = {
             item { KTIVerticalSpacer(height = 8.dp) }
             item { KTIVerticalSpacer(height = 8.dp) }
             this.itemsIndexed(items = items) { index, item ->
-                KTICard(
-                    item = item.applyColor(index),
-                    onClick = onClick,
-                    padding = PaddingValues(all = 4.dp),
-                    textColor = kti_softwhite,
-                    fontWeight = FontWeight.W500
-                )
+                when(variant) {
+                    KTICardVariant.Simple -> {
+                        KTICard(
+                            item = item.applyColor(index),
+                            onClick = onClick,
+                            padding = PaddingValues(all = 4.dp),
+                            textColor = kti_softwhite,
+                            fontWeight = FontWeight.W500
+                        )
+                    }
+                    KTICardVariant.WithImageCover -> {
+                        // TODO
+                    }
+                }
             }
             if (items.count() % 2 == 0) {
                 item { KTIVerticalSpacer(height = 8.dp) }

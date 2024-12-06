@@ -33,11 +33,10 @@ import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.InterviewConfiguration
-import sectonone.droidsoft.ap.model.InterviewSummary
 import sectonone.droidsoft.ap.model.interviewSummary
 import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
+import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 
@@ -155,7 +154,9 @@ private fun HomeScreenFeedSection(
                 is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
                 is UIHomeScreenSection.BookmarkedCategories -> TODO()
                 is UIHomeScreenSection.BookmarkedQuestions -> TODO()
-                is UIHomeScreenSection.CategoriesCarousel -> TODO()
+                is UIHomeScreenSection.RecommendedCategoriesCarousel -> {
+                    RecommendedCategoriesLayout(feedItem)
+                }
                 is UIHomeScreenSection.DailyChallenge -> TODO()
                 is UIHomeScreenSection.RandomQuestionsCarousel -> TODO()
                 is UIHomeScreenSection.RecommendedCategory -> TODO()
@@ -205,6 +206,11 @@ val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
         ),
         UIHomeScreenSection.InterviewHistorySummary(
             items = interviewsSummaryMock
+        ),
+        UIHomeScreenSection.RecommendedCategoriesCarousel(
+            items = listOf(
+                Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
+            )
         )
     )
 )

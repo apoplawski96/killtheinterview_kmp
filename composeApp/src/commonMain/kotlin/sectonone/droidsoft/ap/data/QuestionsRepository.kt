@@ -10,7 +10,7 @@ class QuestionsRepository(
 ) {
 
     suspend fun getQuestions(categories: List<Category>): List<Question> =
-        questionsMapper.mapV2(questionsDataSource.getQuestions(categories.map { it.fileName }))
+        questionsMapper.mapV2(questionsDataSource.getQuestions(categories.map { it.questionsFile }))
             .filter { question ->
                 categories.any { inputCategory ->
                     question.categories.any { it.name == inputCategory.name }

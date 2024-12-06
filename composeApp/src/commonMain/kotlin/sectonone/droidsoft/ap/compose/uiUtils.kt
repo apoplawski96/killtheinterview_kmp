@@ -1,5 +1,9 @@
 package sectonone.droidsoft.ap.compose
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.theme.*
 import kotlin.random.Random
 
@@ -19,6 +23,11 @@ private val cardColors = listOf(
     kti_orange
 )
 
+@Composable
+fun rememberRandomCardColor() = remember {
+    cardColors.random()
+}
+
 fun List<Any>.prettyPrint(): String {
     return joinToString(separator = ", ") { it.toString() }
 }
@@ -28,3 +37,7 @@ inline fun <reified T : Enum<T>> getRandomUniqueEnumValues(n: Int): List<T> {
     val adjustedN = n.coerceAtMost(enumValues.size) // Cap N to the size of the enum
     return enumValues.shuffled(Random).take(adjustedN)
 }
+
+
+@Composable
+fun Category.getCoverResource() = painterResource("${this.key}_cover.png")

@@ -15,7 +15,7 @@ class GetQuestionsList(
     }
 
     suspend operator fun invoke(categories: List<Category>): Result = try {
-        val questions = questionsDataSource.getQuestions(categories.map { it.fileName })
+        val questions = questionsDataSource.getQuestions(categories.map { it.questionsFile })
         Result.Success(questions = questionsMapper.mapV2(questions))
     } catch (e: Exception) {
         Result.Error

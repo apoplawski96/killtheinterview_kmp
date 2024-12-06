@@ -33,7 +33,7 @@ sealed interface UIHomeScreenSection {
         val paragraph: String,
     ) : UIHomeScreenSection
 
-    data class CategoriesCarousel(
+    data class RecommendedCategoriesCarousel(
         val items: List<Category>
     ) : UIHomeScreenSection
 

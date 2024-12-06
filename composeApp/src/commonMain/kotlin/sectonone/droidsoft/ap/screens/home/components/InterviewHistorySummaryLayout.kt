@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
@@ -41,13 +40,14 @@ import sectonone.droidsoft.ap.theme.ktiColors
 
 enum class InterviewHistorySummaryVariant { SingleRow, TwoRows; }
 
+val interviewSummaryCardSize = 164.dp
+
 @Composable
 fun InterviewHistorySummaryLayout(
     uiState: UIHomeScreenSection.InterviewHistorySummary,
     variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.SingleRow,
 ) {
     val itemCount = uiState.items.size
-    val cardSize = 164.dp
 
     Column {
         KTIVerticalSpacer(12.dp)
@@ -71,9 +71,9 @@ fun InterviewHistorySummaryLayout(
                     items(itemCount) { index ->
                         Row {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                ItemCard(uiState.items[index], cardSize)
+                                ItemCard(uiState.items[index])
                             }
                         }
                     }
@@ -82,15 +82,15 @@ fun InterviewHistorySummaryLayout(
                     items(itemCount / 2) { index ->
                         Row {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 // First item in the row
                                 if (index * 2 < itemCount) {
-                                    ItemCard(uiState.items[index * 2], cardSize)
+                                    ItemCard(uiState.items[index * 2])
                                 }
                                 // Second item in the row
                                 if ((index * 2) + 1 < itemCount) {
-                                    ItemCard(uiState.items[(index * 2) + 1], cardSize)
+                                    ItemCard(uiState.items[(index * 2) + 1])
                                 }
                             }
                         }
@@ -102,7 +102,7 @@ fun InterviewHistorySummaryLayout(
 }
 
 @Composable
-fun ItemCard(item: InterviewSummary, cardSize: Dp) {
+private fun ItemCard(item: InterviewSummary) {
     // Animate progress bar from 0 to item.scorePercent
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(item.scorePercent) {
@@ -122,9 +122,10 @@ fun ItemCard(item: InterviewSummary, cardSize: Dp) {
 
     Card(
         modifier = Modifier
-            .size(cardSize)
+            .size(interviewSummaryCardSize)
             .clip(RoundedCornerShape(16.dp)),
         elevation = 4.dp,
+        // TODO: Set background to a mild blurred gradient. Gradients should be either in red, yellow or green shade, based on the successSummary property
         backgroundColor = ktiColors.backgroundSurfaceVariant
     ) {
         Column(Modifier.fillMaxWidth().padding(12.dp)) {
@@ -140,6 +141,7 @@ fun ItemCard(item: InterviewSummary, cardSize: Dp) {
                 KTIVerticalSpacer(12.dp)
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     KTIIcon(
+                        // Do it like here
                         when (item.successSummary) {
                             InterviewSummary.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
                             InterviewSummary.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
@@ -155,7 +157,7 @@ fun ItemCard(item: InterviewSummary, cardSize: Dp) {
                 KTIVerticalSpacer(12.dp)
             }
             Column(modifier = Modifier.fillMaxWidth().weight(2.5f)) {
-                KTITextNew("Progress", color = ktiColors.textVariant, fontSize = 12.sp)
+                KTITextNew("Score", color = ktiColors.textVariant, fontSize = 12.sp)
                 KTIVerticalSpacer(4.dp)
                 Row(modifier = Modifier.fillMaxWidth().weight(2f), verticalAlignment = Alignment.CenterVertically) {
                     KTILinearProgressIndicator(animatedProgress.value, modifier = Modifier.weight(5f))

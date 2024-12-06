@@ -1,13 +1,8 @@
 package sectonone.droidsoft.ap.feature.home.data
 
-import sectonone.droidsoft.ap.compose.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.InterviewConfiguration
-import sectonone.droidsoft.ap.model.InterviewSummary
-import sectonone.droidsoft.ap.model.interviewSummary
-import sectonone.droidsoft.ap.screens.home.HomeScreenModel
+import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.screens.home.interviewsSummaryMock
 
 class GetHomeScreenFeedItems() {
@@ -22,6 +17,11 @@ class GetHomeScreenFeedItems() {
             ),
             UIHomeScreenSection.InterviewHistorySummary(
                 items = interviewsSummaryMock
+            ),
+            UIHomeScreenSection.RecommendedCategoriesCarousel(
+                listOf(
+                    Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
+                )
             )
         )
     }
