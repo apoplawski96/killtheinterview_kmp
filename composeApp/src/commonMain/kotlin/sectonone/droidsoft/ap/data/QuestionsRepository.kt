@@ -9,11 +9,11 @@ class QuestionsRepository(
     private val questionsMapper: QuestionsMapper,
 ) {
 
-    suspend fun getQuestions(categories: List<Category>): List<Question> =
-        questionsMapper.mapV2(questionsDataSource.getQuestions(categories.map { it.questionsFile }))
-            .filter { question ->
-                categories.any { inputCategory ->
-                    question.categories.any { it.name == inputCategory.name }
-                }
-            }.distinct()
+    suspend fun getQuestions(categories: List<Category>): List<Question> {
+        return questionsMapper.map(
+            questions = questionsDataSource.getQuestions(
+                files = categories.map { it.questionsFile }
+            )
+        )
+    }
 }

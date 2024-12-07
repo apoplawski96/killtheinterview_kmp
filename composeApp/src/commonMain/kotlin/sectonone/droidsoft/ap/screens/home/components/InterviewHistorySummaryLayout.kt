@@ -28,11 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
+import sectonone.droidsoft.ap.compose.HorizontalSpacer
 import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTILinearProgressIndicator
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.prettyPrint
 import sectonone.droidsoft.ap.model.InterviewSummary
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
@@ -50,7 +50,7 @@ fun InterviewHistorySummaryLayout(
     val itemCount = uiState.items.size
 
     Column {
-        KTIVerticalSpacer(12.dp)
+        VerticalSpacer(12.dp)
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +59,7 @@ fun InterviewHistorySummaryLayout(
             KTITextNew("Your last interviews", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             KTITextNew("See all", fontSize = 12.sp, color = ktiColors.textVariant2)
         }
-        KTIVerticalSpacer(8.dp)
+        VerticalSpacer(8.dp)
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -137,7 +137,7 @@ private fun ItemCard(item: InterviewSummary) {
                     KTITextNew(item.interviewDate, fontSize = 12.sp, color = ktiColors.textVariant)
                     KTIIcon(Icons.Default.ChevronRight, size = 16.dp, tint = ktiColors.textVariant)
                 }
-                KTIVerticalSpacer(12.dp)
+                VerticalSpacer(12.dp)
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     KTIIcon(
                         // Do it like here
@@ -147,17 +147,17 @@ private fun ItemCard(item: InterviewSummary) {
                             InterviewSummary.SuccessSummary.Success -> Icons.Default.ThumbUp
                         }
                     )
-                    KTIHorizontalSpacer(12.dp)
+                    HorizontalSpacer(12.dp)
                     Column {
                         KTITextNew(item.mainCategory.displayName, fontWeight = FontWeight.W600, maxLines = 2)
                         KTITextNew(item.categories.prettyPrint(), color = ktiColors.textVariant2, fontSize = 10.sp, maxLines = 2)
                     }
                 }
-                KTIVerticalSpacer(12.dp)
+                VerticalSpacer(12.dp)
             }
             Column(modifier = Modifier.fillMaxWidth().weight(2.5f)) {
                 KTITextNew("Score", color = ktiColors.textVariant, fontSize = 12.sp)
-                KTIVerticalSpacer(4.dp)
+                VerticalSpacer(4.dp)
                 Row(modifier = Modifier.fillMaxWidth().weight(2f), verticalAlignment = Alignment.CenterVertically) {
                     KTILinearProgressIndicator(animatedProgress.value, modifier = Modifier.weight(5f))
                     KTITextNew(

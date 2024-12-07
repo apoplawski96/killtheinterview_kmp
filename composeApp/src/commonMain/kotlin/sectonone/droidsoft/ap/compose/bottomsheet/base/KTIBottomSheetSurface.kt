@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.theme.*
 
 @Composable
@@ -39,7 +39,7 @@ fun KTIBottomSheetSurface(
                 title = title,
                 bottomSheetTitleProperties = bottomSheetTitleProperties
             )
-            KTIVerticalSpacer(height = 16.dp)
+            VerticalSpacer(height = 16.dp)
             content()
         }
     }

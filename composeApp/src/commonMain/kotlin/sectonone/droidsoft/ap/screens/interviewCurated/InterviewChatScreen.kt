@@ -49,11 +49,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import sectonone.droidsoft.ap.compose.KTIButtonShared
 import sectonone.droidsoft.ap.compose.KTIChatTopAppBar
 import sectonone.droidsoft.ap.compose.KTIFloatingActionButton
-import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
+import sectonone.droidsoft.ap.compose.HorizontalSpacer
 import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTIScaffold
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.LoadingAnimation
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
@@ -173,7 +173,7 @@ private fun InterviewChatScreenContent(
                             contentPadding = PaddingValues(horizontal = 16.dp),
                             state = chatListState,
                         ) {
-                            item { KTIVerticalSpacer(height = 8.dp) }
+                            item { VerticalSpacer(height = 8.dp) }
                             itemsIndexed(
                                 items = screenStateChat.chatItems,
                                 key = { i, it -> "${it.hashCode()}, index: $i" }) { _, chatItem ->
@@ -187,7 +187,7 @@ private fun InterviewChatScreenContent(
                                     }
                                 }
                             }
-                            item { KTIVerticalSpacer(height = 8.dp) }
+                            item { VerticalSpacer(height = 8.dp) }
                         }
                         androidx.compose.animation.AnimatedVisibility(
                             visible = isAnswerExpanded.value,
@@ -208,9 +208,9 @@ private fun InterviewChatScreenContent(
                                     .verticalScroll(rememberScrollState())
                                     .clickable { setIsAnswerExpanded.invoke() }
                             ) {
-                                KTIVerticalSpacer(4.dp)
+                                VerticalSpacer(4.dp)
                                 KTIIcon(Icons.Default.Info, size = 16.dp)
-                                KTIVerticalSpacer(4.dp)
+                                VerticalSpacer(4.dp)
                                 KTITextNew(text = currentQuestion?.answer ?: "Current question is null")
                             }
                         }
@@ -242,7 +242,7 @@ private fun LazyItemScope.InterviewerBubbleChatItem(chatItem: InterviewChatItemU
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        KTIHorizontalSpacer(44.dp)
+        HorizontalSpacer(44.dp)
         Box(
             modifier = Modifier
                 .clip(
@@ -334,7 +334,7 @@ private fun LazyItemScope.CandidateBubbleChatItem(chatItem: InterviewChatItemUiM
                 }
             }
         }
-        KTIHorizontalSpacer(44.dp)
+        HorizontalSpacer(44.dp)
     }
 }
 
@@ -368,7 +368,7 @@ private fun ControlSection(
                 labelColor = if (inputEnabled) kti_softwhite else kti_grey,
                 modifier = Modifier.weight(1f),
             )
-            KTIHorizontalSpacer(width = 16.dp)
+            HorizontalSpacer(width = 16.dp)
             KTIButtonShared(
                 label = "Confused :(",
                 onClick = noPointClick,

@@ -52,4 +52,33 @@ sealed interface UIHomeScreenSection {
     data class BookmarkedQuestions(
         val items: List<Question>
     ) : UIHomeScreenSection
+
+    data class PagerCarousel(val items: List<CarouselItem>) : UIHomeScreenSection {
+
+        sealed class CarouselItem(
+            val imagePath: String,
+            open val question: Question,
+            open val categories: List<Category>,
+            open val category: Category?,
+        ) {
+            data class QuestionCard(
+                val item: Question
+            ) : CarouselItem(
+                question = item,
+                categories = item.categories,
+                imagePath = item.categories.firstOrNull()?.imageFile ?: "",
+                category = item.categories.firstOrNull()
+            )
+
+            data class CategoryCard(
+                val item: Category,
+                override val question: Question
+            ) : CarouselItem(
+                imagePath = item.imageFile,
+                question = question,
+                categories = listOf(item),
+                category = item
+            )
+        }
+    }
 }

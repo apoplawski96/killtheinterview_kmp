@@ -1,37 +1,23 @@
 package sectonone.droidsoft.ap.screens.home.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.compose.CategoryWithCoverCard
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
-import sectonone.droidsoft.ap.compose.rememberRandomCardColor
-import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
-import sectonone.droidsoft.ap.theme.white
 
 @Composable
 fun RecommendedCategoriesLayout(
@@ -41,7 +27,7 @@ fun RecommendedCategoriesLayout(
     val itemsCount = uiState.items.count()
 
     Column {
-        KTIVerticalSpacer(12.dp)
+        VerticalSpacer(12.dp)
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -50,7 +36,7 @@ fun RecommendedCategoriesLayout(
             KTITextNew("Recommended for you", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             KTITextNew("Browse more", fontSize = 12.sp, color = ktiColors.textVariant2)
         }
-        KTIVerticalSpacer(8.dp)
+        VerticalSpacer(8.dp)
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth(),

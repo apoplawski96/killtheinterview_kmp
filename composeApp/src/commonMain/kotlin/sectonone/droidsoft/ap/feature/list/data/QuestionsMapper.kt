@@ -7,7 +7,7 @@ import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
 
 class QuestionsMapper {
 
-    fun mapV2(questions: List<QuestionSchemaV2>): List<Question> =
+    fun map(questions: List<QuestionSchemaV2>): List<Question> =
         questions.map { questionSchema ->
             Question(
                 id = questionSchema.id,

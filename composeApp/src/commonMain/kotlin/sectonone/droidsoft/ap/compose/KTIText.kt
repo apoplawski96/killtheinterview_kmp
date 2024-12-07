@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -57,6 +58,7 @@ fun KTITextNew(
     textAlign: TextAlign = TextAlign.Start,
     lineHeight: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
 ) {
     Text(
         text = text,
@@ -69,8 +71,40 @@ fun KTITextNew(
         color = color,
         lineHeight = lineHeight,
         fontStyle = fontStyle,
+        letterSpacing = letterSpacing,
     )
 }
+
+@Composable
+fun KTITextNew(
+    text: AnnotatedString,
+    fontSize: TextUnit = 14.sp,
+    fontWeight: FontWeight = FontWeight.W400,
+    modifier: Modifier = Modifier,
+    color: Color = ktiColors.textMain,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    textAlign: TextAlign = TextAlign.Start,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+) {
+    Text(
+        text = text,
+        fontWeight = fontWeight,
+        maxLines = maxLines,
+        overflow = overflow,
+        textAlign = textAlign,
+        modifier = modifier,
+        fontSize = fontSize,
+        color = color,
+        lineHeight = lineHeight,
+        fontStyle = fontStyle,
+        letterSpacing = letterSpacing,
+    )
+}
+
+
 
 //@Composable
 //private fun getForWeight(fontWeight: FontWeight): FontResource = when (fontWeight) {

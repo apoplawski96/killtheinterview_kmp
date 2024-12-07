@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIBottomSheetSurface
 import sectonone.droidsoft.ap.compose.bottomsheet.content.BottomSheetListItemType
 import sectonone.droidsoft.ap.compose.bottomsheet.content.SelectableListItem
@@ -29,7 +29,7 @@ fun ListScreenBottomSheetContent(
                     },
                 )
             }
-            KTIVerticalSpacer(height = 16.dp)
+            VerticalSpacer(height = 16.dp)
         }
     }
 }

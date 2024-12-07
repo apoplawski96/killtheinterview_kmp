@@ -34,7 +34,7 @@ import sectonone.droidsoft.ap.compose.KTIIconButton
 import sectonone.droidsoft.ap.compose.KTITextButton
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.clickableNoRipple
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Role
@@ -76,7 +76,7 @@ private fun AIInterviewScreenContent(
             .background(kti_softwhite)
     ) {
         KTITopAppBar(title = "AI Interview")
-        KTIVerticalSpacer(height = 8.dp)
+        VerticalSpacer(height = 8.dp)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,7 +103,7 @@ private fun AIInterviewScreenContent(
                         verticalArrangement = Arrangement.Top,
                     ) {
 //                        KTIIllustration(imageResource = SharedRes.images.undraw_interview_re_e5jn)
-                        KTIVerticalSpacer(height = 16.dp)
+                        VerticalSpacer(height = 16.dp)
                         QuestionCard(aiQuestionSchema = viewState.question, isLoading = isLoading)
                         KTIButton(
                             label = "Generate next",

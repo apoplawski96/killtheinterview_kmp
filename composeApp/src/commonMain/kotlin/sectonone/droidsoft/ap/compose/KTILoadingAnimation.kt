@@ -71,7 +71,7 @@ fun LoadingAnimation(
                     )
             )
             if (index != circleValues.lastIndex) {
-                KTIHorizontalSpacer(spaceBetween)
+                HorizontalSpacer(spaceBetween)
             }
         }
     }

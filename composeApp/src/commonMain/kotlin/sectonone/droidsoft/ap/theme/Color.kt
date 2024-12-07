@@ -116,6 +116,7 @@ val white30 = white.copy(alpha = 0.3f) // 30% opacity
 val white50 = white.copy(alpha = 0.5f) // 50% opacity
 val white70 = white.copy(alpha = 0.7f) // 70% opacity
 val white80 = white.copy(alpha = 0.8f) // 80% opacity
+val white90 = white.copy(alpha = 0.9f) // 80% opacity
 
 val kti_red = Color(0xFFF0705A)
 val kti_error_red = Color(0xFFBC4042)

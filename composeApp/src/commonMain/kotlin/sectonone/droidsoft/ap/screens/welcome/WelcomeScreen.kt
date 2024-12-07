@@ -20,7 +20,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.KTIButton
 import sectonone.droidsoft.ap.compose.KTITextButton
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 
@@ -86,7 +86,7 @@ private fun BottomSection(
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
-        KTIVerticalSpacer(height = 16.dp)
+        VerticalSpacer(height = 16.dp)
         KTIButton(
             label = "Create account",
             labelColor = KTITheme.colors.textMain,

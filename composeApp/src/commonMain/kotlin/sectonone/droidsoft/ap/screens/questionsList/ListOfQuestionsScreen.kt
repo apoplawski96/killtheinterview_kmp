@@ -50,7 +50,7 @@ import sectonone.droidsoft.ap.compose.KTIColumnWithGradient
 import sectonone.droidsoft.ap.compose.KTIText
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIModalBottomSheetLayout
 import sectonone.droidsoft.ap.compose.clickableNoRipple
 import sectonone.droidsoft.ap.di.getScreenModel
@@ -367,12 +367,12 @@ private fun QuestionItem(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier.weight(8f)
             ) {
-                KTIVerticalSpacer(height = 4.dp)
+                VerticalSpacer(height = 4.dp)
                 QuestionTopSection(question = item)
                 QuestionTitle(isAnswered = isAnswered.value, question = item.question)
                 AnimatedVisibility(visible = isExpanded.value) {
                     Column {
-                        KTIVerticalSpacer(height = 2.dp)
+                        VerticalSpacer(height = 2.dp)
                         KTITextNew(
                             text = item.answer,
                             fontSize = 12.sp,
@@ -450,7 +450,7 @@ private fun QuestionTitle(
     isAnswered: Boolean,
     question: String,
 ) {
-    KTIVerticalSpacer(height = if (isAnswered.not()) 2.dp else 0.dp)
+    VerticalSpacer(height = if (isAnswered.not()) 2.dp else 0.dp)
     KTITextNew(
         text = question,
         fontSize = 14.sp,
@@ -459,7 +459,7 @@ private fun QuestionTitle(
         color = if (isAnswered.not()) ktiColors.textMain else kti_softwhite,
         lineHeight = 14.sp,
     )
-    KTIVerticalSpacer(height = if (isAnswered.not()) 4.dp else 0.dp)
+    VerticalSpacer(height = if (isAnswered.not()) 4.dp else 0.dp)
 }
 
 @Composable

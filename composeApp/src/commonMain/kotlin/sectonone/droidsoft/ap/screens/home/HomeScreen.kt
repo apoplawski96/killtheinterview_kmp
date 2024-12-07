@@ -35,7 +35,7 @@ import sectonone.droidsoft.ap.compose.KTIAvatarWithAnimation
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
+import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
@@ -44,6 +44,7 @@ import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.model.interviewSummary
 import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
+import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.theme.KTITheme
@@ -99,9 +100,9 @@ fun HomeScreenContent(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            KTIVerticalSpacer(16.dp)
+            VerticalSpacer(16.dp)
             TopSection()
-            KTIVerticalSpacer(height = 24.dp)
+            VerticalSpacer(height = 24.dp)
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
                     HomeScreenFeedSection(
@@ -111,7 +112,7 @@ fun HomeScreenContent(
                 }
 
                 is HomeScreenModel.ViewState.Loading -> {
-                    CircularProgressIndicator()
+//                    CircularProgressIndicator()
                 }
             }
         }
@@ -135,7 +136,7 @@ private fun TopSection() {
                 fontWeight = FontWeight.SemiBold,
                 color = KTITheme.colors.textMain
             )
-            KTIVerticalSpacer(2.dp)
+            VerticalSpacer(2.dp)
             KTITextNew(
                 text = "It's time to prepare for your next interview!",
                 fontSize = 12.sp,
@@ -143,7 +144,7 @@ private fun TopSection() {
                 color = KTITheme.colors.textVariant2
             )
         }
-        KTIAvatarWithAnimation(size = 44.dp, strokeWidth = 5f)
+        KTIAvatarWithAnimation(size = 40.dp, strokeWidth = 5f)
     }
 }
 
@@ -159,18 +160,10 @@ private fun HomeScreenFeedSection(
     ) {
         feed.forEach { feedItem: UIHomeScreenSection ->
             when (feedItem) {
-                is UIHomeScreenSection.MenuItems -> {
-                    MenuItems(feedItem.items, onMenuItemClicked)
-                }
-
-                is UIHomeScreenSection.InterviewHistorySummary -> {
-                    InterviewHistorySummaryLayout(feedItem)
-                }
-
-                is UIHomeScreenSection.RecommendedCategoriesCarousel -> {
-                    RecommendedCategoriesLayout(feedItem)
-                }
-
+                is UIHomeScreenSection.MenuItems -> MenuItems(feedItem.items, onMenuItemClicked)
+                is UIHomeScreenSection.InterviewHistorySummary -> InterviewHistorySummaryLayout(feedItem)
+                is UIHomeScreenSection.RecommendedCategoriesCarousel -> RecommendedCategoriesLayout(feedItem)
+                is UIHomeScreenSection.PagerCarousel -> PagerCarouselLayout(feedItem)
                 is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
                 is UIHomeScreenSection.BookmarkedCategories -> TODO()
                 is UIHomeScreenSection.BookmarkedQuestions -> TODO()
@@ -254,7 +247,7 @@ private fun MenuItems(
                     )
                 }
             }
-            KTIVerticalSpacer(height = 12.dp)
+            VerticalSpacer(height = 12.dp)
         }
     }
 }

@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun KTIVerticalSpacer(height: Dp) {
+fun VerticalSpacer(height: Dp) {
     Spacer(modifier = Modifier.height(height))
 }
 
 @Composable
-fun KTIHorizontalSpacer(width: Dp) {
+fun HorizontalSpacer(width: Dp) {
     Spacer(modifier = Modifier.width(width = width))
 }
