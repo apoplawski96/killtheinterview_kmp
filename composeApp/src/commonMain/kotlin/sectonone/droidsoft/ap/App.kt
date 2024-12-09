@@ -1,8 +1,11 @@
 package sectonone.droidsoft.ap
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +15,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DarkMode
@@ -22,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -37,16 +43,25 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import kotlinx.coroutines.Dispatchers
+import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.json.ResourcesFileReader
 import sectonone.droidsoft.ap.screens.home.HomeScreen
+import sectonone.droidsoft.ap.screens.library.LibraryScreen
+import sectonone.droidsoft.ap.screens.settings.SettingsScreen
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.AppThemeMode
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 import sectonone.droidsoft.ap.theme.ktiColors
+import sectonone.droidsoft.ap.theme.white
 
 @Composable
 internal fun JSApp() = AppTheme {
@@ -56,16 +71,48 @@ internal fun JSApp() = AppTheme {
 @Composable
 internal fun App() = AppTheme {
     KTITheme {
-        Navigator(HomeScreen) { navigator ->
+        TabNavigator(HomeScreen) { navigator ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.safeDrawing)
             ) {
-                SlideTransition(navigator)
+                Scaffold(
+                    content = {
+                        Box(Modifier.fillMaxSize().padding(PaddingValues(bottom = it.calculateBottomPadding()))) {
+                            CurrentTab()
+                        }
+                    },
+                    bottomBar = {
+                        BottomNavigation(backgroundColor = ktiColors.primary.copy(alpha = 0.5f), contentColor = white) {
+                            TabNavigationItem(HomeScreen)
+                            TabNavigationItem(LibraryScreen)
+                            TabNavigationItem(SettingsScreen)
+                        }
+                    }
+                )
             }
         }
     }
+}
+
+@Composable
+private fun RowScope.TabNavigationItem(tab: Tab) {
+    val tabNavigator = LocalTabNavigator.current
+
+    BottomNavigationItem(
+        selected = tabNavigator.current == tab,
+        onClick = { tabNavigator.current = tab },
+        icon = {
+            val icon = tab.options.icon
+            if (icon != null) {
+                Icon(painter = icon, contentDescription = tab.options.title, tint = white)
+            }
+        },
+        label = {
+            KTITextNew(tab.options.title, fontSize = 9.sp)
+        }
+    )
 }
 
 internal expect fun openUrl(url: String?)

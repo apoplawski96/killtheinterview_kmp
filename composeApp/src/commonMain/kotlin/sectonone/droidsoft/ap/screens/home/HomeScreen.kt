@@ -16,14 +16,17 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.School
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import sectonone.droidsoft.ap.compose.KTIAvatarWithAnimation
 import sectonone.droidsoft.ap.compose.KTICardItem
 import sectonone.droidsoft.ap.compose.KTIIcon
@@ -51,7 +56,7 @@ import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.nightskyGradient
 
-internal object HomeScreen : Screen {
+internal object HomeScreen : Tab {
 
     @Composable
     override fun Content() {
@@ -83,6 +88,15 @@ internal object HomeScreen : Screen {
             },
         )
     }
+
+    override val options: TabOptions
+        @Composable
+        get() {
+            val icon = rememberVectorPainter(Icons.Default.Home)
+            return remember {
+                TabOptions(0u, "Home", icon)
+            }
+        }
 }
 
 @Composable
@@ -144,7 +158,7 @@ private fun TopSection() {
                 color = KTITheme.colors.textVariant2
             )
         }
-        KTIAvatarWithAnimation(size = 40.dp, strokeWidth = 5f)
+        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f)
     }
 }
 

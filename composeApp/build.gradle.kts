@@ -55,6 +55,7 @@ kotlin {
             implementation(compose.components.resources)
             api(libs.voyager.navigator)
             api(libs.voyager.transitions)
+            api(libs.voyager.tab)
             implementation(libs.voyager.koin)
             implementation(libs.composeImageLoader)
             implementation(libs.napier)

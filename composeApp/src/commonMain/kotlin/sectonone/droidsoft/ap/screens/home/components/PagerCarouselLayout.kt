@@ -171,7 +171,7 @@ fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
                     VerticalSpacer(height = 12.dp)
                     InfoSection(currentItem, showAnswer = showAnswer, onTextClick = onTextClick)
                 }
-                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).weight(1f), verticalArrangement = Arrangement.Bottom) {
+                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).weight(1.2f), verticalArrangement = Arrangement.Bottom) {
                     VerticalSpacer(12.dp)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -181,8 +181,10 @@ fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
 //                            KTIIcon(Icons.Default.BookmarkBorder, size = 24.dp)
 //                            KTIIcon(Icons.Default.ChevronRight, size = 24.dp)
+                            KTITextNew(if (showAnswer) "Hide answer" else "Show answer", fontSize = 12.sp, color = white80, modifier = Modifier.then(onTextClick))
                         }
-                        KTITextNew("Go to category", fontSize = 12.sp, color = white80)
+//                        KTITextNew("Go to category", fontSize = 12.sp, color = white80)
+                        KTIIcon(Icons.Default.ChevronRight, size = 24.dp)
                     }
                     VerticalSpacer(24.dp)
                 }
@@ -289,19 +291,19 @@ private fun InfoSection(
             )
             if (showAnswer.not()) {
                 VerticalSpacer(8.dp)
-                KTITextNew(
-                    text = "Show answer",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    lineHeight = 22.sp,
-                    color = white,
-                    letterSpacing = 0.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .animateContentSize()
-                        .then(onTextClick)
-                )
+//                KTITextNew(
+//                    text = "Show answer",
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 10.sp,
+//                    lineHeight = 22.sp,
+//                    color = white,
+//                    letterSpacing = 0.sp,
+//                    maxLines = 1,
+//                    overflow = TextOverflow.Ellipsis,
+//                    modifier = Modifier
+//                        .animateContentSize()
+//                        .then(onTextClick)
+//                )
             }
             if (showAnswer) {
                 KTITextNew(
@@ -318,19 +320,19 @@ private fun InfoSection(
                         .then(onTextClick)
                 )
                 VerticalSpacer(8.dp)
-                KTITextNew(
-                    text = "Hide answer",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    lineHeight = 22.sp,
-                    color = white,
-                    letterSpacing = 0.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .animateContentSize()
-                        .then(onTextClick)
-                )
+//                KTITextNew(
+//                    text = "Hide answer",
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 10.sp,
+//                    lineHeight = 22.sp,
+//                    color = white,
+//                    letterSpacing = 0.sp,
+//                    maxLines = 1,
+//                    overflow = TextOverflow.Ellipsis,
+//                    modifier = Modifier
+//                        .animateContentSize()
+//                        .then(onTextClick)
+//                )
             }
         }
     }
