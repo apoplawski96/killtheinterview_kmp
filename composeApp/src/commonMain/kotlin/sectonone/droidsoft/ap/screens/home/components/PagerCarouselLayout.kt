@@ -107,6 +107,10 @@ fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
     val cornerRadius by animateDpAsState(targetValue = if (showAnswer) 10.dp else 24.dp, label = "Animatable corner radius")
 
     Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+            KTITextNew("Random questions", fontSize = 16.sp, color = ktiColors.textMain)
+        }
+        VerticalSpacer(16.dp)
         Box(Modifier.clip(RoundedCornerShape(40.dp))) {
             Crossfade(
                 targetState = currentItem?.imagePath,

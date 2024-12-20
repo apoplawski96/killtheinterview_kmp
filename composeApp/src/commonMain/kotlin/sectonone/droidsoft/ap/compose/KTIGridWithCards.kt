@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.*
 
 data class KTICardItem<T>(
@@ -43,7 +44,11 @@ data class KTICardItem<T>(
     val assetResourcePath: String? = null,
 )
 
-enum class KTICardVariant { Simple, WithImageCover; }
+enum class KTICardVariant {
+    Simple,
+    WithImageCover,
+    WithImageCoverSelectable;
+}
 
 @Composable
 fun <T> KTIGridWithCards(
@@ -51,7 +56,7 @@ fun <T> KTIGridWithCards(
     onClick: (T) -> Unit,
     state: LazyGridState = rememberLazyGridState(),
     variant: KTICardVariant = KTICardVariant.Simple,
-    columns: GridCells = GridCells.Fixed(2)
+    columns: GridCells = GridCells.Fixed(2),
 ) {
     LazyVerticalGrid(
         columns = columns,
@@ -61,7 +66,7 @@ fun <T> KTIGridWithCards(
             item { VerticalSpacer(height = 8.dp) }
             item { VerticalSpacer(height = 8.dp) }
             this.itemsIndexed(items = items) { index, item ->
-                when(variant) {
+                when (variant) {
                     KTICardVariant.Simple -> {
                         KTICard(
                             item = item.applyColor(index),
@@ -71,9 +76,23 @@ fun <T> KTIGridWithCards(
                             fontWeight = FontWeight.W500
                         )
                     }
+
                     KTICardVariant.WithImageCover -> {
                         if (item.value is Category) {
-                            CategoryWithCoverCard(item.value, padding = PaddingValues(8.dp), onClick = { onClick.invoke(item.value) })
+                            CategoryWithCoverCard(
+                                item.value,
+                                padding = PaddingValues(8.dp),
+                                onClick = { onClick.invoke(item.value) })
+                        }
+                    }
+
+                    KTICardVariant.WithImageCoverSelectable -> {
+                        if (item.value is SelectableCategory) {
+                            SelectableCategoryWithCoverCard(
+                                item.value,
+                                padding = PaddingValues(8.dp),
+                                onClick = { onClick.invoke(item.value) }
+                            )
                         }
                     }
                 }
@@ -89,7 +108,7 @@ fun <T> KTIGridWithCards(
 }
 
 @Composable
-fun <T> KTICard(
+private fun <T> KTICard(
     item: KTICardItem<T>,
     onClick: (T) -> Unit,
     padding: PaddingValues,
@@ -100,7 +119,6 @@ fun <T> KTICard(
     Card(
         shape = RoundedCornerShape(size = 8.dp),
         backgroundColor = item.cardColor ?: backgroundColor,
-//        border = BorderStroke(width = 0.5.dp, color = kti_grayish_light.copy(alpha = 0.2f)),
         modifier = Modifier
             .clickableNoRipple { onClick.invoke(item.value) }
             .padding(padding)
@@ -126,157 +144,6 @@ fun <T> KTICard(
 }
 
 private val cardMinHeight = 86.dp
-
-@Composable
-fun <T> KTICardWithIllustration(
-    item: KTICardItem<T>,
-    onClick: (T) -> Unit,
-    imageResource: ImageVector,
-    fontWeight: FontWeight = FontWeight(400),
-    backgroundColor: Color = ktiColors.backgroundSurfaceVariant,
-    textColor: Color = ktiColors.textMain,
-    labelSize: TextUnit = 14.sp,
-) {
-    Card(
-        shape = RoundedCornerShape(size = 12.dp),
-        backgroundColor = backgroundColor,
-        elevation = 2.dp,
-        modifier = Modifier
-            .clickable { onClick.invoke(item.value) }
-            .fillMaxWidth()
-            .heightIn(cardMinHeight),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(cardMinHeight),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            KTITextNew(
-                text = item.label,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = fontWeight,
-                fontSize = labelSize,
-                color = textColor,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-//                    .weight(2f)
-                    .align(Alignment.Bottom),
-            )
-            Box(
-                modifier = Modifier
-//                    .weight(1.2f)
-                    .heightIn(cardMinHeight)
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                contentAlignment = Alignment.Center
-            ) {
-//                KTIIcon(imageResource, size = 128.dp, tint = ktiColors.textMain)
-                if (item.assetResourcePath != null) {
-                    Image(painterResource(item.assetResourcePath), contentDescription = null, modifier = Modifier.padding(vertical = 12.dp).size(72.dp))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun <T> KTICardSmall(
-    item: KTICardItem<T>,
-    onClick: (T) -> Unit,
-) {
-    Card(
-        shape = RoundedCornerShape(size = 12.dp),
-        backgroundColor = item.cardColor ?: kti_softwhite,
-        modifier = Modifier
-            .clickableNoRipple { onClick.invoke(item.value) }
-            .padding(PaddingValues(end = 8.dp, top = 8.dp, bottom = 8.dp))
-            .size(84.dp),
-        elevation = 2.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 2.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            KTITextNew(
-                text = item.label,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight(500),
-                fontSize = 12.sp,
-                color = white,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
-fun <T> KTICardSmallWithUnderText(
-    item: KTICardItem<T>,
-    onClick: (T) -> Unit,
-    padding: PaddingValues = PaddingValues(),
-) {
-    Column(
-        modifier = Modifier
-            .padding(end = 8.dp, top = 8.dp, bottom = 8.dp)
-            .width(84.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Card(
-            shape = RoundedCornerShape(size = 12.dp),
-            backgroundColor = item.cardColor ?: kti_softwhite,
-//        border = BorderStroke(width = 0.5.dp, color = kti_grayish_light.copy(alpha = 0.2f)),
-            modifier = Modifier
-                .clickableNoRipple { onClick.invoke(item.value) }
-                .padding(padding)
-                .size(78.dp),
-            elevation = 2.dp
-        ) {
-
-        }
-        VerticalSpacer(height = 8.dp)
-        KTITextNew(
-            text = item.label,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight(300),
-            fontSize = 12.sp,
-            color = ktiColors.textVariant,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun AllCard(onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(size = 8.dp),
-        backgroundColor = kti_grayish,
-        border = BorderStroke(width = 0.5.dp, color = kti_grayish_light.copy(alpha = 0.2f)),
-        modifier = Modifier
-            .clickableNoRipple { onClick.invoke() }
-            .padding(4.dp)
-            .heightIn(min = 96.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            KTITextNew(
-                text = "All",
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight(400),
-                fontSize = 16.sp,
-                color = kti_accent
-            )
-        }
-    }
-}
 
 @Composable
 fun KTICardContainer(

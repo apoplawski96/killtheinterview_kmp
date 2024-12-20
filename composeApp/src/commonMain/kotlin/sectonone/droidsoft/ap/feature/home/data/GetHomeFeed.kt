@@ -11,6 +11,12 @@ class GetHomeFeed(private val questionsRepository: QuestionsRepository) {
 
     suspend fun get(): List<UIHomeScreenSection> {
         return listOf(
+            UIHomeScreenSection.MenuItems(
+                items = listOf(
+                    HomeScreenMenuItem.QUESTIONS_CATEGORIES,
+                    HomeScreenMenuItem.CHAT_INTERVIEW,
+                )
+            ),
             UIHomeScreenSection.PagerCarousel(
                 items = listOf(
                     categoryWithRandomQuestion(Category.AndroidCore),
@@ -20,12 +26,6 @@ class GetHomeFeed(private val questionsRepository: QuestionsRepository) {
                     categoryWithRandomQuestion(Category.DesignPatterns),
                     categoryWithRandomQuestion(Category.Compose),
                     categoryWithRandomQuestion(Category.Coroutines),
-                )
-            ),
-            UIHomeScreenSection.MenuItems(
-                items = listOf(
-                    HomeScreenMenuItem.QUESTIONS_CATEGORIES,
-                    HomeScreenMenuItem.CHAT_INTERVIEW,
                 )
             ),
             UIHomeScreenSection.RecommendedCategoriesCarousel(

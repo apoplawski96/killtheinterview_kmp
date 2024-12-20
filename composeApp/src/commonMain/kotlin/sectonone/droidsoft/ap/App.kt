@@ -71,26 +71,13 @@ internal fun JSApp() = AppTheme {
 @Composable
 internal fun App() = AppTheme {
     KTITheme {
-        TabNavigator(HomeScreen) { navigator ->
+        Navigator(HomeScreen) { navigator ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.safeDrawing)
             ) {
-                Scaffold(
-                    content = {
-                        Box(Modifier.fillMaxSize().padding(PaddingValues(bottom = it.calculateBottomPadding()))) {
-                            CurrentTab()
-                        }
-                    },
-                    bottomBar = {
-                        BottomNavigation(backgroundColor = ktiColors.primary.copy(alpha = 0.5f), contentColor = white) {
-                            TabNavigationItem(HomeScreen)
-                            TabNavigationItem(LibraryScreen)
-                            TabNavigationItem(SettingsScreen)
-                        }
-                    }
-                )
+                SlideTransition(navigator)
             }
         }
     }

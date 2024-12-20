@@ -26,10 +26,14 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import sectonone.droidsoft.ap.compose.KTIButtonShared
 import sectonone.droidsoft.ap.compose.KTICardContainer
+import sectonone.droidsoft.ap.compose.KTICardItem
+import sectonone.droidsoft.ap.compose.KTICardVariant
+import sectonone.droidsoft.ap.compose.KTIGridWithCards
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.di.getScreenModel
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -76,42 +80,31 @@ private fun InterviewSetupScreenContent(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    state = lazyGridState,
-                    modifier = Modifier.weight(10f),
-                    contentPadding = PaddingValues(horizontal = 8.dp)
+            KTIGridWithCards(
+                items = categories.map { category: SelectableCategory ->
+                    KTICardItem(
+                        value = category,
+                        label = category.categoryV2.displayName,
+                    )
+                },
+                onClick = onCategoryClick,
+                variant = KTICardVariant.WithImageCoverSelectable,
+            )
+            val isActive = categories.any { it.isSelected }
+            AnimatedVisibility(visible = isActive) {
+                Column(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
                 ) {
-                    item { VerticalSpacer(height = 8.dp) }
-                    item { VerticalSpacer(height = 8.dp) }
-                    categories.forEachIndexed { _, selectableCategory ->
-                        item {
-                            SelectableCategoryCard(
-                                item = selectableCategory,
-                                onCategoryClick = onCategoryClick
-                            )
-                        }
-                    }
-                }
-                val isActive = categories.any { it.isSelected }
-                AnimatedVisibility(visible = isActive) {
-                    Column(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top
-                    ) {
-                        KTIButtonShared(
-                            label = "Go to interview",
-                            labelColor = ktiColors.onSecondary,
-                            backgroundColor = kti_accent,
-                            onClick = onGoToInterviewClick,
-                            enabled = isActive,
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                        )
-                    }
+                    KTIButtonShared(
+                        label = "Go to interview",
+                        labelColor = ktiColors.onSecondary,
+                        backgroundColor = kti_accent,
+                        onClick = onGoToInterviewClick,
+                        enabled = isActive,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    )
                 }
             }
         }
@@ -142,18 +135,6 @@ private fun SelectableCategoryCard(
                 color = if (item.isSelected.not()) ktiColors.textMain else ktiColors.onSecondary,
                 modifier = Modifier.weight(8f).align(Alignment.Bottom)
             )
-//            Box(Modifier.weight(1.5f).align(Alignment.Top)) {
-//                Box(
-//                    modifier = Modifier
-//                        .size(24.dp)
-//                        .clip(CircleShape)
-//                        .border(
-//                            width = if (item.isSelected) 8.dp else 1.dp,
-//                            color = if (item.isSelected) kti_accent else kti_grey
-//                        )
-//                        .align(Alignment.TopCenter)
-//                )
-//            }
         }
     }
 }
