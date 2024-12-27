@@ -5,15 +5,13 @@ data class QuestionHistory(
     val userKnewTheAnswer: Boolean,
 )
 
-data class InterviewSummary(
+data class InterviewHistorySummaryUI(
     val id: Int,
-    val categories: List<Category>,
-    val questionsHistory: List<QuestionHistory>,
-    val configuration: InterviewConfiguration,
+    val categoriesSummary: List<String>,
     val answeredCount: Int,
     val failedCount: Int,
     val interviewDate: String,
-    val mainCategory: Category = categories.first(),
+    val mainCategory: String = categoriesSummary.first(),
     val scorePercent: Float = (if (answeredCount + failedCount > 0)
         answeredCount.toFloat() / (answeredCount + failedCount)
     else 0f).also {
@@ -30,10 +28,9 @@ data class InterviewSummary(
 }
 
 fun interviewSummary(
-    id: Int = 1, categories: List<Category> = listOf(Category.Android, Category.Compose),
+    id: Int = 1,
+    categories: List<String> = listOf("Android", "Compose"),
     answeredCount: Int = 2,
     failedCount: Int = 10,
-    configuration: InterviewConfiguration = InterviewConfiguration(),
     interviewDate: String = "27 Dec 2024",
-    questionsHistory: List<QuestionHistory> = emptyList()
-) = InterviewSummary(id, categories, questionsHistory, configuration, answeredCount, failedCount, interviewDate)
+) = InterviewHistorySummaryUI(id, categories, answeredCount, failedCount, interviewDate)

@@ -24,7 +24,7 @@ sealed interface UIHomeScreenSection {
     ) : UIHomeScreenSection
 
     data class InterviewHistorySummary(
-        val items: List<InterviewSummary>
+        val items: List<InterviewHistorySummaryUI>
     ) : UIHomeScreenSection
 
     data class RecommendedCategory(

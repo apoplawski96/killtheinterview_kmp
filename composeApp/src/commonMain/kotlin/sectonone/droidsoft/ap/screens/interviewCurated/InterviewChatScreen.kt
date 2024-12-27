@@ -84,7 +84,7 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
         }
 
         LaunchedEffect(chatState, inputEnabledState) {
-            if (chatState is InterviewChatScreenModel.ViewState.InterviewActive && chatState.chatItems.isNotEmpty()) {
+            if (chatState is InterviewChatScreenModel.ScreenState.InterviewActive && chatState.chatItems.isNotEmpty()) {
                 chatListState.animateScrollToItem(chatState.chatItems.lastIndex)
             }
         }
@@ -103,7 +103,7 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
 
 @Composable
 private fun InterviewChatScreenContent(
-    screenStateChat: InterviewChatScreenModel.ViewState,
+    screenStateChat: InterviewChatScreenModel.ScreenState,
     scoreboardState: InterviewChatScreenModel.ScoreboardState,
     onAddPointClick: () -> Unit,
     onNoPointClick: () -> Unit,
@@ -111,57 +111,57 @@ private fun InterviewChatScreenContent(
     chatListState: LazyListState,
     currentQuestion: Question?,
 ) {
-    val isAnswerExpanded = rememberSaveable(screenStateChat) { mutableStateOf(false) }
-    val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value }
-    KTIScaffold(
-        topBar = {
-            KTIChatTopAppBar()
-        },
-        bottomBar = {
-            ControlSection(
-                addPointClick = onAddPointClick,
-                noPointClick = onNoPointClick,
-                inputEnabled = inputEnabled,
-                showAnswerClick = setIsAnswerExpanded,
-                isAnswerExpanded = isAnswerExpanded.value,
-            )
-        },
-        floatingActionButton = {
-            val infiniteTransition = rememberInfiniteTransition()
-            val rotationAnimation = infiniteTransition.animateFloat(
-                initialValue = 0f,
-                targetValue = 360f,
-                animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing))
-            )
-            val rainbowColorsBrush = Brush.horizontalGradient(
-                listOf(
-                    Color.Red,
-                    Color.Magenta,
-                    Color.Blue,
-                    Color.Cyan,
-                    Color.Green,
-                    Color.Yellow,
-                )
-            )
-            androidx.compose.animation.AnimatedVisibility(
-                visible = isAnswerExpanded.value.not() && inputEnabled,
-                enter = scaleIn(),
-                exit = scaleOut(),
-            ) {
-                KTIFloatingActionButton(
-                    onClick = setIsAnswerExpanded,
-                    icon = Icons.Default.QuestionMark,
-                    modifier = Modifier.drawBehind {
-                        rotate(rotationAnimation.value) {
-                            drawCircle(rainbowColorsBrush, style = Stroke(4f))
-                        }
+    when (screenStateChat) {
+        is InterviewChatScreenModel.ScreenState.InterviewActive -> {
+            val isAnswerExpanded = rememberSaveable(screenStateChat) { mutableStateOf(false) }
+            val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value }
+            KTIScaffold(
+                topBar = {
+                    KTIChatTopAppBar()
+                },
+                bottomBar = {
+                    ControlSection(
+                        addPointClick = onAddPointClick,
+                        noPointClick = onNoPointClick,
+                        inputEnabled = inputEnabled,
+                        showAnswerClick = setIsAnswerExpanded,
+                        isAnswerExpanded = isAnswerExpanded.value,
+                    )
+                },
+                floatingActionButton = {
+                    val infiniteTransition = rememberInfiniteTransition()
+                    val rotationAnimation = infiniteTransition.animateFloat(
+                        initialValue = 0f,
+                        targetValue = 360f,
+                        animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing))
+                    )
+                    val rainbowColorsBrush = Brush.horizontalGradient(
+                        listOf(
+                            Color.Red,
+                            Color.Magenta,
+                            Color.Blue,
+                            Color.Cyan,
+                            Color.Green,
+                            Color.Yellow,
+                        )
+                    )
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = isAnswerExpanded.value.not() && inputEnabled,
+                        enter = scaleIn(),
+                        exit = scaleOut(),
+                    ) {
+                        KTIFloatingActionButton(
+                            onClick = setIsAnswerExpanded,
+                            icon = Icons.Default.QuestionMark,
+                            modifier = Modifier.drawBehind {
+                                rotate(rotationAnimation.value) {
+                                    drawCircle(rainbowColorsBrush, style = Stroke(4f))
+                                }
+                            }
+                        )
                     }
-                )
-            }
-        }
-    ) {
-        when (screenStateChat) {
-            is InterviewChatScreenModel.ViewState.InterviewActive -> {
+                }
+            ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Bottom,
@@ -225,9 +225,16 @@ private fun InterviewChatScreenContent(
                     )
                 }
             }
+        }
 
-            is InterviewChatScreenModel.ViewState.InterviewFinished -> {
-                KTITextNew("no questions left", fontSize = 16.sp, fontWeight = FontWeight.W700)
+        is InterviewChatScreenModel.ScreenState.InterviewFinished -> {
+            Box(modifier = Modifier.fillMaxSize().background(Color.Red)) {
+                KTITextNew(
+                    "no questions left",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W700,
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
         }
     }

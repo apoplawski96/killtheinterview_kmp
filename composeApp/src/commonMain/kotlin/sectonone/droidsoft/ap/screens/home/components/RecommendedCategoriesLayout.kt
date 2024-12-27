@@ -22,7 +22,7 @@ import sectonone.droidsoft.ap.theme.ktiColors
 @Composable
 fun RecommendedCategoriesLayout(
     uiState: UIHomeScreenSection.RecommendedCategoriesCarousel,
-    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.SingleRow,
+    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.GridSingleRow,
 ) {
     val itemsCount = uiState.items.count()
 
@@ -44,7 +44,7 @@ fun RecommendedCategoriesLayout(
             contentPadding = PaddingValues(16.dp)
         ) {
             when(variant) {
-                InterviewHistorySummaryVariant.SingleRow -> {
+                InterviewHistorySummaryVariant.GridSingleRow -> {
                     items(itemsCount) { index ->
                         Row {
                             Column(
@@ -55,7 +55,7 @@ fun RecommendedCategoriesLayout(
                         }
                     }
                 }
-                InterviewHistorySummaryVariant.TwoRows -> {
+                InterviewHistorySummaryVariant.GridTwoRows -> {
                     items(itemsCount / 2) { index ->
                         Row {
                             Column(
@@ -70,6 +70,10 @@ fun RecommendedCategoriesLayout(
                             }
                         }
                     }
+                }
+
+                InterviewHistorySummaryVariant.Column -> {
+
                 }
             }
         }

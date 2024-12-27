@@ -52,6 +52,7 @@ import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLay
 import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
+import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewsHistoryScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.nightskyGradient
@@ -86,6 +87,9 @@ internal object HomeScreen : Tab {
                     }
                 }
             },
+            onSeeAllInterviewsClick = {
+                navigator.push(InterviewsHistoryScreen)
+            }
         )
     }
 
@@ -103,6 +107,7 @@ internal object HomeScreen : Tab {
 fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
+    onSeeAllInterviewsClick: () -> Unit,
 ) {
     Scaffold(
         backgroundColor = KTITheme.colors.backgroundSurface
@@ -122,6 +127,7 @@ fun HomeScreenContent(
                     HomeScreenFeedSection(
                         feed = state.items,
                         onMenuItemClicked = onMenuItemClicked,
+                        onSeeAllInterviewsClick = onSeeAllInterviewsClick
                     )
                 }
 
@@ -166,6 +172,7 @@ private fun TopSection() {
 private fun HomeScreenFeedSection(
     feed: List<UIHomeScreenSection>,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
+    onSeeAllInterviewsClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -175,7 +182,7 @@ private fun HomeScreenFeedSection(
         feed.forEach { feedItem: UIHomeScreenSection ->
             when (feedItem) {
                 is UIHomeScreenSection.MenuItems -> MenuItems(feedItem.items, onMenuItemClicked)
-                is UIHomeScreenSection.InterviewHistorySummary -> InterviewHistorySummaryLayout(feedItem)
+                is UIHomeScreenSection.InterviewHistorySummary -> InterviewHistorySummaryLayout(feedItem, onSeeAllInterviewsClick = onSeeAllInterviewsClick)
                 is UIHomeScreenSection.RecommendedCategoriesCarousel -> RecommendedCategoriesLayout(feedItem)
                 is UIHomeScreenSection.PagerCarousel -> PagerCarouselLayout(feedItem)
                 is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
@@ -267,12 +274,12 @@ private fun MenuItems(
 }
 
 val interviewsSummaryMock = listOf(
-    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3)),
-    interviewSummary(answeredCount = 20, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2)),
-    interviewSummary(answeredCount = 15, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3)),
-    interviewSummary(answeredCount = 5, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(4)),
-    interviewSummary(answeredCount = 8, failedCount = 1, categories = getRandomUniqueEnumValues<Category>(2)),
-    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2)),
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3).map { it.displayName }),
+    interviewSummary(answeredCount = 20, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
+    interviewSummary(answeredCount = 15, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3).map { it.displayName }),
+    interviewSummary(answeredCount = 5, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(4).map { it.displayName }),
+    interviewSummary(answeredCount = 8, failedCount = 1, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
 )
 
 val homeScreenMock = HomeScreenModel.ViewState.HomeItems(

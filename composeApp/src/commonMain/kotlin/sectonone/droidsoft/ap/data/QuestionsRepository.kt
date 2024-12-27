@@ -9,11 +9,17 @@ class QuestionsRepository(
     private val questionsMapper: QuestionsMapper,
 ) {
 
-    suspend fun getQuestions(categories: List<Category>): List<Question> {
+    suspend fun getQuestions(categories: List<Category>, questionsCount: Int? = null): List<Question> {
+        val questionsRaw = questionsDataSource.getQuestions(
+            files = categories.map { it.questionsFile }
+        )
+        val questionsLimited = if (questionsCount != null) {
+            questionsRaw.take(questionsCount)
+        } else {
+            questionsRaw
+        }
         return questionsMapper.map(
-            questions = questionsDataSource.getQuestions(
-                files = categories.map { it.questionsFile }
-            )
+            questionsLimited
         )
     }
 }

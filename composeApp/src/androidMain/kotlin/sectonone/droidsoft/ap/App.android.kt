@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import org.koin.dsl.module
+import sectonone.droidsoft.ap.di.databaseModule
 import sectonone.droidsoft.ap.di.initKoin
 
 class AndroidApp : Application() {
@@ -19,7 +21,10 @@ class AndroidApp : Application() {
         INSTANCE = this
 
         initKoin {
-
+            module {
+                single { applicationContext }
+            }
+            modules(databaseModule(context = applicationContext))
         }
     }
 }

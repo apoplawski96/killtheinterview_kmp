@@ -11,11 +11,11 @@ import sectonone.droidsoft.ap.screens.home.homeScreenMock
 @Preview
 @Composable
 private fun PreviewHomeScreenLight() = PreviewTheme(isDark = false) {
-    HomeScreenContent(state = homeScreenMock, onMenuItemClicked = {})
+    HomeScreenContent(state = homeScreenMock, onMenuItemClicked = {}, {})
 }
 
 @Preview
 @Composable
 private fun PreviewHomeScreenDark() = PreviewTheme(isDark = true) {
-    HomeScreenContent(state = homeScreenMock, onMenuItemClicked = {})
+    HomeScreenContent(state = homeScreenMock, onMenuItemClicked = {}, {})
 }

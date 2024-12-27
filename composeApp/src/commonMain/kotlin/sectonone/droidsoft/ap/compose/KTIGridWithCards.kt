@@ -54,13 +54,14 @@ enum class KTICardVariant {
 fun <T> KTIGridWithCards(
     items: List<KTICardItem<T>>,
     onClick: (T) -> Unit,
+    modifier: Modifier = Modifier,
     state: LazyGridState = rememberLazyGridState(),
     variant: KTICardVariant = KTICardVariant.Simple,
     columns: GridCells = GridCells.Fixed(2),
 ) {
     LazyVerticalGrid(
         columns = columns,
-        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+        modifier = modifier then Modifier.padding(start = 8.dp, end = 8.dp),
         state = state,
         content = {
             item { VerticalSpacer(height = 8.dp) }

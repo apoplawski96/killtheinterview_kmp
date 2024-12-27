@@ -3,14 +3,18 @@ package sectonone.droidsoft.ap.screens.home.components
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
@@ -34,18 +38,19 @@ import sectonone.droidsoft.ap.compose.KTILinearProgressIndicator
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.prettyPrint
-import sectonone.droidsoft.ap.model.InterviewSummary
+import sectonone.droidsoft.ap.model.InterviewHistorySummaryUI
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 
-enum class InterviewHistorySummaryVariant { SingleRow, TwoRows; }
+enum class InterviewHistorySummaryVariant { GridSingleRow, GridTwoRows, Column; }
 
 val interviewSummaryCardSize = 164.dp
 
 @Composable
 fun InterviewHistorySummaryLayout(
     uiState: UIHomeScreenSection.InterviewHistorySummary,
-    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.TwoRows,
+    variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.GridTwoRows,
+    onSeeAllInterviewsClick: () -> Unit,
 ) {
     val itemCount = uiState.items.size
 
@@ -57,7 +62,7 @@ fun InterviewHistorySummaryLayout(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
         ) {
             KTITextNew("Your last interviews", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-            KTITextNew("See all", fontSize = 12.sp, color = ktiColors.textVariant2)
+            KTITextNew("See all", fontSize = 12.sp, color = ktiColors.textVariant2, modifier = Modifier.clickable { onSeeAllInterviewsClick.invoke() })
         }
         VerticalSpacer(8.dp)
         LazyRow(
@@ -66,19 +71,20 @@ fun InterviewHistorySummaryLayout(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
-            when(variant) {
-                InterviewHistorySummaryVariant.SingleRow -> {
+            when (variant) {
+                InterviewHistorySummaryVariant.GridSingleRow -> {
                     items(itemCount) { index ->
                         Row {
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                ItemCard(uiState.items[index])
+                                InterviewSummaryCard(uiState.items[index], variant)
                             }
                         }
                     }
                 }
-                InterviewHistorySummaryVariant.TwoRows -> {
+
+                InterviewHistorySummaryVariant.GridTwoRows -> {
                     items(itemCount / 2) { index ->
                         Row {
                             Column(
@@ -86,15 +92,19 @@ fun InterviewHistorySummaryLayout(
                             ) {
                                 // First item in the row
                                 if (index * 2 < itemCount) {
-                                    ItemCard(uiState.items[index * 2])
+                                    InterviewSummaryCard(uiState.items[index * 2], variant)
                                 }
                                 // Second item in the row
                                 if ((index * 2) + 1 < itemCount) {
-                                    ItemCard(uiState.items[(index * 2) + 1])
+                                    InterviewSummaryCard(uiState.items[(index * 2) + 1], variant)
                                 }
                             }
                         }
                     }
+                }
+
+                else -> {
+
                 }
             }
         }
@@ -102,8 +112,7 @@ fun InterviewHistorySummaryLayout(
 }
 
 @Composable
-private fun ItemCard(item: InterviewSummary) {
-    // Animate progress bar from 0 to item.scorePercent
+fun InterviewSummaryCard(item: InterviewHistorySummaryUI, variant: InterviewHistorySummaryVariant) {
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(item.scorePercent) {
         animatedProgress.animateTo(
@@ -111,7 +120,6 @@ private fun ItemCard(item: InterviewSummary) {
             animationSpec = tween(durationMillis = 2000, easing = LinearOutSlowInEasing)
         )
     }
-    // Animate text progress from 0% to item.scorePercentDisplay
     val animatedTextProgress = remember { Animatable(0f) }
     LaunchedEffect(item.scorePercent) {
         animatedTextProgress.animateTo(
@@ -120,10 +128,20 @@ private fun ItemCard(item: InterviewSummary) {
         )
     }
 
+    val cardSizeModifier = when(variant) {
+        InterviewHistorySummaryVariant.GridSingleRow -> {
+            Modifier.size(interviewSummaryCardSize)
+        }
+        InterviewHistorySummaryVariant.GridTwoRows -> {
+            Modifier.size(interviewSummaryCardSize)
+        }
+        InterviewHistorySummaryVariant.Column -> {
+            Modifier.fillMaxWidth().height(144.dp)
+        }
+    }
+
     Card(
-        modifier = Modifier
-            .size(interviewSummaryCardSize)
-            .clip(RoundedCornerShape(16.dp)),
+        modifier = cardSizeModifier then Modifier.clip(RoundedCornerShape(16.dp)),
         elevation = 4.dp,
         backgroundColor = ktiColors.backgroundSurfaceVariant
     ) {
@@ -138,19 +156,23 @@ private fun ItemCard(item: InterviewSummary) {
                     KTIIcon(Icons.Default.ChevronRight, size = 16.dp, tint = ktiColors.textVariant)
                 }
                 VerticalSpacer(12.dp)
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
                     KTIIcon(
-                        // Do it like here
                         when (item.successSummary) {
-                            InterviewSummary.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
-                            InterviewSummary.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
-                            InterviewSummary.SuccessSummary.Success -> Icons.Default.ThumbUp
+                            InterviewHistorySummaryUI.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
+                            InterviewHistorySummaryUI.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
+                            InterviewHistorySummaryUI.SuccessSummary.Success -> Icons.Default.ThumbUp
                         }
                     )
                     HorizontalSpacer(12.dp)
                     Column {
-                        KTITextNew(item.mainCategory.displayName, fontWeight = FontWeight.W600, maxLines = 2)
-                        KTITextNew(item.categories.prettyPrint(), color = ktiColors.textVariant2, fontSize = 10.sp, maxLines = 2)
+                        KTITextNew(item.mainCategory, fontWeight = FontWeight.W600, maxLines = 2)
+                        KTITextNew(
+                            item.categoriesSummary.prettyPrint(),
+                            color = ktiColors.textVariant2,
+                            fontSize = 10.sp,
+                            maxLines = 2
+                        )
                     }
                 }
                 VerticalSpacer(12.dp)

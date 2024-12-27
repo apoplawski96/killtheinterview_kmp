@@ -9,10 +9,12 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
+import sectonone.droidsoft.ap.data.InterviewHistoryRepository
 import sectonone.droidsoft.ap.screens.home.HomeScreenModel
 import sectonone.droidsoft.ap.screens.interviewAi.AIInterviewScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreenModel
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreenModel
+import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewsHistoryScreenModel
 import sectonone.droidsoft.ap.screens.questionsList.QuestionsListScreenModel
 import sectonone.droidsoft.ap.screens.welcome.WelcomeScreenModel
 
@@ -32,4 +34,5 @@ val screenModelModule = module {
     factoryOf(::QuestionsListScreenModel)
     factoryOf(::InterviewSetupScreenModel)
     factoryOf(::InterviewChatScreenModel)
+    factoryOf(::InterviewsHistoryScreenModel)
 }

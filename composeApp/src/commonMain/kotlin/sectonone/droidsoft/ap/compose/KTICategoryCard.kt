@@ -90,7 +90,7 @@ fun SelectableCategoryWithCoverCard(
             .padding(padding)
             .clickable { onClick.invoke() },
         elevation = 4.dp,
-        backgroundColor = if (!selectableCategory.isSelected) KTITheme.colors.backgroundSurfaceVariant else KTITheme.colors.secondary ,
+        backgroundColor = if (!selectableCategory.isSelected) KTITheme.colors.backgroundSurfaceVariant else KTITheme.colors.secondary,
     ) {
         Box(
             modifier = Modifier.fillMaxSize()

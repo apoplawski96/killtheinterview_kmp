@@ -4,7 +4,7 @@ enum class Category(
     val key: String,
     val displayName: String,
     val questionsFile: String = "v2_questions_$key.json",
-    val imageFile: String = "$key.webp"
+    val imageFile: String = "$key.webp",
 ) {
     Android("android", "Android"),
     AndroidAppArchitecture("android_architecture", "Android App Architecture", imageFile = "android.webp"),

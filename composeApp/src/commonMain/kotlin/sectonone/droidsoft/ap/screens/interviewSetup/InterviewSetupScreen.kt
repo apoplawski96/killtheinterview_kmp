@@ -89,6 +89,7 @@ private fun InterviewSetupScreenContent(
                 },
                 onClick = onCategoryClick,
                 variant = KTICardVariant.WithImageCoverSelectable,
+                modifier = Modifier.weight(10f)
             )
             val isActive = categories.any { it.isSelected }
             AnimatedVisibility(visible = isActive) {
@@ -107,34 +108,6 @@ private fun InterviewSetupScreenContent(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun SelectableCategoryCard(
-    item: SelectableCategory,
-    onCategoryClick: (SelectableCategory) -> Unit,
-) {
-    val borderColor = if (item.isSelected) kti_accent else kti_grey
-    KTICardContainer(
-        onClick = { onCategoryClick.invoke(item) },
-//        borderColor = borderColor,
-        height = 92.dp,
-        backgroundColor = if (item.isSelected.not()) ktiColors.backgroundSurfaceVariant else ktiColors.secondary,
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp).fillMaxSize(),
-        ) {
-            KTITextNew(
-                text = item.categoryV2.displayName,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                color = if (item.isSelected.not()) ktiColors.textMain else ktiColors.onSecondary,
-                modifier = Modifier.weight(8f).align(Alignment.Bottom)
-            )
         }
     }
 }
