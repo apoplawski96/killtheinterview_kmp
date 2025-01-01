@@ -3,7 +3,6 @@ package sectonone.droidsoft.ap.feature.home.data
 import sectonone.droidsoft.ap.data.QuestionsRepository
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.screens.home.interviewsSummaryMock
 
@@ -33,7 +32,7 @@ class GetHomeFeed(private val questionsRepository: QuestionsRepository) {
                     Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
                 )
             ),
-            UIHomeScreenSection.InterviewHistorySummary(
+            UIHomeScreenSection.InterviewHistorySummaryUI(
                 items = interviewsSummaryMock
             ),
         )

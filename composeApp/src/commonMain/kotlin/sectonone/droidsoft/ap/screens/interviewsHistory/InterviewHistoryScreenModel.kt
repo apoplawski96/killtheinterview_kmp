@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import sectonone.droidsoft.ap.data.InterviewHistoryRepository
-import sectonone.droidsoft.ap.model.InterviewHistorySummaryUI
+import sectonone.droidsoft.ap.model.InterviewHistorySummary
 
-internal class InterviewsHistoryScreenModel(
+internal class InterviewHistoryScreenModel(
     interviewHistoryRepository: InterviewHistoryRepository,
 ) : ScreenModel {
 
     data class State(
-        val interviews: List<InterviewHistorySummaryUI>,
+        val interviews: List<InterviewHistorySummary>,
         val isLoading: Boolean,
     )
 

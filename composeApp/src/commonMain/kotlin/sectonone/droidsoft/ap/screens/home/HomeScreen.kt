@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -31,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -52,7 +50,7 @@ import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLay
 import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
-import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewsHistoryScreen
+import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewHistoryScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.nightskyGradient
@@ -88,7 +86,7 @@ internal object HomeScreen : Tab {
                 }
             },
             onSeeAllInterviewsClick = {
-                navigator.push(InterviewsHistoryScreen)
+                navigator.push(InterviewHistoryScreen)
             }
         )
     }
@@ -182,7 +180,7 @@ private fun HomeScreenFeedSection(
         feed.forEach { feedItem: UIHomeScreenSection ->
             when (feedItem) {
                 is UIHomeScreenSection.MenuItems -> MenuItems(feedItem.items, onMenuItemClicked)
-                is UIHomeScreenSection.InterviewHistorySummary -> InterviewHistorySummaryLayout(feedItem, onSeeAllInterviewsClick = onSeeAllInterviewsClick)
+                is UIHomeScreenSection.InterviewHistorySummaryUI -> InterviewHistorySummaryLayout(feedItem, onSeeAllInterviewsClick = onSeeAllInterviewsClick)
                 is UIHomeScreenSection.RecommendedCategoriesCarousel -> RecommendedCategoriesLayout(feedItem)
                 is UIHomeScreenSection.PagerCarousel -> PagerCarouselLayout(feedItem)
                 is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
@@ -287,7 +285,7 @@ val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
         UIHomeScreenSection.MenuItems(
             items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.QUESTIONS_CATEGORIES)
         ),
-        UIHomeScreenSection.InterviewHistorySummary(
+        UIHomeScreenSection.InterviewHistorySummaryUI(
             items = interviewsSummaryMock
         ),
         UIHomeScreenSection.RecommendedCategoriesCarousel(

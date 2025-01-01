@@ -12,6 +12,7 @@ CREATE TABLE Category (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     interviewId INTEGER NOT NULL,
     name TEXT NOT NULL,
+    key TEXT NOT NULL,
     FOREIGN KEY (interviewId) REFERENCES InterviewSummary(id)
 );
 
@@ -40,7 +41,7 @@ selectWholeInterviewSummaryHistory:
 SELECT * FROM InterviewSummary;
 
 insertCategory:
-INSERT INTO Category (interviewId, name) VALUES (?, ?);
+INSERT INTO Category (interviewId, name, key) VALUES (?, ?, ?);
 
 -- Select Categories by Interview ID
 selectCategoriesByInterviewId:

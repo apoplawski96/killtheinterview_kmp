@@ -3,7 +3,7 @@ package sectonone.droidsoft.ap.model
 enum class Category(
     val key: String,
     val displayName: String,
-    val questionsFile: String = "v2_questions_$key.json",
+    val fileWithQuestions: String = "v2_questions_$key.json",
     val imageFile: String = "$key.webp",
 ) {
     Android("android", "Android"),
@@ -29,3 +29,5 @@ enum class Category(
         }
     }
 }
+
+val allQuestionsFiles get() = Category.entries.map { it.fileWithQuestions }

@@ -1,25 +1,39 @@
 package sectonone.droidsoft.ap.data
 
-import sectonone.droidsoft.ap.feature.list.data.QuestionsMapper
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.model.allQuestionsFiles
+import sectonone.droidsoft.ap.model.toDomainModel
 
 class QuestionsRepository(
-    private val questionsDataSource: QuestionsDataSource,
-    private val questionsMapper: QuestionsMapper,
+    private val questionsDataSource: LocalQuestionsDataSource,
 ) {
 
-    suspend fun getQuestions(categories: List<Category>, questionsCount: Int? = null): List<Question> {
+    suspend fun getQuestions(
+        categories: List<Category> = Category.entries,
+        questionsLimit: Int? = null
+    ): List<Question> {
         val questionsRaw = questionsDataSource.getQuestions(
-            files = categories.map { it.questionsFile }
+            files = categories.map { it.fileWithQuestions }
         )
-        val questionsLimited = if (questionsCount != null) {
-            questionsRaw.take(questionsCount)
+        return if (questionsLimit != null) {
+            questionsRaw.take(questionsLimit)
         } else {
             questionsRaw
+        }.let {
+            it.map { question ->
+                question.toDomainModel
+            }
         }
-        return questionsMapper.map(
-            questionsLimited
-        )
+    }
+
+    suspend fun getQuestionsForIds(ids: List<Int>): List<Question> {
+        val allQuestions = questionsDataSource.getQuestions(allQuestionsFiles)
+        val questionsForGivenId = buildList {
+            ids.forEach { questionId ->
+                add(allQuestions.find { it.id == questionId })
+            }
+        }
+        return questionsForGivenId.mapNotNull { it?.toDomainModel }
     }
 }

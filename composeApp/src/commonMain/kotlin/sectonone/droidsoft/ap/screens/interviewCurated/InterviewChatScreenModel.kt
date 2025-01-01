@@ -75,7 +75,7 @@ class InterviewChatScreenModel(
 
     fun initQuestions(categories: List<Category>) {
         screenModelScope.launch {
-            val questions = questionsRepository.getQuestions(categories, questionsCount = 5)
+            val questions = questionsRepository.getQuestions(categories, questionsLimit = 5)
             _categories = categories
             _questionsBase.clear()
             _questionsBase.addAll(questions)
@@ -141,7 +141,7 @@ class InterviewChatScreenModel(
             println("2137 - we are in else")
             _screenState.value = ScreenState.InterviewFinished(scoreboardState.value)
             val scoreboard = scoreboardState.value
-            interviewHistoryRepository.saveInterviewSummary(
+            interviewHistoryRepository.saveInterview(
                 answeredCount = scoreboard.questionsAnswered,
                 failedCount = scoreboard.questionsAsked - scoreboard.questionsAnswered,
                 categories = _categories,

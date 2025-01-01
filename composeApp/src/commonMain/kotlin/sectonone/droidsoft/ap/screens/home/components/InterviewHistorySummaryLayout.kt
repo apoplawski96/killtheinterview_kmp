@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
@@ -38,7 +36,7 @@ import sectonone.droidsoft.ap.compose.KTILinearProgressIndicator
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.prettyPrint
-import sectonone.droidsoft.ap.model.InterviewHistorySummaryUI
+import sectonone.droidsoft.ap.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 
@@ -48,7 +46,7 @@ val interviewSummaryCardSize = 164.dp
 
 @Composable
 fun InterviewHistorySummaryLayout(
-    uiState: UIHomeScreenSection.InterviewHistorySummary,
+    uiState: UIHomeScreenSection.InterviewHistorySummaryUI,
     variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.GridTwoRows,
     onSeeAllInterviewsClick: () -> Unit,
 ) {
@@ -62,7 +60,11 @@ fun InterviewHistorySummaryLayout(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
         ) {
             KTITextNew("Your last interviews", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-            KTITextNew("See all", fontSize = 12.sp, color = ktiColors.textVariant2, modifier = Modifier.clickable { onSeeAllInterviewsClick.invoke() })
+            KTITextNew(
+                "See all",
+                fontSize = 12.sp,
+                color = ktiColors.textVariant2,
+                modifier = Modifier.clickable { onSeeAllInterviewsClick.invoke() })
         }
         VerticalSpacer(8.dp)
         LazyRow(
@@ -78,7 +80,7 @@ fun InterviewHistorySummaryLayout(
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                InterviewSummaryCard(uiState.items[index], variant)
+                                InterviewSummaryCard(item = uiState.items[index], onClick = {}, variant = variant)
                             }
                         }
                     }
@@ -92,11 +94,11 @@ fun InterviewHistorySummaryLayout(
                             ) {
                                 // First item in the row
                                 if (index * 2 < itemCount) {
-                                    InterviewSummaryCard(uiState.items[index * 2], variant)
+                                    InterviewSummaryCard(uiState.items[index * 2], {}, variant)
                                 }
                                 // Second item in the row
                                 if ((index * 2) + 1 < itemCount) {
-                                    InterviewSummaryCard(uiState.items[(index * 2) + 1], variant)
+                                    InterviewSummaryCard(uiState.items[(index * 2) + 1], {}, variant)
                                 }
                             }
                         }
@@ -112,7 +114,11 @@ fun InterviewHistorySummaryLayout(
 }
 
 @Composable
-fun InterviewSummaryCard(item: InterviewHistorySummaryUI, variant: InterviewHistorySummaryVariant) {
+fun InterviewSummaryCard(
+    item: InterviewHistorySummary,
+    onClick: (InterviewHistorySummary) -> Unit,
+    variant: InterviewHistorySummaryVariant
+) {
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(item.scorePercent) {
         animatedProgress.animateTo(
@@ -128,20 +134,22 @@ fun InterviewSummaryCard(item: InterviewHistorySummaryUI, variant: InterviewHist
         )
     }
 
-    val cardSizeModifier = when(variant) {
+    val cardSizeModifier = when (variant) {
         InterviewHistorySummaryVariant.GridSingleRow -> {
             Modifier.size(interviewSummaryCardSize)
         }
+
         InterviewHistorySummaryVariant.GridTwoRows -> {
             Modifier.size(interviewSummaryCardSize)
         }
+
         InterviewHistorySummaryVariant.Column -> {
             Modifier.fillMaxWidth().height(144.dp)
         }
     }
 
     Card(
-        modifier = cardSizeModifier then Modifier.clip(RoundedCornerShape(16.dp)),
+        modifier = cardSizeModifier then Modifier.clip(RoundedCornerShape(16.dp)).clickable { onClick.invoke(item) },
         elevation = 4.dp,
         backgroundColor = ktiColors.backgroundSurfaceVariant
     ) {
@@ -159,9 +167,9 @@ fun InterviewSummaryCard(item: InterviewHistorySummaryUI, variant: InterviewHist
                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
                     KTIIcon(
                         when (item.successSummary) {
-                            InterviewHistorySummaryUI.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
-                            InterviewHistorySummaryUI.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
-                            InterviewHistorySummaryUI.SuccessSummary.Success -> Icons.Default.ThumbUp
+                            InterviewHistorySummary.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
+                            InterviewHistorySummary.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
+                            InterviewHistorySummary.SuccessSummary.Success -> Icons.Default.ThumbUp
                         }
                     )
                     HorizontalSpacer(12.dp)

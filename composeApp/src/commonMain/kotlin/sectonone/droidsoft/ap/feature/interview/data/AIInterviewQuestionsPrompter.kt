@@ -1,13 +1,11 @@
 package sectonone.droidsoft.ap.feature.interview.data
 
-import sectonone.droidsoft.ap.data.QuestionsDatabaseHelper
 import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
-import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
 import sectonone.droidsoft.ap.model.Role
+import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
 
 class AIInterviewQuestionsPrompter(
     private val openAIPrompter: OpenAIPrompter,
-    private val questionsDatabase: QuestionsDatabaseHelper,
 ) {
 
     sealed interface ResultJson {

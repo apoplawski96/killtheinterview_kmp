@@ -5,7 +5,7 @@ data class QuestionHistory(
     val userKnewTheAnswer: Boolean,
 )
 
-data class InterviewHistorySummaryUI(
+data class InterviewHistorySummary(
     val id: Int,
     val categoriesSummary: List<String>,
     val answeredCount: Int,
@@ -33,4 +33,4 @@ fun interviewSummary(
     answeredCount: Int = 2,
     failedCount: Int = 10,
     interviewDate: String = "27 Dec 2024",
-) = InterviewHistorySummaryUI(id, categories, answeredCount, failedCount, interviewDate)
+) = InterviewHistorySummary(id, categories, answeredCount, failedCount, interviewDate)
