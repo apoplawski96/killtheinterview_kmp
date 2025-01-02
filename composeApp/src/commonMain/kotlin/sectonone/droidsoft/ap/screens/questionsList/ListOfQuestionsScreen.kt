@@ -50,26 +50,23 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
-import sectonone.droidsoft.ap.compose.KTIColumnWithGradient
-import sectonone.droidsoft.ap.compose.KTIText
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTITopAppBar
-import sectonone.droidsoft.ap.compose.VerticalSpacer
-import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIModalBottomSheetLayout
-import sectonone.droidsoft.ap.compose.clickableNoRipple
-import sectonone.droidsoft.ap.compose.prettyPrint
+import sectonone.droidsoft.ap.ui.components.KTICircularProgressIndicator
+import sectonone.droidsoft.ap.ui.components.KTIColumnWithGradient
+import sectonone.droidsoft.ap.ui.components.KTIText
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.KTITopAppBar
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.bottomsheet.KTIModalBottomSheetLayout
+import sectonone.droidsoft.ap.ui.components.clickableNoRipple
+import sectonone.droidsoft.ap.ui.components.prettyPrint
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenBottomSheetContent
-import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenScoreBar
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_divider
 import sectonone.droidsoft.ap.theme.kti_green
-import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_softwhite
 
 internal class ListOfQuestionsScreen(

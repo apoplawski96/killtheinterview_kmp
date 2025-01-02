@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose.bottomsheet.base
+package sectonone.droidsoft.ap.ui.components.bottomsheet
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize

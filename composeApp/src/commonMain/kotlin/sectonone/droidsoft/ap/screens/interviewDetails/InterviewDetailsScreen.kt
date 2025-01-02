@@ -9,8 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTITopAppBar
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.KTITopAppBar
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.theme.ktiColors
 

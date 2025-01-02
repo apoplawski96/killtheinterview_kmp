@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose.bottomsheet.base
+package sectonone.droidsoft.ap.ui.components.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,8 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.theme.*
 
 @Composable

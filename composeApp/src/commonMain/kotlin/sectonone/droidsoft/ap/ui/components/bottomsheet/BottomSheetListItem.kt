@@ -1,6 +1,4 @@
-package sectonone.droidsoft.ap.compose.bottomsheet.model
-
-import sectonone.droidsoft.ap.compose.bottomsheet.content.BottomSheetListItemType
+package sectonone.droidsoft.ap.ui.components.bottomsheet
 
 data class BottomSheetListItem<T>(
     val value: T,

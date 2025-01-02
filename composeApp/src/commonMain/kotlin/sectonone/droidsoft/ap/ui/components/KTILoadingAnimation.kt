@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose
+package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

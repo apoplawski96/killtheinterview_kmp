@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.screens.interviewCurated
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -46,15 +47,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import sectonone.droidsoft.ap.compose.KTIButtonShared
-import sectonone.droidsoft.ap.compose.KTIChatTopAppBar
-import sectonone.droidsoft.ap.compose.KTIFloatingActionButton
-import sectonone.droidsoft.ap.compose.HorizontalSpacer
-import sectonone.droidsoft.ap.compose.KTIIcon
-import sectonone.droidsoft.ap.compose.KTIScaffold
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.VerticalSpacer
-import sectonone.droidsoft.ap.compose.LoadingAnimation
+import sectonone.droidsoft.ap.ui.components.KTIButtonShared
+import sectonone.droidsoft.ap.ui.components.KTIChatTopAppBar
+import sectonone.droidsoft.ap.ui.components.KTIFloatingActionButton
+import sectonone.droidsoft.ap.ui.components.HorizontalSpacer
+import sectonone.droidsoft.ap.ui.components.KTIIcon
+import sectonone.droidsoft.ap.ui.components.KTIScaffold
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.LoadingAnimation
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
@@ -145,7 +146,7 @@ private fun InterviewChatScreenContent(
                             Color.Yellow,
                         )
                     )
-                    androidx.compose.animation.AnimatedVisibility(
+                    AnimatedVisibility(
                         visible = isAnswerExpanded.value.not() && inputEnabled,
                         enter = scaleIn(),
                         exit = scaleOut(),

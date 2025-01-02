@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose.bottomsheet.content
+package sectonone.droidsoft.ap.ui.components.bottomsheet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -13,9 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sectonone.droidsoft.ap.compose.bottomsheet.model.BottomSheetListItem
-import sectonone.droidsoft.ap.compose.KTIIcon
-import sectonone.droidsoft.ap.compose.KTIText
+import sectonone.droidsoft.ap.ui.components.KTIIcon
+import sectonone.droidsoft.ap.ui.components.KTIText
 import sectonone.droidsoft.ap.theme.kti_grayish
 import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_secondary_text

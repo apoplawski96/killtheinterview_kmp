@@ -1,7 +1,7 @@
 package sectonone.droidsoft.ap.data.source
 
 import kotlinx.serialization.json.Json
-import sectonone.droidsoft.ap.json.ResourcesFileReader
+import sectonone.droidsoft.ap.data.file.ResourcesFileReader
 import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
 
 class LocalQuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) : QuestionsDataSource {

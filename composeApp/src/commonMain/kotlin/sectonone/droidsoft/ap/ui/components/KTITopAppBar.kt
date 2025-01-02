@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalResourceApi::class)
 
-package sectonone.droidsoft.ap.compose
+package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

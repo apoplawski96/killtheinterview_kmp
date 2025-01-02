@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose
+package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
@@ -45,9 +45,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.white
-import sectonone.droidsoft.ap.theme.white30
 import sectonone.droidsoft.ap.theme.white50
-import sectonone.droidsoft.ap.theme.white80
 
 @Composable
 fun KTIAvatarWithAnimation(

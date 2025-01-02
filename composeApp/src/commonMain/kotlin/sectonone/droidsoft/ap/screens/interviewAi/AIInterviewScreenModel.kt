@@ -2,7 +2,7 @@ package sectonone.droidsoft.ap.screens.interviewAi
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompter
+import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
 import sectonone.droidsoft.ap.model.schema.AIQuestion
 import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
 import sectonone.droidsoft.ap.model.Role

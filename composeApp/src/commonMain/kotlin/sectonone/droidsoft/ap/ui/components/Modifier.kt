@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose
+package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

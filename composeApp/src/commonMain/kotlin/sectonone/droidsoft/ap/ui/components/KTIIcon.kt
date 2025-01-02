@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.compose
+package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.Dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.painterResource
-import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 
 @Composable

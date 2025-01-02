@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sectonone.droidsoft.ap.compose.KTITextNew
+import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_softblack
 import sectonone.droidsoft.ap.theme.kti_softwhite

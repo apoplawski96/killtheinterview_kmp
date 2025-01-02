@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sectonone.droidsoft.ap.compose.VerticalSpacer
-import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIBottomSheetSurface
-import sectonone.droidsoft.ap.compose.bottomsheet.content.BottomSheetListItemType
-import sectonone.droidsoft.ap.compose.bottomsheet.content.SelectableListItem
-import sectonone.droidsoft.ap.compose.bottomsheet.model.BottomSheetListItem
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.bottomsheet.KTIBottomSheetSurface
+import sectonone.droidsoft.ap.ui.components.bottomsheet.BottomSheetListItemType
+import sectonone.droidsoft.ap.ui.components.bottomsheet.SelectableListItem
+import sectonone.droidsoft.ap.ui.components.bottomsheet.BottomSheetListItem
 import sectonone.droidsoft.ap.model.Difficulty
 
 @Composable

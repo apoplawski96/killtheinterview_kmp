@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import sectonone.droidsoft.ap.compose.KTIButton
-import sectonone.droidsoft.ap.compose.KTITextButton
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.KTIButton
+import sectonone.droidsoft.ap.ui.components.KTITextButton
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 

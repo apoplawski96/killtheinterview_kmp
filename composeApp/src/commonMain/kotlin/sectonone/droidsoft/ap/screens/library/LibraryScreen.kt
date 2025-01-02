@@ -18,11 +18,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import sectonone.droidsoft.ap.compose.KTIBackgroundSurface
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.VerticalSpacer
-import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.screens.home.HomeScreenModel
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.theme.KTITheme
 
 internal object LibraryScreen : Tab {

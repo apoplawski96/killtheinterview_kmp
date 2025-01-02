@@ -1,6 +1,5 @@
-package sectonone.droidsoft.ap.feature.interview.data
+package sectonone.droidsoft.ap.data.openAi
 
-import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
 import sectonone.droidsoft.ap.model.Role
 import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
 
