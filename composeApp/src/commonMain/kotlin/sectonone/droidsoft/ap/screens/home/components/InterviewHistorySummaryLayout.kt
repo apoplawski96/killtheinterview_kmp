@@ -25,7 +25,7 @@ enum class InterviewHistorySummaryVariant { GridSingleRow, GridTwoRows, Column; 
 val interviewSummaryCardSize = 164.dp
 
 @Composable
-fun InterviewHistorySummaryLayout(
+internal fun InterviewHistorySummaryLayout(
     uiState: UIHomeScreenSection.InterviewHistorySummaryUI,
     variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.GridTwoRows,
     onSeeAllInterviewsClick: () -> Unit,

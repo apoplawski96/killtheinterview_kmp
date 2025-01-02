@@ -20,7 +20,7 @@ import kotlin.random.Random
 
 private const val interval = 200L
 
-class InterviewChatScreenModel(
+internal class InterviewChatScreenModel(
     private val questionsRepository: QuestionsRepository,
     private val interviewRepository: InterviewRepository,
 ) : ScreenModel {

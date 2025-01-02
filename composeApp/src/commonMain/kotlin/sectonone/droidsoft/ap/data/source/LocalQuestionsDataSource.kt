@@ -6,7 +6,6 @@ import sectonone.droidsoft.ap.model.schema.QuestionScheme
 
 class LocalQuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) : QuestionsDataSource {
 
-    // TODO: Wrap with try catches, or in repository?
     override suspend fun getQuestions(files: List<String>): List<QuestionScheme>? = try {
         buildList {
             files.forEach { file ->

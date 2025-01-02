@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -55,7 +56,7 @@ import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.nightskyGradient
 
-internal object HomeScreen : Tab {
+internal object HomeScreen : Screen {
 
     @Composable
     override fun Content() {
@@ -90,19 +91,10 @@ internal object HomeScreen : Tab {
             }
         )
     }
-
-    override val options: TabOptions
-        @Composable
-        get() {
-            val icon = rememberVectorPainter(Icons.Default.Home)
-            return remember {
-                TabOptions(0u, "Home", icon)
-            }
-        }
 }
 
 @Composable
-fun HomeScreenContent(
+private fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSeeAllInterviewsClick: () -> Unit,
@@ -280,7 +272,7 @@ val interviewsSummaryMock = listOf(
     interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
 )
 
-val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
+private val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
     items = listOf(
         UIHomeScreenSection.MenuItems(
             items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.QUESTIONS_CATEGORIES)

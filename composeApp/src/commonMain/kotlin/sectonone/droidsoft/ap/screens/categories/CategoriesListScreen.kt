@@ -25,10 +25,7 @@ internal object CategoriesListScreen : Screen {
 
         CategoriesListScreenContent(
             onClick = { category ->
-                println("2137 - category clicked: $category")
-                if (category != null) { // todo: remove nullability
-                    navigator.push(ListOfQuestionsScreen(listOf(category)))
-                }
+                navigator.push(ListOfQuestionsScreen(listOf(category)))
             },
             items = categories
         )
@@ -37,7 +34,7 @@ internal object CategoriesListScreen : Screen {
 
 @Composable
 private fun CategoriesListScreenContent(
-    onClick: (Category?) -> Unit,
+    onClick: (Category) -> Unit,
     items: List<Category>,
 ) {
     KTIBackgroundSurface {

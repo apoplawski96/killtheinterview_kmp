@@ -61,6 +61,7 @@ import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.white
 import sectonone.droidsoft.ap.theme.white80
 import sectonone.droidsoft.ap.theme.white90
+import sectonone.droidsoft.ap.ui.components.prettyPrint
 
 private val imageRadius = 24.dp
 private const val pagerAutoScrollAnimationDurationMillis = 700
@@ -68,7 +69,7 @@ private val containerHeight = 450.dp
 private val containerMinHeightStandalone = 454.dp
 
 @Composable
-fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
+internal fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
     val items = uiState.items
     val pageCount = remember(items) { items.size }
     val pagerState = rememberPagerState(pageCount = { pageCount })
@@ -230,7 +231,7 @@ private fun InfoSection(
         Column(Modifier.padding(start = 24.dp, end = 24.dp)) {
             VerticalSpacer(height = 4.dp)
             KTITextNew(
-                text = item.category?.displayName.toString(),
+                text = item.categories.prettyPrint(),
                 fontWeight = if (showAnswer.not()) FontWeight(500) else FontWeight(400),
                 fontSize = categoryFontSize.sp,
                 lineHeight = 22.sp,

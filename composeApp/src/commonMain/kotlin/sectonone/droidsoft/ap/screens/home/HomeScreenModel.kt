@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.repository.HomeRepository
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 
-class HomeScreenModel(
+internal class HomeScreenModel(
     private val getHomeScreenFeedItems: HomeRepository,
 ) : ScreenModel {
 

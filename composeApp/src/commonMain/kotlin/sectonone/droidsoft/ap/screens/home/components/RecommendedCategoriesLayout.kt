@@ -20,7 +20,7 @@ import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 
 @Composable
-fun RecommendedCategoriesLayout(
+internal fun RecommendedCategoriesLayout(
     uiState: UIHomeScreenSection.RecommendedCategoriesCarousel,
     variant: InterviewHistorySummaryVariant = InterviewHistorySummaryVariant.GridSingleRow,
 ) {

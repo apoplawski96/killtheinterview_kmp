@@ -9,34 +9,35 @@ class HomeRepository(private val questionsRepository: QuestionsRepository) {
 
     suspend fun get(): List<UIHomeScreenSection> = listOf(
         UIHomeScreenSection.MenuItems(
-            items = listOf(
+            listOf(
                 HomeScreenMenuItem.QUESTIONS_CATEGORIES,
                 HomeScreenMenuItem.CHAT_INTERVIEW,
             )
         ),
         UIHomeScreenSection.PagerCarousel(
-            items = listOfNotNull(
-                categoryWithRandomQuestion(Category.AndroidCore),
-                categoryWithRandomQuestion(Category.IOS),
-                categoryWithRandomQuestion(Category.ProgrammingParadigms),
-                categoryWithRandomQuestion(Category.AndroidAppArchitecture),
-                categoryWithRandomQuestion(Category.DesignPatterns),
-                categoryWithRandomQuestion(Category.Compose),
-                categoryWithRandomQuestion(Category.Coroutines),
-            )
+            getRandomQuestions()
         ),
         UIHomeScreenSection.RecommendedCategoriesCarousel(
             listOf(
-                Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
+                Category.Android,
+                Category.Compose,
+                Category.AndroidSecurity,
+                Category.DesignPatterns,
+                Category.Kotlin,
             )
         ),
         UIHomeScreenSection.InterviewHistorySummaryUI(
-            items = interviewsSummaryMock
+            interviewsSummaryMock
         ),
     )
 
-    private suspend fun categoryWithRandomQuestion(category: Category): UIHomeScreenSection.PagerCarousel.CarouselItem.CategoryCard? {
-        val question = questionsRepository.getQuestions(listOf(category))?.random() ?: return null
-        return UIHomeScreenSection.PagerCarousel.CarouselItem.CategoryCard(category, question)
+    private suspend fun getRandomQuestions(): List<UIHomeScreenSection.PagerCarousel.CarouselItem.CategoryCard> {
+        val questions = questionsRepository.getQuestions()?.shuffled()?.take(10) ?: emptyList()
+        return questions.map { question ->
+            UIHomeScreenSection.PagerCarousel.CarouselItem.CategoryCard(
+                item = question.categories.first(),
+                question = question
+            )
+        }
     }
 }

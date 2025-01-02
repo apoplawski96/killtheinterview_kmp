@@ -64,7 +64,6 @@ sealed interface UIHomeScreenSection {
             val imagePath: String,
             open val question: Question,
             open val categories: List<Category>,
-            open val category: Category?,
         ) {
             data class QuestionCard(
                 val item: Question
@@ -72,7 +71,6 @@ sealed interface UIHomeScreenSection {
                 question = item,
                 categories = item.categories,
                 imagePath = item.categories.firstOrNull()?.imageFile ?: "",
-                category = item.categories.firstOrNull()
             )
 
             data class CategoryCard(
@@ -82,7 +80,6 @@ sealed interface UIHomeScreenSection {
                 imagePath = item.imageFile,
                 question = question,
                 categories = listOf(item),
-                category = item
             )
         }
     }
