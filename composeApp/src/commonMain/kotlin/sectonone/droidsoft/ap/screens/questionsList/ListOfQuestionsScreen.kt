@@ -4,6 +4,7 @@ package sectonone.droidsoft.ap.screens.questionsList
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -39,6 +42,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,11 +58,13 @@ import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.compose.VerticalSpacer
 import sectonone.droidsoft.ap.compose.bottomsheet.base.KTIModalBottomSheetLayout
 import sectonone.droidsoft.ap.compose.clickableNoRipple
+import sectonone.droidsoft.ap.compose.prettyPrint
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenBottomSheetContent
 import sectonone.droidsoft.ap.screens.questionsList.components.ListScreenScoreBar
+import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
 import sectonone.droidsoft.ap.theme.kti_divider
@@ -90,14 +97,11 @@ private fun ListOfQuestionsScreen(
     val scope = rememberCoroutineScope()
 
     val viewState = viewModel.viewState.collectAsState().value
-    val selectedDifficulties = viewModel.selectedDifficulties.collectAsState().value
     val scoreboard = viewModel.scoreboard.collectAsState().value
 
     val bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
-
-    var sortDropdownMenuDisplayed by remember { mutableStateOf(false) }
 
     val subCategoryTitle = categories.first().displayName
 
@@ -120,20 +124,7 @@ private fun ListOfQuestionsScreen(
 
     ListScreenContentNew(
         viewState = viewState,
-        bottomSheetContent = {
-            ListScreenBottomSheetContent(
-                selectedDifficulties = selectedDifficulties,
-                onDifficultyToggled = { toggledDifficulty ->
-                    viewModel.toggleDifficulty(toggledDifficulty)
-                }
-            )
-        },
-        bottomSheetState = bottomSheetState,
         topBarTitle = subCategoryTitle,
-        onToggleBottomSheetClick = { viewModel.toggleBottomSheet() },
-        toggleDropdownMenu = { sortDropdownMenuDisplayed = !sortDropdownMenuDisplayed },
-        sortDropdownMenuDisplayed = sortDropdownMenuDisplayed,
-        onSortModeClick = { sortMode -> viewModel.sortModeSelected(sortMode) },
         questionsAnsweredCount = scoreboard.answeredCount,
         questionsTotalCount = scoreboard.totalCount,
         markAsAnswered = { question -> viewModel.markQuestionAsAnswered(question) },
@@ -145,13 +136,7 @@ private fun ListOfQuestionsScreen(
 @Composable
 private fun ListScreenContentNew(
     viewState: QuestionsListScreenModel.ViewState,
-    bottomSheetState: ModalBottomSheetState,
-    bottomSheetContent: @Composable () -> Unit,
-    onToggleBottomSheetClick: () -> Unit,
     topBarTitle: String,
-    sortDropdownMenuDisplayed: Boolean,
-    toggleDropdownMenu: () -> Unit,
-    onSortModeClick: (QuestionsListScreenModel.SortMode) -> Unit,
     markAsAnswered: (Question) -> Unit,
     markAsUnanswered: (Question) -> Unit,
     questionsAnsweredCount: Int,
@@ -182,30 +167,6 @@ private fun ListScreenContentNew(
             }
         }
     )
-
-//    KTIScaffold(
-//        topBar = { KTIChatTopAppBar() },
-//    ) {
-//        when (viewState) {
-//            is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
-//                QuestionList(
-//                    questions = viewState.questions,
-//                    markAsAnswered = markAsAnswered,
-//                    markAsUnanswered = markAsUnanswered,
-//                    questionsTotalCount = questionsTotalCount,
-//                    questionsAnsweredCount = questionsAnsweredCount
-//                )
-//            }
-//
-//            is QuestionsListScreenModel.ViewState.Loading -> {
-//                KTICircularProgressIndicator()
-//            }
-//
-//            QuestionsListScreenModel.ViewState.Error -> {
-//                KTIText(text = "Error!")
-//            }
-//        }
-//    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -323,19 +284,112 @@ private fun QuestionList(
     questionsTotalCount: Int,
 ) {
     Column {
-        ListScreenScoreBar(score = questionsAnsweredCount, total = questionsTotalCount)
-        LazyColumn {
+//        ListScreenScoreBar(score = questionsAnsweredCount, total = questionsTotalCount)
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             itemsIndexed(
                 items = questions,
                 key = { _, item -> "${item.id} + ${item.hashCode()}" }
             ) { _, item ->
-                QuestionItem(
+                QuestionCard(
                     item = item,
                     markAsAnswered = markAsAnswered,
                     markAsUnanswered = markAsUnanswered,
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun QuestionCard(
+    item: Question,
+    markAsAnswered: (Question) -> Unit,
+    markAsUnanswered: (Question) -> Unit,
+) {
+    var isExpanded by remember(item) { mutableStateOf(false) }
+    var isAnswered by remember(item) { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth().clickable {
+
+        },
+        elevation = 4.dp,
+        backgroundColor = ktiColors.backgroundSurfaceVariant,
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+            // Top section
+            VerticalSpacer(height = 4.dp)
+            QuestionTopSection(question = item)
+            VerticalSpacer(height = if (isAnswered.not()) 2.dp else 0.dp)
+            // Question
+            KTITextNew(
+                text = item.question,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier.padding(horizontal = horizontalPadding + 2.dp),
+                color = if (isAnswered.not()) ktiColors.textMain else ktiColors.textVariant2,
+                lineHeight = 14.sp,
+            )
+            VerticalSpacer(height = 8.dp)
+            // Answer
+            AnimatedVisibility(visible = isExpanded) {
+                Column(
+                    modifier = Modifier.clip(RoundedCornerShape(16.dp)).background(KTITheme.colors.backgroundSurface)
+                        .padding(8.dp)
+                ) {
+                    VerticalSpacer(height = 8.dp)
+                    KTITextNew(
+                        text = item.answer,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
+                        modifier = Modifier.padding(horizontal = horizontalPadding + 2.dp),
+                        fontStyle = FontStyle.Italic,
+                        color = KTITheme.colors.textMain,
+                    )
+                    VerticalSpacer(height = 8.dp)
+                }
+            }
+            VerticalSpacer(height = 8.dp)
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isAnswered.not()) {
+                    ToggleAnswerButton(
+                        shouldDisplayAnswer = isExpanded,
+                        displayAnswerOnClick = { isExpanded = !isExpanded },
+                    )
+                } else {
+                    IconButton(onClick = {
+                        isAnswered = false
+                        isExpanded = false
+                        markAsUnanswered.invoke(item)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Refresh,
+                            contentDescription = "Reopen question",
+                            tint = kti_softwhite,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
+        }
+//        AnimatedVisibility(visible = isExpanded.value || isAnswered.value) {
+//            Column(modifier = Modifier.fillMaxWidth()) {
+//                BottomSection(
+//                    isAnswered = isAnswered.value,
+//                    markAsAnswered = { question ->
+//                        isAnswered.value = true
+//                        isExpanded.value = false
+//                        markAsAnswered.invoke(question)
+//                    },
+//                    item = item,
+//                )
+//            }
+//        }
+        VerticalSpacer(8.dp)
     }
 }
 
@@ -436,7 +490,7 @@ private fun QuestionTopSection(
     question: Question,
 ) {
     KTITextNew(
-        text = "categories should be here",
+        text = question.categories.prettyPrint(),
         fontSize = 10.sp,
         fontWeight = FontWeight.W300,
         color = ktiColors.textMain.copy(alpha = 0.6f),
@@ -470,7 +524,7 @@ private fun ToggleAnswerButton(
     Icon(
         imageVector = if (shouldDisplayAnswer) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
         contentDescription = null,
-        tint = if (shouldDisplayAnswer) kti_accent else kti_softblack,
+        tint = if (shouldDisplayAnswer) kti_accent else KTITheme.colors.textVariant2,
         modifier = Modifier
             .clickableNoRipple { displayAnswerOnClick() }
             .size(18.dp)
