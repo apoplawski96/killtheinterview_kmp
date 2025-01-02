@@ -43,11 +43,6 @@ import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
 @Composable
-internal fun JSApp() = AppTheme {
-    InitialUi(ResourcesFileReader())
-}
-
-@Composable
 internal fun App() = AppTheme {
     KTITheme {
         Navigator(HomeScreen) { navigator ->
@@ -62,10 +57,15 @@ internal fun App() = AppTheme {
     }
 }
 
+@Composable
+internal fun JSApp() = AppTheme {
+    InitialUi()
+}
+
 internal expect fun openUrl(url: String?)
 
 @Composable
-private fun InitialUi(fileReader: ResourcesFileReader) {
+private fun InitialUi() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
