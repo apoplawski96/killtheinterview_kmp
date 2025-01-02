@@ -58,7 +58,7 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
             val result = when (val questions = getQuestions.invoke(categories)) {
                 is GetQuestionsList.Result.Success -> {
                     _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
-                    ViewState.QuestionsLoaded(questions.questions.sortedBy { it.difficulty })
+                    ViewState.QuestionsLoaded(questions.questions)
                 }
 
                 is GetQuestionsList.Result.Error -> {
@@ -125,9 +125,7 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
         screenModelScope.launch {
             selectedDifficulties.collect { selectedDifficulties ->
                 if (initialViewState is ViewState.QuestionsLoaded) {
-                    val filteredQuestions = initialViewState.questions.filter { question ->
-                        selectedDifficulties.contains(question.difficulty)
-                    }
+                    val filteredQuestions = initialViewState.questions
                     _viewState.update { ViewState.QuestionsLoaded(filteredQuestions) }
                 }
             }
@@ -141,8 +139,8 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
                 if (currentViewState is ViewState.QuestionsLoaded) {
                     val questions = currentViewState.questions
                     val sortedQuestions = when (sortMode) {
-                        SortMode.BY_DIFFICULTY_ASCENDING -> questions.sortedBy { it.difficulty }
-                        SortMode.BY_DIFFICULTY_DESCENDING -> questions.sortedByDescending { it.difficulty }
+                        SortMode.BY_DIFFICULTY_ASCENDING -> questions
+                        SortMode.BY_DIFFICULTY_DESCENDING -> questions
                         SortMode.RANDOMIZED -> questions.shuffled()
                     }
                     _viewState.update { ViewState.QuestionsLoaded(sortedQuestions) }

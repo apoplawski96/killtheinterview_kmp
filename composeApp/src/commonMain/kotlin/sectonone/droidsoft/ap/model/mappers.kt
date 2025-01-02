@@ -17,7 +17,6 @@ val QuestionSchemaV2.toDomainModel
         id = id,
         answer = answer,
         question = question,
-        difficulty = Difficulty.Intermediate,
         categories = categories.mapNotNull {
             Category.getForKey(it)
         }
