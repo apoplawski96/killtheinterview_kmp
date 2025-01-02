@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.repository.InterviewRepository
-import sectonone.droidsoft.ap.model.InterviewHistoryDetails
+import sectonone.droidsoft.ap.model.InterviewDetails
 
 class InterviewDetailsScreenModel(private val interviewRepository: InterviewRepository) : ScreenModel {
 
     data class State(
-        val details: InterviewHistoryDetails?,
+        val details: InterviewDetails?,
         val isLoading: Boolean,
     )
 

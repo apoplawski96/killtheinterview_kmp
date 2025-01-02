@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import sectonone.droidsoft.ap.data.source.InterviewHistoryDataSource
 import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.InterviewHistoryDetails
+import sectonone.droidsoft.ap.model.InterviewDetails
 import sectonone.droidsoft.ap.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.model.QuestionHistory
 
@@ -23,7 +23,7 @@ class InterviewRepository(
         ) { interview, categories, questions ->
             if (interview == null) return@combine null
 
-            InterviewHistoryDetails(
+            InterviewDetails(
                 categories = categories.mapNotNull {
                     Category.getForKey(it.key)
                 },

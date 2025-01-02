@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.Difficulty
 import sectonone.droidsoft.ap.model.Question
 
 class QuestionsListScreenModel(
@@ -41,9 +40,6 @@ class QuestionsListScreenModel(
     private val _sortMode: MutableSharedFlow<SortMode> = MutableSharedFlow()
     private val sortMode: SharedFlow<SortMode> = _sortMode
 
-    private val _selectedDifficulties: MutableStateFlow<List<Difficulty>> = MutableStateFlow(Difficulty.entries)
-    val selectedDifficulties: StateFlow<List<Difficulty>> = _selectedDifficulties
-
     private val _scoreboard: MutableStateFlow<Scoreboard> = MutableStateFlow(Scoreboard(0, 0))
     val scoreboard: StateFlow<Scoreboard> = _scoreboard
 
@@ -59,39 +55,8 @@ class QuestionsListScreenModel(
 
             _viewState.update { ViewState.QuestionsLoaded(resultNew) }
 
-            collectSelectedDifficultiesUpdates()
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
-        }
-    }
-
-    fun toggleBottomSheet() {
-        screenModelScope.launch {
-            _viewEvents.emit(ViewEvent.ToggleBottomSheet)
-        }
-    }
-
-    fun toggleDifficulty(selectedDifficulty: Difficulty) {
-        val isDifficultyAlreadySelected = selectedDifficulties.value.firstOrNull { difficulty ->
-            selectedDifficulty == difficulty
-        } != null
-
-        if (isDifficultyAlreadySelected && selectedDifficulties.value.count() < 2) return
-
-        val result = if (isDifficultyAlreadySelected) {
-            selectedDifficulties.value.filterNot { difficulty ->
-                selectedDifficulty == difficulty
-            }
-        } else {
-            selectedDifficulties.value.toMutableList() + selectedDifficulty
-        }
-
-        _selectedDifficulties.update { result }
-    }
-
-    fun sortModeSelected(sortMode: SortMode) {
-        screenModelScope.launch {
-            _sortMode.emit(sortMode)
         }
     }
 
@@ -107,18 +72,6 @@ class QuestionsListScreenModel(
 
         val updatedList = answeredQuestions.value.filterNot { it == question }
         _answeredQuestions.update { updatedList }
-    }
-
-    private fun collectSelectedDifficultiesUpdates() {
-        val initialViewState = viewState.value
-        screenModelScope.launch {
-            selectedDifficulties.collect { selectedDifficulties ->
-                if (initialViewState is ViewState.QuestionsLoaded) {
-                    val filteredQuestions = initialViewState.questions
-                    _viewState.update { ViewState.QuestionsLoaded(filteredQuestions) }
-                }
-            }
-        }
     }
 
     private fun collectSortModeUpdates() {

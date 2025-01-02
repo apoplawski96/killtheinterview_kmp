@@ -1,7 +1,7 @@
 package sectonone.droidsoft.ap.data.source
 
-import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
+import sectonone.droidsoft.ap.model.schema.QuestionScheme
 
 interface QuestionsDataSource {
-    suspend fun getQuestions(files: List<String>): List<QuestionSchemaV2>?
+    suspend fun getQuestions(files: List<String>): List<QuestionScheme>?
 }

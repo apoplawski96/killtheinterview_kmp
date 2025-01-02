@@ -12,11 +12,7 @@ data class InterviewHistorySummary(
     val failedCount: Int,
     val interviewDate: String,
     val mainCategory: String = categoriesSummary.first(),
-    val scorePercent: Float = (if (answeredCount + failedCount > 0)
-        answeredCount.toFloat() / (answeredCount + failedCount)
-    else 0f).also {
-        println("2137 - progress calculated: $it")
-    },
+    val scorePercent: Float = if (answeredCount + failedCount > 0) answeredCount.toFloat() / (answeredCount + failedCount) else 0f,
     val scorePercentDisplay: String = "${(scorePercent * 100).toInt()}%",
     val successSummary: SuccessSummary = when {
         scorePercent < 0.33f -> SuccessSummary.Failed

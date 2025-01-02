@@ -38,7 +38,7 @@ import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.ui.components.clickableNoRipple
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.Role
-import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
+import sectonone.droidsoft.ap.model.schema.AIQuestionScheme
 import sectonone.droidsoft.ap.theme.*
 
 internal class AIInterviewScreen(private val role: Role) : Screen {
@@ -104,7 +104,7 @@ private fun AIInterviewScreenContent(
                     ) {
 //                        KTIIllustration(imageResource = SharedRes.images.undraw_interview_re_e5jn)
                         VerticalSpacer(height = 16.dp)
-                        QuestionCard(aiQuestionSchema = viewState.question, isLoading = isLoading)
+                        QuestionCard(aiQuestionScheme = viewState.question, isLoading = isLoading)
                         KTIButton(
                             label = "Generate next",
                             labelColor = kti_softblack,
@@ -123,10 +123,10 @@ private fun AIInterviewScreenContent(
 
 @Composable
 private fun QuestionCard(
-    aiQuestionSchema: AIQuestionSchema?,
+    aiQuestionScheme: AIQuestionScheme?,
     isLoading: Boolean,
 ) {
-    val isExpanded = rememberSaveable(aiQuestionSchema) { mutableStateOf(false) }
+    val isExpanded = rememberSaveable(aiQuestionScheme) { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(size = 12.dp),
@@ -149,7 +149,7 @@ private fun QuestionCard(
         AnimatedVisibility(visible = isLoading.not()) {
             Column {
                 KTITextNew(
-                    text = aiQuestionSchema?.question
+                    text = aiQuestionScheme?.question
                         ?: ("Hello fellow candidate on this interview simulation.\n" +
                                 "Use the button make AI ask you a question."),
                     fontSize = 18.sp,
@@ -161,7 +161,7 @@ private fun QuestionCard(
                         bottom = 8.dp
                     )
                 )
-                AnimatedVisibility(visible = aiQuestionSchema != null) {
+                AnimatedVisibility(visible = aiQuestionScheme != null) {
                     Row {
                         KTITextButton(
                             onClick = { isExpanded.value = !isExpanded.value },
@@ -180,7 +180,7 @@ private fun QuestionCard(
                 }
                 AnimatedVisibility(visible = isExpanded.value) {
                     KTITextNew(
-                        text = aiQuestionSchema?.answer ?: return@AnimatedVisibility,
+                        text = aiQuestionScheme?.answer ?: return@AnimatedVisibility,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W400,
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 16.dp)

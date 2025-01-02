@@ -1,7 +1,10 @@
-package sectonone.droidsoft.ap.model
+package sectonone.droidsoft.ap.util
 
 import sectonone.droidsoft.ap.db.InterviewSummary
-import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
+import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.model.schema.QuestionScheme
 
 val InterviewSummary.toDomainModel
     get() = InterviewHistorySummary(
@@ -12,7 +15,7 @@ val InterviewSummary.toDomainModel
         interviewDate = interviewDate
     )
 
-val QuestionSchemaV2.toDomainModel
+val QuestionScheme.toDomainModel
     get() = Question(
         id = id,
         answer = answer,

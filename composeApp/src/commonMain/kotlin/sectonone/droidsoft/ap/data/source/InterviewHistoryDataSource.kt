@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import sectonone.droidsoft.ap.db.KTIDatabase
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.QuestionHistory
-import sectonone.droidsoft.ap.model.toDomainModel
+import sectonone.droidsoft.ap.util.toDomainModel
 
 class InterviewHistoryDataSource(
     private val database: KTIDatabase

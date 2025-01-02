@@ -1,18 +1,18 @@
 package sectonone.droidsoft.ap.data.openAi
 
 import sectonone.droidsoft.ap.model.Role
-import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
+import sectonone.droidsoft.ap.model.schema.AIQuestionScheme
 
 class AIInterviewQuestionsPrompter(
     private val openAIPrompter: OpenAIPrompter,
 ) {
 
     sealed interface ResultJson {
-        data class Success(val question: AIQuestionSchema) : ResultJson
+        data class Success(val question: AIQuestionScheme) : ResultJson
         object Error : ResultJson
     }
 
-    private val _inMemoryQuestionsCache: MutableList<AIQuestionSchema> = mutableListOf()
+    private val _inMemoryQuestionsCache: MutableList<AIQuestionScheme> = mutableListOf()
 
     suspend fun promptForQuestionJson(role: Role): ResultJson = try {
         val prompt = """
@@ -38,7 +38,7 @@ class AIInterviewQuestionsPrompter(
             ResultJson.Error
         } else {
 //            val question: AIQuestionSchema = Json.decodeFromString(promptResponse)
-            val question = AIQuestionSchema("", "")
+            val question = AIQuestionScheme("", "")
 
 //            questionsDatabase.insertQuestions(listOf(question))
             _inMemoryQuestionsCache.add(question)

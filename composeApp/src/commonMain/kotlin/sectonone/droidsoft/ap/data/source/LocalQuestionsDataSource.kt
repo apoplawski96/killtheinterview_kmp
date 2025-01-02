@@ -2,12 +2,12 @@ package sectonone.droidsoft.ap.data.source
 
 import kotlinx.serialization.json.Json
 import sectonone.droidsoft.ap.data.file.ResourcesFileReader
-import sectonone.droidsoft.ap.model.schema.QuestionSchemaV2
+import sectonone.droidsoft.ap.model.schema.QuestionScheme
 
 class LocalQuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) : QuestionsDataSource {
 
     // TODO: Wrap with try catches, or in repository?
-    override suspend fun getQuestions(files: List<String>): List<QuestionSchemaV2>? = try {
+    override suspend fun getQuestions(files: List<String>): List<QuestionScheme>? = try {
         buildList {
             files.forEach { file ->
                 addAll(decodeQuestionsFromFileV2(file))
@@ -17,7 +17,7 @@ class LocalQuestionsDataSource(private val resourcesFileReader: ResourcesFileRea
         null
     }
 
-    private suspend fun decodeQuestionsFromFileV2(fileName: String): List<QuestionSchemaV2> {
+    private suspend fun decodeQuestionsFromFileV2(fileName: String): List<QuestionScheme> {
         val jsonFileContent = resourcesFileReader.readFile(fileName) ?: return emptyList()
         return Json.decodeFromString(jsonFileContent)
     }

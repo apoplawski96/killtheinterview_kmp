@@ -4,7 +4,7 @@ import sectonone.droidsoft.ap.data.source.QuestionsDataSource
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.allQuestionsFiles
-import sectonone.droidsoft.ap.model.toDomainModel
+import sectonone.droidsoft.ap.util.toDomainModel
 
 class QuestionsRepository(private val questionsDataSource: QuestionsDataSource) {
 

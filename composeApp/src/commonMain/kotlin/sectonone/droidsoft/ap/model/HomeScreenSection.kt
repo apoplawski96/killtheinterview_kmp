@@ -13,6 +13,11 @@ package sectonone.droidsoft.ap.model
 // 10. Start with UI & mock data, then code functionality
 // 11. Daily challenge
 
+enum class HomeScreenMenuItem(val displayName: String, val assetResourcePath: String) {
+    QUESTIONS_CATEGORIES(displayName = "Learn questions", assetResourcePath = "book.png"),
+    CHAT_INTERVIEW(displayName = "Start interview", assetResourcePath = "student.png"),
+}
+
 sealed interface UIHomeScreenSection {
 
     data class MenuItems(

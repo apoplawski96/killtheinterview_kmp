@@ -7,7 +7,7 @@ import kotlin.jvm.JvmInline
 value class AIQuestion(val content: String)
 
 @Serializable
-data class AIQuestionSchema(
+data class AIQuestionScheme(
     val question: String,
     val answer: String,
 )

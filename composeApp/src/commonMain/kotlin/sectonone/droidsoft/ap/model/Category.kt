@@ -20,13 +20,10 @@ enum class Category(
     Git("git", "Git"),
     IOS("ios", "iOS"),
     Kotlin("kotlin", "Kotlin"),
-    ProgrammingParadigms("programming_paradigms", "Programming Paradigms"),
-    ;
+    ProgrammingParadigms("programming_paradigms", "Programming Paradigms");
 
     companion object {
-        fun getForKey(key: String?): Category? {
-            return entries.find { it.key == key }
-        }
+        fun getForKey(key: String?): Category? = entries.find { it.key == key }
     }
 }
 
