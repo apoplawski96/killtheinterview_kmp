@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sectonone.droidsoft.ap.compose.HorizontalSpacer
+import sectonone.droidsoft.ap.compose.InterviewSummaryCard
 import sectonone.droidsoft.ap.compose.KTIIcon
 import sectonone.droidsoft.ap.compose.KTILinearProgressIndicator
 import sectonone.droidsoft.ap.compose.KTITextNew
@@ -107,96 +108,6 @@ fun InterviewHistorySummaryLayout(
 
                 else -> {
 
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun InterviewSummaryCard(
-    item: InterviewHistorySummary,
-    onClick: (InterviewHistorySummary) -> Unit,
-    variant: InterviewHistorySummaryVariant
-) {
-    val animatedProgress = remember { Animatable(0f) }
-    LaunchedEffect(item.scorePercent) {
-        animatedProgress.animateTo(
-            targetValue = item.scorePercent,
-            animationSpec = tween(durationMillis = 2000, easing = LinearOutSlowInEasing)
-        )
-    }
-    val animatedTextProgress = remember { Animatable(0f) }
-    LaunchedEffect(item.scorePercent) {
-        animatedTextProgress.animateTo(
-            targetValue = item.scorePercent * 100,
-            animationSpec = tween(durationMillis = 2000, easing = LinearOutSlowInEasing)
-        )
-    }
-
-    val cardSizeModifier = when (variant) {
-        InterviewHistorySummaryVariant.GridSingleRow -> {
-            Modifier.size(interviewSummaryCardSize)
-        }
-
-        InterviewHistorySummaryVariant.GridTwoRows -> {
-            Modifier.size(interviewSummaryCardSize)
-        }
-
-        InterviewHistorySummaryVariant.Column -> {
-            Modifier.fillMaxWidth().height(144.dp)
-        }
-    }
-
-    Card(
-        modifier = cardSizeModifier then Modifier.clip(RoundedCornerShape(16.dp)).clickable { onClick.invoke(item) },
-        elevation = 4.dp,
-        backgroundColor = ktiColors.backgroundSurfaceVariant
-    ) {
-        Column(Modifier.fillMaxWidth().padding(12.dp)) {
-            Column(modifier = Modifier.fillMaxWidth().weight(8f)) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    KTITextNew(item.interviewDate, fontSize = 12.sp, color = ktiColors.textVariant)
-                    KTIIcon(Icons.Default.ChevronRight, size = 16.dp, tint = ktiColors.textVariant)
-                }
-                VerticalSpacer(12.dp)
-                Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
-                    KTIIcon(
-                        when (item.successSummary) {
-                            InterviewHistorySummary.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
-                            InterviewHistorySummary.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
-                            InterviewHistorySummary.SuccessSummary.Success -> Icons.Default.ThumbUp
-                        }
-                    )
-                    HorizontalSpacer(12.dp)
-                    Column {
-                        KTITextNew(item.mainCategory, fontWeight = FontWeight.W600, maxLines = 2)
-                        KTITextNew(
-                            item.categoriesSummary.prettyPrint(),
-                            color = ktiColors.textVariant2,
-                            fontSize = 10.sp,
-                            maxLines = 2
-                        )
-                    }
-                }
-                VerticalSpacer(12.dp)
-            }
-            Column(modifier = Modifier.fillMaxWidth().weight(2.5f)) {
-                KTITextNew("Score", color = ktiColors.textVariant, fontSize = 12.sp)
-                VerticalSpacer(4.dp)
-                Row(modifier = Modifier.fillMaxWidth().weight(2f), verticalAlignment = Alignment.CenterVertically) {
-                    KTILinearProgressIndicator(animatedProgress.value, modifier = Modifier.weight(5f))
-                    KTITextNew(
-                        "${animatedTextProgress.value.toInt()}%",
-                        fontSize = 10.sp,
-                        color = ktiColors.textVariant2,
-                        modifier = Modifier.weight(1.7f).padding(start = 8.dp),
-                        textAlign = TextAlign.End
-                    )
                 }
             }
         }

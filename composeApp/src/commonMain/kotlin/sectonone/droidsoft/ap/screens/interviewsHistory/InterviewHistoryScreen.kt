@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import sectonone.droidsoft.ap.compose.InterviewSummaryCard
 import sectonone.droidsoft.ap.compose.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.compose.KTITextNew
 import sectonone.droidsoft.ap.compose.KTITopAppBar
 import sectonone.droidsoft.ap.di.getScreenModel
 import sectonone.droidsoft.ap.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryVariant
-import sectonone.droidsoft.ap.screens.home.components.InterviewSummaryCard
 import sectonone.droidsoft.ap.screens.interviewDetails.InterviewDetailsScreen
 import sectonone.droidsoft.ap.theme.ktiColors
 
