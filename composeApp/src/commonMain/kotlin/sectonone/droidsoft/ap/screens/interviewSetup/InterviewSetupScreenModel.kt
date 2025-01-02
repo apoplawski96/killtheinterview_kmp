@@ -1,26 +1,26 @@
 package sectonone.droidsoft.ap.screens.interviewSetup
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import sectonone.droidsoft.ap.feature.categories.data.CategoriesRepository
-import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 
-class InterviewSetupScreenModel(categoriesRepository: CategoriesRepository) : ScreenModel {
+internal class InterviewSetupScreenModel : ScreenModel {
 
     private val _viewState = MutableStateFlow<List<SelectableCategory>>(emptyList())
     val viewState = _viewState.asStateFlow()
 
     init {
-        _viewState.value = categoriesRepository.getTopCategories().map { category ->
-            SelectableCategory(category = category, isSelected = false)
+        _viewState.value = Category.entries.map { category ->
+            SelectableCategory(isSelected = false, categoryV2 = category)
         }
     }
 
     fun toggleCategory(toggledCategory: SelectableCategory) {
         val currentState = viewState.value
         val stateModified = currentState.map { currentCategory ->
-            if (currentCategory.category.id == toggledCategory.category.id) {
+            if (currentCategory.categoryV2.ordinal == toggledCategory.categoryV2.ordinal) {
                 currentCategory.copy(isSelected = !currentCategory.isSelected)
             } else {
                 currentCategory

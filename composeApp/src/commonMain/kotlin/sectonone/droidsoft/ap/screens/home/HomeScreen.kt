@@ -1,56 +1,61 @@
 package sectonone.droidsoft.ap.screens.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountTree
-import androidx.compose.material.icons.filled.CoPresent
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.School
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import org.jetbrains.compose.resources.painterResource
-import sectonone.droidsoft.ap.compose.KTICardItem
-import sectonone.droidsoft.ap.compose.KTICardSmallWithUnderText
-import sectonone.droidsoft.ap.compose.KTICardWithIllustration
-import sectonone.droidsoft.ap.compose.KTIHorizontalSpacer
-import sectonone.droidsoft.ap.compose.KTIIllustration
-import sectonone.droidsoft.ap.compose.KTITextNew
-import sectonone.droidsoft.ap.compose.KTITopAppBar
-import sectonone.droidsoft.ap.compose.KTIVerticalSpacer
-import sectonone.droidsoft.ap.compose.applyColor
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
+import sectonone.droidsoft.ap.ui.components.KTIAvatarWithAnimation
+import sectonone.droidsoft.ap.ui.components.KTICardItem
+import sectonone.droidsoft.ap.ui.components.KTIIcon
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
+import sectonone.droidsoft.ap.ui.components.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.HomeScreenFeedItem
+import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.SubCategory
-import sectonone.droidsoft.ap.model.TopCategory
-import sectonone.droidsoft.ap.screens.categories.CategoriesScreen
+import sectonone.droidsoft.ap.model.UIHomeScreenSection
+import sectonone.droidsoft.ap.model.interviewSummary
+import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
+import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
+import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
+import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
+import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewHistoryScreen
 import sectonone.droidsoft.ap.theme.KTITheme
-import sectonone.droidsoft.ap.theme.kti_background_grey
-import sectonone.droidsoft.ap.theme.kti_softwhite
+import sectonone.droidsoft.ap.theme.ktiColors
+import sectonone.droidsoft.ap.theme.nightskyGradient
 
-internal object HomeScreen : Screen {
+internal object HomeScreen : Tab {
 
     @Composable
     override fun Content() {
@@ -67,7 +72,7 @@ internal object HomeScreen : Screen {
             state = viewState,
             onMenuItemClicked = { item ->
                 when (item) {
-                    HomeScreenMenuItem.AI_INTERVIEW -> {
+                    HomeScreenMenuItem.CHAT_INTERVIEW -> {
                         navigator.push(
                             InterviewSetupScreen
                         )
@@ -75,24 +80,34 @@ internal object HomeScreen : Screen {
 
                     HomeScreenMenuItem.QUESTIONS_CATEGORIES -> {
                         navigator.push(
-                            CategoriesScreen
+                            CategoriesListScreen
                         )
                     }
                 }
             },
-            onSubCategoryClick = { subCategory -> }
+            onSeeAllInterviewsClick = {
+                navigator.push(InterviewHistoryScreen)
+            }
         )
     }
+
+    override val options: TabOptions
+        @Composable
+        get() {
+            val icon = rememberVectorPainter(Icons.Default.Home)
+            return remember {
+                TabOptions(0u, "Home", icon)
+            }
+        }
 }
 
 @Composable
-private fun HomeScreenContent(
+fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
-    onSubCategoryClick: (SubCategory) -> Unit,
+    onSeeAllInterviewsClick: () -> Unit,
 ) {
     Scaffold(
-        topBar = { KTITopAppBar(isNested = false) },
         backgroundColor = KTITheme.colors.backgroundSurface
     ) {
         Column(
@@ -102,20 +117,20 @@ private fun HomeScreenContent(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HelloSection()
-            KTIVerticalSpacer(height = 32.dp)
-            IllustrationSection()
+            VerticalSpacer(16.dp)
+            TopSection()
+            VerticalSpacer(height = 24.dp)
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
                     HomeScreenFeedSection(
                         feed = state.items,
                         onMenuItemClicked = onMenuItemClicked,
-                        onSubCategoryClick = onSubCategoryClick
+                        onSeeAllInterviewsClick = onSeeAllInterviewsClick
                     )
                 }
 
                 is HomeScreenModel.ViewState.Loading -> {
-                    CircularProgressIndicator()
+//                    CircularProgressIndicator()
                 }
             }
         }
@@ -123,67 +138,57 @@ private fun HomeScreenContent(
 }
 
 @Composable
-private fun HelloSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Center
+private fun TopSection() {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        KTITextNew(
-            text = "Hello candidate",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = KTITheme.colors.textMain
-        )
-        KTIVerticalSpacer(2.dp)
-        KTITextNew(
-            text = "It's time to prepare for your next interview!",
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-            color = KTITheme.colors.textVariant2
-        )
+        Column(
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            KTITextNew(
+                text = "Hello candidate",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = KTITheme.colors.textMain
+            )
+            VerticalSpacer(2.dp)
+            KTITextNew(
+                text = "It's time to prepare for your next interview!",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                color = KTITheme.colors.textVariant2
+            )
+        }
+        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f)
     }
 }
 
 @Composable
-private fun IllustrationSection() {
-//    KTIIllustration(resourcePath = "undraw_podcast.png", modifier = Modifier.size(256.dp))
-//    KTIIllustration(
-//        imageResource = SharedRes.images.undraw_certificate_re_yadi,
-//        modifier = Modifier.height(256.dp)
-//    )
-}
-
-@Composable
 private fun HomeScreenFeedSection(
-    feed: List<HomeScreenFeedItem>,
+    feed: List<UIHomeScreenSection>,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
-    onSubCategoryClick: (SubCategory) -> Unit,
+    onSeeAllInterviewsClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        feed.forEach { feedItem ->
+        feed.forEach { feedItem: UIHomeScreenSection ->
             when (feedItem) {
-                is HomeScreenFeedItem.MenuItems -> {
-                    MenuItems(items = feedItem.items, onItemClicked = onMenuItemClicked)
-                }
-
-                is HomeScreenFeedItem.RandomSubCategoriesCarousel -> {
-                    RandomSubCategoriesCarousel(
-                        onSubCategoryClick = onSubCategoryClick,
-                        subCategories = feedItem.subCategories,
-                        topCategory = feedItem.topCategory
-                    )
-                }
-
-                is HomeScreenFeedItem.LastLearnedSubCategoriesCarousel -> {}
-                is HomeScreenFeedItem.LastLearnedSubCategory -> {}
-                is HomeScreenFeedItem.RandomBookmarkedQuestion -> {}
+                is UIHomeScreenSection.MenuItems -> MenuItems(feedItem.items, onMenuItemClicked)
+                is UIHomeScreenSection.InterviewHistorySummaryUI -> InterviewHistorySummaryLayout(feedItem, onSeeAllInterviewsClick = onSeeAllInterviewsClick)
+                is UIHomeScreenSection.RecommendedCategoriesCarousel -> RecommendedCategoriesLayout(feedItem)
+                is UIHomeScreenSection.PagerCarousel -> PagerCarouselLayout(feedItem)
+                is UIHomeScreenSection.RandomBookmarkedQuestion -> {}
+                is UIHomeScreenSection.BookmarkedCategories -> TODO()
+                is UIHomeScreenSection.BookmarkedQuestions -> TODO()
+                is UIHomeScreenSection.DailyChallenge -> TODO()
+                is UIHomeScreenSection.RandomQuestionsCarousel -> TODO()
+                is UIHomeScreenSection.RecommendedCategory -> TODO()
             }
         }
     }
@@ -200,53 +205,93 @@ private fun MenuItems(
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         items.forEach { homeItem ->
-            KTICardWithIllustration(
-                item = KTICardItem(value = homeItem, label = homeItem.displayName),
-                onClick = onItemClicked,
-                fontWeight = FontWeight.W500,
-                imageResource = when (homeItem) {
-                    HomeScreenMenuItem.AI_INTERVIEW -> Icons.Default.CoPresent
-                    HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.AccountTree
-                }
+            val item = KTICardItem(
+                value = homeItem,
+                label = homeItem.displayName,
+                assetResourcePath = homeItem.assetResourcePath
             )
-            KTIVerticalSpacer(height = 12.dp)
-        }
-    }
-}
+            Button(
+                onClick = {
+                    onItemClicked.invoke(item.value)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(24.dp),
+                contentPadding = PaddingValues(),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .then(
+                            when (item.value) {
+                                HomeScreenMenuItem.CHAT_INTERVIEW -> Modifier.background(
+                                    brush = nightskyGradient,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
 
-@Composable
-private fun RandomSubCategoriesCarousel(
-    onSubCategoryClick: (SubCategory) -> Unit,
-    subCategories: List<SubCategory>,
-    topCategory: TopCategory,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        KTITextNew(
-            text = "Categories for ${topCategory.displayName}",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
-        KTIVerticalSpacer(8.dp)
-        LazyRow {
-            item { KTIHorizontalSpacer(width = 16.dp) }
-            itemsIndexed(
-                items = subCategories,
-                key = { _, subCategory -> subCategory.id }) { index, subCategory ->
-                KTICardSmallWithUnderText(
-                    item = KTICardItem(
-                        value = subCategory,
-                        label = subCategory.displayName
-                    ).applyColor(index),
-                    onClick = onSubCategoryClick
-                )
+                                HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Modifier.background(
+                                    color = ktiColors.backgroundSurfaceVariant,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                            }
+                        )
+                            then Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    KTITextNew(
+                        text = item.label,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 12.dp),
+                        color = ktiColors.textMain,
+                        fontWeight = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> FontWeight.Normal
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> FontWeight.Medium
+                        }
+                    )
+                    KTIIcon(
+                        tint = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> ktiColors.textMain
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> ktiColors.secondary
+                        },
+                        imageResource = when (item.value) {
+                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.School
+                            HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.PlayArrow
+                        }
+                    )
+                }
             }
-            item { KTIHorizontalSpacer(width = 16.dp) }
+            VerticalSpacer(height = 12.dp)
         }
     }
 }
 
+val interviewsSummaryMock = listOf(
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3).map { it.displayName }),
+    interviewSummary(answeredCount = 20, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
+    interviewSummary(answeredCount = 15, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(3).map { it.displayName }),
+    interviewSummary(answeredCount = 5, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(4).map { it.displayName }),
+    interviewSummary(answeredCount = 8, failedCount = 1, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
+    interviewSummary(answeredCount = 2, failedCount = 10, categories = getRandomUniqueEnumValues<Category>(2).map { it.displayName }),
+)
+
+val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
+    items = listOf(
+        UIHomeScreenSection.MenuItems(
+            items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.QUESTIONS_CATEGORIES)
+        ),
+        UIHomeScreenSection.InterviewHistorySummaryUI(
+            items = interviewsSummaryMock
+        ),
+        UIHomeScreenSection.RecommendedCategoriesCarousel(
+            items = listOf(
+                Category.Android, Category.Compose, Category.AndroidSecurity, Category.DesignPatterns, Category.Kotlin
+            )
+        )
+    )
+)

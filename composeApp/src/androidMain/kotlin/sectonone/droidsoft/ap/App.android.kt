@@ -5,13 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import org.koin.dsl.module
+import sectonone.droidsoft.ap.di.databaseModule
 import sectonone.droidsoft.ap.di.initKoin
-import sectonone.droidsoft.ap.theme.kti_pinterest_dark
 
 class AndroidApp : Application() {
 
@@ -24,7 +21,10 @@ class AndroidApp : Application() {
         INSTANCE = this
 
         initKoin {
-
+            module {
+                single { applicationContext }
+            }
+            modules(databaseModule(context = applicationContext))
         }
     }
 }

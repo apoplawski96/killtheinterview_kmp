@@ -1,22 +1,29 @@
 package sectonone.droidsoft.ap.di
 
-import kotlinx.coroutines.Dispatchers
-import sectonone.droidsoft.ap._legacy.QuestionsRepository
-import sectonone.droidsoft.ap.data.QuestionsDataSource
-import sectonone.droidsoft.ap.feature.categories.data.CategoriesRepository
-import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
-import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompter
-import sectonone.droidsoft.ap.feature.subcategories.data.SubCategoriesRepository
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
-import sectonone.droidsoft.ap.json.ResourcesFileReader
+import sectonone.droidsoft.ap.data.file.ResourcesFileReader
+import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
+import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
+import sectonone.droidsoft.ap.data.repository.HomeRepository
+import sectonone.droidsoft.ap.data.repository.InterviewRepository
+import sectonone.droidsoft.ap.data.repository.QuestionsRepository
+import sectonone.droidsoft.ap.data.source.InterviewHistoryDataSource
+import sectonone.droidsoft.ap.data.source.LocalQuestionsDataSource
+import sectonone.droidsoft.ap.data.source.QuestionsDataSource
 
 val dataModule = module {
-    singleOf(::QuestionsDataSource)
-    singleOf(::SubCategoriesRepository)
-    singleOf(::CategoriesRepository)
+    // Data sources
+    singleOf(::LocalQuestionsDataSource) bind QuestionsDataSource::class
+    singleOf(::InterviewHistoryDataSource)
+    // Repositories
     singleOf(::QuestionsRepository)
+    singleOf(::InterviewRepository)
+    singleOf(::HomeRepository)
+    // AI
     singleOf(::OpenAIPrompter)
     singleOf(::AIInterviewQuestionsPrompter)
-    single { ResourcesFileReader(defaultDispatcher = Dispatchers.Default) }
+    // File
+    singleOf(::ResourcesFileReader)
 }

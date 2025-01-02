@@ -6,16 +6,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.feature.home.data.GetHomeScreenFeedItems
-import sectonone.droidsoft.ap.model.HomeScreenFeedItem
+import sectonone.droidsoft.ap.data.repository.HomeRepository
+import sectonone.droidsoft.ap.model.UIHomeScreenSection
 
 class HomeScreenModel(
-    private val getHomeScreenFeedItems: GetHomeScreenFeedItems,
+    private val getHomeScreenFeedItems: HomeRepository,
 ) : ScreenModel {
 
     sealed interface ViewState {
         data object Loading : ViewState
-        data class HomeItems(val items: List<HomeScreenFeedItem>) : ViewState
+        data class HomeItems(val items: List<UIHomeScreenSection>) : ViewState
     }
 
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Loading)

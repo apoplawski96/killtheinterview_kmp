@@ -55,10 +55,11 @@ kotlin {
             implementation(compose.components.resources)
             api(libs.voyager.navigator)
             api(libs.voyager.transitions)
+            api(libs.voyager.tab)
             implementation(libs.voyager.koin)
             implementation(libs.composeImageLoader)
             implementation(libs.napier)
-            implementation(libs.kotlinx.coroutines.core)
+//            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.moko.mvvm)
             implementation(libs.ktor.core)
             implementation(libs.composeIcons.featherIcons)
@@ -67,8 +68,9 @@ kotlin {
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.kstore)
-            implementation(libs.apollo.runtime)
+//            implementation(libs.apollo.runtime)
             implementation("co.touchlab:stately-common:2.0.5")
+            implementation(libs.sqlDelight.coroutines)
         }
 
         commonTest.dependencies {
@@ -79,7 +81,6 @@ kotlin {
             implementation(libs.androidx.appcompat)
             implementation(libs.androidx.activityCompose)
             implementation(libs.compose.uitooling)
-            implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqlDelight.driver.android)
         }
@@ -156,7 +157,7 @@ buildConfig {
 
 sqldelight {
     databases {
-        create("MyDatabase") {
+        create("KTIDatabase") {
             // Database configuration here.
             // https://cashapp.github.io/sqldelight
             packageName.set("sectonone.droidsoft.ap.db")
@@ -164,10 +165,10 @@ sqldelight {
     }
 }
 
-apollo {
-    service("api") {
-        // GraphQL configuration here.
-        // https://www.apollographql.com/docs/kotlin/advanced/plugin-configuration/
-        packageName.set("sectonone.droidsoft.ap.graphql")
-    }
-}
+//apollo {
+//    service("api") {
+//        // GraphQL configuration here.
+//        // https://www.apollographql.com/docs/kotlin/advanced/plugin-configuration/
+//        packageName.set("sectonone.droidsoft.ap.graphql")
+//    }
+//}

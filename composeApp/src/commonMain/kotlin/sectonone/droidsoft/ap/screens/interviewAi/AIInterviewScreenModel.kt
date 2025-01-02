@@ -2,9 +2,9 @@ package sectonone.droidsoft.ap.screens.interviewAi
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap.feature.interview.data.AIInterviewQuestionsPrompter
+import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
 import sectonone.droidsoft.ap.model.schema.AIQuestion
-import sectonone.droidsoft.ap.model.schema.AIQuestionSchema
+import sectonone.droidsoft.ap.model.schema.AIQuestionScheme
 import sectonone.droidsoft.ap.model.Role
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +18,7 @@ class AIInterviewScreenModel(
     sealed interface ViewState {
         object Error : ViewState
         data class QuestionLoaded(val question: AIQuestion) : ViewState
-        data class SimulationActive(val question: AIQuestionSchema?) : ViewState
+        data class SimulationActive(val question: AIQuestionScheme?) : ViewState
     }
 
     sealed interface ViewEvent {

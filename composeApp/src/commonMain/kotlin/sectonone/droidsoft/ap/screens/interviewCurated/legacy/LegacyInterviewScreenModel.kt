@@ -1,7 +1,7 @@
 package sectonone.droidsoft.ap.screens.interviewCurated.legacy//package com.example.myapplication.screens.interviewCurated.legacy
 //
 //import cafe.adriel.voyager.core.model.ScreenModel
-//import sectonone.droidsoft.ap._legacy.QuestionsRepository
+//import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 //import sectonone.droidsoft.ap.model.Question
 //import sectonone.droidsoft.ap.model.TopCategory
 //import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
