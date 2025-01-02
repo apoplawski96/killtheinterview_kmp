@@ -2,7 +2,7 @@ package sectonone.droidsoft.ap.screens.interviewCurated
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap.data.QuestionsRepository
+import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.data.InterviewHistoryRepository
+import sectonone.droidsoft.ap.data.repository.InterviewRepository
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.QuestionHistory
 import kotlin.random.Random
@@ -22,7 +22,7 @@ private const val interval = 200L
 
 class InterviewChatScreenModel(
     private val questionsRepository: QuestionsRepository,
-    private val interviewHistoryRepository: InterviewHistoryRepository,
+    private val interviewRepository: InterviewRepository,
 ) : ScreenModel {
 
     data class ScoreboardState(
@@ -75,7 +75,7 @@ class InterviewChatScreenModel(
 
     fun initQuestions(categories: List<Category>) {
         screenModelScope.launch {
-            val questions = questionsRepository.getQuestions(categories, questionsLimit = 5)
+            val questions = questionsRepository.getQuestions(categories, questionsLimit = 5) ?: return@launch // todo: handle better
             _categories = categories
             _questionsBase.clear()
             _questionsBase.addAll(questions)
@@ -141,7 +141,7 @@ class InterviewChatScreenModel(
             println("2137 - we are in else")
             _screenState.value = ScreenState.InterviewFinished(scoreboardState.value)
             val scoreboard = scoreboardState.value
-            interviewHistoryRepository.saveInterview(
+            interviewRepository.saveInterview(
                 answeredCount = scoreboard.questionsAnswered,
                 failedCount = scoreboard.questionsAsked - scoreboard.questionsAnswered,
                 categories = _categories,

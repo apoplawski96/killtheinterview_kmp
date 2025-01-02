@@ -83,25 +83,6 @@ internal fun App() = AppTheme {
     }
 }
 
-@Composable
-private fun RowScope.TabNavigationItem(tab: Tab) {
-    val tabNavigator = LocalTabNavigator.current
-
-    BottomNavigationItem(
-        selected = tabNavigator.current == tab,
-        onClick = { tabNavigator.current = tab },
-        icon = {
-            val icon = tab.options.icon
-            if (icon != null) {
-                Icon(painter = icon, contentDescription = tab.options.title, tint = white)
-            }
-        },
-        label = {
-            KTITextNew(tab.options.title, fontSize = 9.sp)
-        }
-    )
-}
-
 internal expect fun openUrl(url: String?)
 
 @Composable

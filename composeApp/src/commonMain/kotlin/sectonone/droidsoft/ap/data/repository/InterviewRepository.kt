@@ -1,14 +1,14 @@
-package sectonone.droidsoft.ap.data
+package sectonone.droidsoft.ap.data.repository
 
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import sectonone.droidsoft.ap.data.dataSource.InterviewHistoryDataSource
+import sectonone.droidsoft.ap.data.source.InterviewHistoryDataSource
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.InterviewHistoryDetails
 import sectonone.droidsoft.ap.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.model.QuestionHistory
 
-class InterviewHistoryRepository(
+class InterviewRepository(
     private val dataSource: InterviewHistoryDataSource,
     private val questionsRepository: QuestionsRepository,
 ) {

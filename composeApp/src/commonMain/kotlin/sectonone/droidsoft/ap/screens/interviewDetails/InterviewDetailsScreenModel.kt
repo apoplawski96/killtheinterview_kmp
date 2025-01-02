@@ -5,10 +5,10 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.data.InterviewHistoryRepository
+import sectonone.droidsoft.ap.data.repository.InterviewRepository
 import sectonone.droidsoft.ap.model.InterviewHistoryDetails
 
-class InterviewDetailsScreenModel(private val interviewHistoryRepository: InterviewHistoryRepository) : ScreenModel {
+class InterviewDetailsScreenModel(private val interviewRepository: InterviewRepository) : ScreenModel {
 
     data class State(
         val details: InterviewHistoryDetails?,
@@ -21,7 +21,7 @@ class InterviewDetailsScreenModel(private val interviewHistoryRepository: Interv
     fun loadDetails(id: Int) {
         screenModelScope.launch {
             _state.value = State(
-                details = interviewHistoryRepository.getInterviewSummary(id.toLong()),
+                details = interviewRepository.getInterviewSummary(id.toLong()),
                 isLoading = false
             )
         }

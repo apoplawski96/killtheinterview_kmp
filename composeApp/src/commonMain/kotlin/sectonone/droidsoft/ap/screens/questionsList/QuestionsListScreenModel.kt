@@ -2,20 +2,20 @@ package sectonone.droidsoft.ap.screens.questionsList
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import sectonone.droidsoft.ap.feature.list.data.GetQuestionsList
-import sectonone.droidsoft.ap.model.Difficulty
-import sectonone.droidsoft.ap.model.Question
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.model.Difficulty
+import sectonone.droidsoft.ap.model.Question
 
-class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : ScreenModel {
+class QuestionsListScreenModel(
+    private val questionsRepository: QuestionsRepository,
+) : ScreenModel {
 
     sealed interface ViewState {
         data object Loading : ViewState
@@ -55,25 +55,14 @@ class QuestionsListScreenModel(private val getQuestions: GetQuestionsList) : Scr
 
     fun initialize(categories: List<Category>) {
         screenModelScope.launch {
-            val result = when (val questions = getQuestions.invoke(categories)) {
-                is GetQuestionsList.Result.Success -> {
-                    _scoreboard.update { scoreboard.value.copy(totalCount = questions.questions.count()) }
-                    ViewState.QuestionsLoaded(questions.questions)
-                }
+            val resultNew = questionsRepository.getQuestions(categories) ?: return@launch // TODO: Handle better
 
-                is GetQuestionsList.Result.Error -> {
-                    ViewState.Error
-                }
-            }
-
-            _viewState.update { result }
+            _viewState.update { ViewState.QuestionsLoaded(resultNew) }
 
             collectSelectedDifficultiesUpdates()
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
         }
-
-        val coroutineScope = CoroutineScope(SupervisorJob())
     }
 
     fun toggleBottomSheet() {

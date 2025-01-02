@@ -13,7 +13,7 @@ class AIInterviewQuestionsPrompter(
         object Error : ResultJson
     }
 
-    private val inMemoryQuestionsCache: MutableList<AIQuestionSchema> = mutableListOf()
+    private val _inMemoryQuestionsCache: MutableList<AIQuestionSchema> = mutableListOf()
 
     suspend fun promptForQuestionJson(role: Role): ResultJson = try {
         val prompt = """
@@ -22,7 +22,7 @@ class AIInterviewQuestionsPrompter(
             Ask only concrete, technical questions. 
             Try to really role-play an interviewer.
             Generate answer to the question.
-            Do not repeat questions, that are already in cache, cache: ${inMemoryQuestionsCache.map { questionSchema -> questionSchema.question }}
+            Do not repeat questions, that are already in cache, cache: ${_inMemoryQuestionsCache.map { questionSchema -> questionSchema.question }}
             Ask only about modern technologies, do not use outdated and old sources.
             Return question and answer as JSON object. 
             Return JSON and nothing else.
@@ -42,7 +42,7 @@ class AIInterviewQuestionsPrompter(
             val question = AIQuestionSchema("", "")
 
 //            questionsDatabase.insertQuestions(listOf(question))
-            inMemoryQuestionsCache.add(question)
+            _inMemoryQuestionsCache.add(question)
 
             ResultJson.Success(question = question)
         }

@@ -5,11 +5,11 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import sectonone.droidsoft.ap.data.InterviewHistoryRepository
+import sectonone.droidsoft.ap.data.repository.InterviewRepository
 import sectonone.droidsoft.ap.model.InterviewHistorySummary
 
 internal class InterviewHistoryScreenModel(
-    interviewHistoryRepository: InterviewHistoryRepository,
+    interviewRepository: InterviewRepository,
 ) : ScreenModel {
 
     data class State(
@@ -17,7 +17,7 @@ internal class InterviewHistoryScreenModel(
         val isLoading: Boolean,
     )
 
-    val interviewsHistory = interviewHistoryRepository.getAllInterviewsSummaryAsFlow()
+    val interviewsHistory = interviewRepository.getAllInterviewsSummaryAsFlow()
         .map {
             State(interviews = it, isLoading = false)
         }

@@ -27,7 +27,7 @@ inline fun <reified T : ScreenModel> Screen.getScreenModel(
     return rememberScreenModel(tag = qualifier?.value) { koin.get(qualifier, parameters) }
 }
 
-val screenModelModule = module {
+val presentationModule = module {
     factoryOf(::WelcomeScreenModel)
     factoryOf(::AIInterviewScreenModel)
     factoryOf(::HomeScreenModel)

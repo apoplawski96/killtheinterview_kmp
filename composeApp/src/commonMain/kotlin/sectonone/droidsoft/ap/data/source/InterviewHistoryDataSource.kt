@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.dataSource
+package sectonone.droidsoft.ap.data.source
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
