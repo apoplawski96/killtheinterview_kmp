@@ -45,9 +45,9 @@ val QuestionBookmark.toDomainModel
         question = question,
         isBookmarked = true,
         categories = categories
-            .split("")
-            .map { it.trim() }
+            .split(",")
             .mapNotNull {
+                println("2137 - mapNotNull, $it")
                 Category.getForKey(it)
             }
     )
