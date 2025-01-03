@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package sectonone.droidsoft.ap.screens.questionsList
+package sectonone.droidsoft.ap.screens.questions
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -67,14 +67,14 @@ import sectonone.droidsoft.ap.theme.kti_softwhite
 import sectonone.droidsoft.ap.ui.components.KTIIcon
 import sectonone.droidsoft.ap.ui.components.KTIIconButton
 
-internal class ListOfQuestionsScreen(private val categories: List<Category>) : Screen {
+internal class QuestionsScreen(private val categories: List<Category>) : Screen {
 
     @Composable
     override fun Content() {
-        val viewModel: QuestionsListScreenModel = getScreenModel()
+        val screenModel = getScreenModel<QuestionsScreenModel>()
 
-        val viewState by viewModel.viewState.collectAsState()
-        val scoreboard by viewModel.scoreboard.collectAsState()
+        val state by screenModel.state.collectAsState()
+        val scoreboard by screenModel.scoreboard.collectAsState()
 
         val scope = rememberCoroutineScope()
 
@@ -85,9 +85,9 @@ internal class ListOfQuestionsScreen(private val categories: List<Category>) : S
         val subCategoryTitle = categories.first().displayName
 
         LaunchedEffect(null) {
-            viewModel.viewEvents.collect { event ->
+            screenModel.viewEvents.collect { event ->
                 when (event) {
-                    QuestionsListScreenModel.ViewEvent.ToggleBottomSheet -> {
+                    QuestionsScreenModel.ViewEvent.ToggleBottomSheet -> {
                         toggleBottomSheet(
                             scope = scope,
                             bottomSheetState = bottomSheetState,
@@ -98,25 +98,25 @@ internal class ListOfQuestionsScreen(private val categories: List<Category>) : S
         }
 
         LaunchedEffect(null) {
-            viewModel.initialize(categories)
+            screenModel.initialize(categories)
         }
 
-        ListScreenContentNew(
-            viewState = viewState,
+        QuestionsScreenLayout(
+            state = state,
             topBarTitle = subCategoryTitle,
             questionsAnsweredCount = scoreboard.answeredCount,
             questionsTotalCount = scoreboard.totalCount,
-            markAsAnswered = { viewModel.markQuestionAsAnswered(it) },
-            markAsUnanswered = { viewModel.markQuestionAsUnanswered(it) },
-            removeBookmark = { viewModel.removeBookmark(it) },
-            addBookmark = { viewModel.addBookmark(it) },
+            markAsAnswered = { screenModel.markQuestionAsAnswered(it) },
+            markAsUnanswered = { screenModel.markQuestionAsUnanswered(it) },
+            removeBookmark = { screenModel.removeBookmark(it) },
+            addBookmark = { screenModel.addBookmark(it) },
         )
     }
 }
 
 @Composable
-private fun ListScreenContentNew(
-    viewState: QuestionsListScreenModel.ViewState,
+private fun QuestionsScreenLayout(
+    state: QuestionsScreenModel.ViewState,
     topBarTitle: String,
     markAsAnswered: (Question) -> Unit,
     markAsUnanswered: (Question) -> Unit,
@@ -129,10 +129,10 @@ private fun ListScreenContentNew(
         topBar = { KTITopAppBar(title = topBarTitle) },
         backgroundColor = ktiColors.backgroundSurface,
         content = {
-            when (viewState) {
-                is QuestionsListScreenModel.ViewState.QuestionsLoaded -> {
-                    QuestionList(
-                        questions = viewState.questions,
+            when (state) {
+                is QuestionsScreenModel.ViewState.QuestionsLoaded -> {
+                    QuestionsList(
+                        questions = state.questions,
                         markAsAnswered = markAsAnswered,
                         markAsUnanswered = markAsUnanswered,
                         questionsTotalCount = questionsTotalCount,
@@ -142,11 +142,11 @@ private fun ListScreenContentNew(
                     )
                 }
 
-                is QuestionsListScreenModel.ViewState.Loading -> {
+                is QuestionsScreenModel.ViewState.Loading -> {
                     KTICircularProgressIndicator()
                 }
 
-                QuestionsListScreenModel.ViewState.Error -> {
+                QuestionsScreenModel.ViewState.Error -> {
                     KTIText(text = "Error!")
                 }
             }
@@ -157,7 +157,7 @@ private fun ListScreenContentNew(
 private val horizontalPadding = 8.dp
 
 @Composable
-private fun QuestionList(
+fun QuestionsList(
     questions: List<Question>,
     markAsAnswered: (Question) -> Unit,
     markAsUnanswered: (Question) -> Unit,

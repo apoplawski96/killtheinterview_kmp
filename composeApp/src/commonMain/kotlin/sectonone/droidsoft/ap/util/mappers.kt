@@ -43,6 +43,7 @@ val QuestionBookmark.toDomainModel
         id = questionId.toInt(),
         answer = answer,
         question = question,
+        isBookmarked = true,
         categories = categories
             .split("")
             .map { it.trim() }

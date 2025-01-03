@@ -15,17 +15,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.School
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,8 +31,6 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import cafe.adriel.voyager.navigator.tab.Tab
-import cafe.adriel.voyager.navigator.tab.TabOptions
 import sectonone.droidsoft.ap.ui.components.KTIAvatarWithAnimation
 import sectonone.droidsoft.ap.ui.components.KTICardItem
 import sectonone.droidsoft.ap.ui.components.KTIIcon
@@ -72,19 +68,7 @@ internal object HomeScreen : Screen {
         HomeScreenContent(
             state = viewState,
             onMenuItemClicked = { item ->
-                when (item) {
-                    HomeScreenMenuItem.CHAT_INTERVIEW -> {
-                        navigator.push(
-                            InterviewSetupScreen
-                        )
-                    }
-
-                    HomeScreenMenuItem.QUESTIONS_CATEGORIES -> {
-                        navigator.push(
-                            CategoriesListScreen
-                        )
-                    }
-                }
+                navigator.push(item.screen)
             },
             onSeeAllInterviewsClick = {
                 navigator.push(InterviewHistoryScreen)
@@ -222,7 +206,12 @@ private fun MenuItems(
                                     shape = RoundedCornerShape(24.dp)
                                 )
 
-                                HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Modifier.background(
+                                HomeScreenMenuItem.LEARN_QUESTIONS -> Modifier.background(
+                                    color = ktiColors.backgroundSurfaceVariant,
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+
+                                HomeScreenMenuItem.BOOKMARKS -> Modifier.background(
                                     color = ktiColors.backgroundSurfaceVariant,
                                     shape = RoundedCornerShape(24.dp)
                                 )
@@ -242,18 +231,19 @@ private fun MenuItems(
                             .padding(horizontal = 12.dp, vertical = 12.dp),
                         color = ktiColors.textMain,
                         fontWeight = when (item.value) {
-                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> FontWeight.Normal
+                            HomeScreenMenuItem.LEARN_QUESTIONS, HomeScreenMenuItem.BOOKMARKS -> FontWeight.Normal
                             HomeScreenMenuItem.CHAT_INTERVIEW -> FontWeight.Medium
                         }
                     )
                     KTIIcon(
                         tint = when (item.value) {
-                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> ktiColors.textMain
+                            HomeScreenMenuItem.LEARN_QUESTIONS, HomeScreenMenuItem.BOOKMARKS -> ktiColors.textMain
                             HomeScreenMenuItem.CHAT_INTERVIEW -> ktiColors.secondary
                         },
                         imageResource = when (item.value) {
-                            HomeScreenMenuItem.QUESTIONS_CATEGORIES -> Icons.Default.School
+                            HomeScreenMenuItem.LEARN_QUESTIONS -> Icons.Default.School
                             HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.PlayArrow
+                            HomeScreenMenuItem.BOOKMARKS -> Icons.Default.Bookmark
                         }
                     )
                 }
@@ -275,7 +265,7 @@ val interviewsSummaryMock = listOf(
 private val homeScreenMock = HomeScreenModel.ViewState.HomeItems(
     items = listOf(
         UIHomeScreenSection.MenuItems(
-            items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.QUESTIONS_CATEGORIES)
+            items = listOf(HomeScreenMenuItem.CHAT_INTERVIEW, HomeScreenMenuItem.LEARN_QUESTIONS)
         ),
         UIHomeScreenSection.InterviewHistorySummaryUI(
             items = interviewsSummaryMock

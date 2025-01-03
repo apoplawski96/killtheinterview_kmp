@@ -14,7 +14,7 @@ import sectonone.droidsoft.ap.ui.components.KTICardVariant
 import sectonone.droidsoft.ap.ui.components.KTIGridWithCards
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
 import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.screens.questionsList.ListOfQuestionsScreen
+import sectonone.droidsoft.ap.screens.questions.QuestionsScreen
 
 internal object CategoriesListScreen : Screen {
 
@@ -25,7 +25,7 @@ internal object CategoriesListScreen : Screen {
 
         CategoriesListScreenContent(
             onClick = { category ->
-                navigator.push(ListOfQuestionsScreen(listOf(category)))
+                navigator.push(QuestionsScreen(listOf(category)))
             },
             items = categories
         )

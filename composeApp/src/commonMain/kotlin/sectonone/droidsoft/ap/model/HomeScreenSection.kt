@@ -1,5 +1,11 @@
 package sectonone.droidsoft.ap.model
 
+import cafe.adriel.voyager.core.screen.Screen
+import sectonone.droidsoft.ap.screens.bookmarks.BookmarksScreen
+import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
+import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
+import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
+
 // IDEAS
 // 1. Add interview history summary section with option to "View all" // DONE
 // 2. Add search bar?
@@ -13,9 +19,10 @@ package sectonone.droidsoft.ap.model
 // 10. Start with UI & mock data, then code functionality
 // 11. Daily challenge
 
-enum class HomeScreenMenuItem(val displayName: String, val assetResourcePath: String) {
-    QUESTIONS_CATEGORIES(displayName = "Learn questions", assetResourcePath = "book.png"),
-    CHAT_INTERVIEW(displayName = "Start interview", assetResourcePath = "student.png"),
+enum class HomeScreenMenuItem(val displayName: String, val assetResourcePath: String, val screen: Screen) {
+    LEARN_QUESTIONS(displayName = "Learn questions", assetResourcePath = "book.png", CategoriesListScreen),
+    CHAT_INTERVIEW(displayName = "Start interview", assetResourcePath = "student.png", InterviewSetupScreen),
+    BOOKMARKS(displayName = "Bookmarks", assetResourcePath = "bookmarks.png", BookmarksScreen),
 }
 
 sealed interface UIHomeScreenSection {

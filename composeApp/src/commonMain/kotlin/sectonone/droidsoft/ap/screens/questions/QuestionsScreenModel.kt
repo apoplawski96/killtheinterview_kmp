@@ -1,11 +1,12 @@
-package sectonone.droidsoft.ap.screens.questionsList
+package sectonone.droidsoft.ap.screens.questions
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.repository.BookmarksRepository
@@ -13,7 +14,7 @@ import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 
-class QuestionsListScreenModel(
+class QuestionsScreenModel(
     private val questionsRepository: QuestionsRepository,
     private val bookmarksRepository: BookmarksRepository,
 ) : ScreenModel {
@@ -36,26 +37,22 @@ class QuestionsListScreenModel(
 
     data class Scoreboard(val answeredCount: Int, val totalCount: Int)
 
-    private val _answeredQuestions: MutableStateFlow<List<Question>> = MutableStateFlow(emptyList())
-    private val answeredQuestions: StateFlow<List<Question>> = _answeredQuestions
+    private val _answeredQuestions = MutableStateFlow<List<Question>>(emptyList())
+    private val _sortMode = MutableSharedFlow<SortMode>()
 
-    private val _sortMode: MutableSharedFlow<SortMode> = MutableSharedFlow()
-    private val sortMode: SharedFlow<SortMode> = _sortMode
+    private val _scoreboard = MutableStateFlow(Scoreboard(0, 0))
+    val scoreboard = _scoreboard.asStateFlow()
 
-    private val _scoreboard: MutableStateFlow<Scoreboard> = MutableStateFlow(Scoreboard(0, 0))
-    val scoreboard: StateFlow<Scoreboard> = _scoreboard
+    private val _viewEvents = MutableSharedFlow<ViewEvent>()
+    val viewEvents = _viewEvents.asSharedFlow()
 
-    private val _viewEvents: MutableSharedFlow<ViewEvent> = MutableSharedFlow()
-    val viewEvents: SharedFlow<ViewEvent> = _viewEvents
-
-    private val _viewState: MutableStateFlow<ViewState> = MutableStateFlow(ViewState.Loading)
-    val viewState: StateFlow<ViewState> = _viewState
+    private val _state = MutableStateFlow<ViewState>(ViewState.Loading)
+    val state = _state.asStateFlow()
 
     fun initialize(categories: List<Category>) {
         screenModelScope.launch {
             questionsRepository.getQuestionsAsFlow(categories).collect { questions ->
-                println("2137 - questionsFlow collect: ${questions.map { "${it.id}, isBookmarked: ${it.isBookmarked}" }}")
-                _viewState.update { ViewState.QuestionsLoaded(questions) }
+                _state.update { ViewState.QuestionsLoaded(questions) }
             }
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
@@ -63,16 +60,16 @@ class QuestionsListScreenModel(
     }
 
     fun markQuestionAsAnswered(question: Question) {
-        if (answeredQuestions.value.contains(question)) return
+        if (_answeredQuestions.value.contains(question)) return
 
-        val updatedList = answeredQuestions.value + question
+        val updatedList = _answeredQuestions.value + question
         _answeredQuestions.update { updatedList }
     }
 
     fun markQuestionAsUnanswered(question: Question) {
-        if (answeredQuestions.value.contains(question).not()) return
+        if (_answeredQuestions.value.contains(question).not()) return
 
-        val updatedList = answeredQuestions.value.filterNot { it == question }
+        val updatedList = _answeredQuestions.value.filterNot { it == question }
         _answeredQuestions.update { updatedList }
     }
 
@@ -90,8 +87,8 @@ class QuestionsListScreenModel(
 
     private fun collectSortModeUpdates() {
         screenModelScope.launch {
-            sortMode.collect { sortMode ->
-                val currentViewState = viewState.value
+            _sortMode.collect { sortMode ->
+                val currentViewState = state.value
                 if (currentViewState is ViewState.QuestionsLoaded) {
                     val questions = currentViewState.questions
                     val sortedQuestions = when (sortMode) {
@@ -99,7 +96,7 @@ class QuestionsListScreenModel(
                         SortMode.BY_DIFFICULTY_DESCENDING -> questions
                         SortMode.RANDOMIZED -> questions.shuffled()
                     }
-                    _viewState.update { ViewState.QuestionsLoaded(sortedQuestions) }
+                    _state.update { ViewState.QuestionsLoaded(sortedQuestions) }
                 }
             }
         }
@@ -107,7 +104,7 @@ class QuestionsListScreenModel(
 
     private fun collectAnsweredQuestionsUpdates() {
         screenModelScope.launch {
-            answeredQuestions.collect { answeredQuestions ->
+            _answeredQuestions.collect { answeredQuestions ->
                 _scoreboard.update { scoreboard.value.copy(answeredCount = answeredQuestions.count()) }
             }
         }

@@ -10,7 +10,8 @@ class HomeRepository(private val questionsRepository: QuestionsRepository) {
     suspend fun get(): List<UIHomeScreenSection> = listOf(
         UIHomeScreenSection.MenuItems(
             listOf(
-                HomeScreenMenuItem.QUESTIONS_CATEGORIES,
+                HomeScreenMenuItem.LEARN_QUESTIONS,
+                HomeScreenMenuItem.BOOKMARKS,
                 HomeScreenMenuItem.CHAT_INTERVIEW,
             )
         ),
