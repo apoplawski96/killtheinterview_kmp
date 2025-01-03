@@ -12,9 +12,8 @@ import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.QuestionHistory
 import sectonone.droidsoft.ap.util.toDomainModel
 
-class InterviewHistoryDataSource(
-    private val database: KTIDatabase
-) {
+class InterviewHistoryDataSource(private val database: KTIDatabase) {
+
     private val queries = database.interviewSummaryQueries
 
     fun getAllInterviewsSummaryAsFlow() =
@@ -22,7 +21,7 @@ class InterviewHistoryDataSource(
             .asFlow()
             .mapToList(Dispatchers.IO)
             .map { history ->
-                history.map { summary -> summary.toDomainModel }
+                history.map { it.toDomainModel }
             }
 
     fun getInterviewSummaryAsFlow(interviewId: Long) =

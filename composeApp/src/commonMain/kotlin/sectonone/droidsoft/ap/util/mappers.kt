@@ -1,6 +1,7 @@
 package sectonone.droidsoft.ap.util
 
 import sectonone.droidsoft.ap.db.InterviewSummary
+import sectonone.droidsoft.ap.db.QuestionBookmark
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.model.Question
@@ -20,7 +21,21 @@ val QuestionScheme.toDomainModel
         id = id,
         answer = answer,
         question = question,
-        categories = categories.mapNotNull {
-            Category.getForKey(it)
-        }
+        categories = categories
+            .mapNotNull {
+                Category.getForKey(it)
+            }
+    )
+
+val QuestionBookmark.toDomainModel
+    get() = Question(
+        id = questionId.toInt(),
+        answer = answer,
+        question = question,
+        categories = categories
+            .split("")
+            .map { it.trim() }
+            .mapNotNull {
+                Category.getForKey(it)
+            }
     )
