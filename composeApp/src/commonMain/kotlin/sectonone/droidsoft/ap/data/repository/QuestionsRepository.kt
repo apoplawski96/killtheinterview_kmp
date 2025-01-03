@@ -1,12 +1,18 @@
 package sectonone.droidsoft.ap.data.repository
 
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import sectonone.droidsoft.ap.data.source.QuestionsDataSource
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.model.allQuestionsFiles
 import sectonone.droidsoft.ap.util.toDomainModel
+import sectonone.droidsoft.ap.util.toDomainModelWithBookmark
 
-class QuestionsRepository(private val questionsDataSource: QuestionsDataSource) {
+class QuestionsRepository(
+    private val questionsDataSource: QuestionsDataSource,
+    private val bookmarksRepository: BookmarksRepository,
+) {
 
     suspend fun getQuestions(
         categories: List<Category> = Category.entries,
@@ -22,6 +28,25 @@ class QuestionsRepository(private val questionsDataSource: QuestionsDataSource) 
             questionsRaw
         }.let { questions ->
             questions.map { it.toDomainModel }
+        }
+    }
+
+    fun getQuestionsAsFlow(
+        categories: List<Category> = Category.entries,
+        questionsLimit: Int? = null
+    ) = bookmarksRepository.getAllBookmarksAsFlow().map { bookmarks ->
+        val questionsRaw = questionsDataSource.getQuestions(
+            files = categories.map { it.fileWithQuestions }
+        ) ?: emptyList()
+
+        if (questionsLimit != null) {
+            questionsRaw.take(questionsLimit)
+        } else {
+            questionsRaw
+        }.let { questions ->
+            questions.map { question ->
+                question.toDomainModelWithBookmark(isBookmark = bookmarks.any { question.id == it.id })
+            }
         }
     }
 

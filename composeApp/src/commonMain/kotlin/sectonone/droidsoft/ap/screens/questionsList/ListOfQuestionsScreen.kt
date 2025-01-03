@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,24 +16,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
-import androidx.compose.material.icons.outlined.BookmarkAdded
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -45,7 +38,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,12 +50,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.ui.components.KTICircularProgressIndicator
-import sectonone.droidsoft.ap.ui.components.KTIColumnWithGradient
 import sectonone.droidsoft.ap.ui.components.KTIText
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
 import sectonone.droidsoft.ap.ui.components.VerticalSpacer
-import sectonone.droidsoft.ap.ui.components.bottomsheet.KTIModalBottomSheetLayout
 import sectonone.droidsoft.ap.ui.components.clickableNoRipple
 import sectonone.droidsoft.ap.ui.components.prettyPrint
 import sectonone.droidsoft.ap.di.getScreenModel
@@ -72,7 +62,6 @@ import sectonone.droidsoft.ap.model.Question
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
-import sectonone.droidsoft.ap.theme.kti_divider
 import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_softwhite
 import sectonone.droidsoft.ap.ui.components.KTIIcon
@@ -82,58 +71,47 @@ internal class ListOfQuestionsScreen(private val categories: List<Category>) : S
 
     @Composable
     override fun Content() {
-        val screenModel: QuestionsListScreenModel = getScreenModel()
+        val viewModel: QuestionsListScreenModel = getScreenModel()
 
-        ListOfQuestionsScreen(
-            viewModel = screenModel,
-            categories = categories
+        val viewState by viewModel.viewState.collectAsState()
+        val scoreboard by viewModel.scoreboard.collectAsState()
+
+        val scope = rememberCoroutineScope()
+
+        val bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden
         )
-    }
-}
 
+        val subCategoryTitle = categories.first().displayName
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-private fun ListOfQuestionsScreen(
-    viewModel: QuestionsListScreenModel,
-    categories: List<Category>,
-) {
-    val scope = rememberCoroutineScope()
-
-    val viewState = viewModel.viewState.collectAsState().value
-    val scoreboard = viewModel.scoreboard.collectAsState().value
-
-    val bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
-    )
-
-    val subCategoryTitle = categories.first().displayName
-
-    LaunchedEffect(null) {
-        viewModel.viewEvents.collect { event ->
-            when (event) {
-                QuestionsListScreenModel.ViewEvent.ToggleBottomSheet -> {
-                    toggleBottomSheet(
-                        scope = scope,
-                        bottomSheetState = bottomSheetState,
-                    )
+        LaunchedEffect(null) {
+            viewModel.viewEvents.collect { event ->
+                when (event) {
+                    QuestionsListScreenModel.ViewEvent.ToggleBottomSheet -> {
+                        toggleBottomSheet(
+                            scope = scope,
+                            bottomSheetState = bottomSheetState,
+                        )
+                    }
                 }
             }
         }
-    }
 
-    LaunchedEffect(null) {
-        viewModel.initialize(categories)
-    }
+        LaunchedEffect(null) {
+            viewModel.initialize(categories)
+        }
 
-    ListScreenContentNew(
-        viewState = viewState,
-        topBarTitle = subCategoryTitle,
-        questionsAnsweredCount = scoreboard.answeredCount,
-        questionsTotalCount = scoreboard.totalCount,
-        markAsAnswered = { question -> viewModel.markQuestionAsAnswered(question) },
-        markAsUnanswered = { question -> viewModel.markQuestionAsUnanswered(question) },
-    )
+        ListScreenContentNew(
+            viewState = viewState,
+            topBarTitle = subCategoryTitle,
+            questionsAnsweredCount = scoreboard.answeredCount,
+            questionsTotalCount = scoreboard.totalCount,
+            markAsAnswered = { viewModel.markQuestionAsAnswered(it) },
+            markAsUnanswered = { viewModel.markQuestionAsUnanswered(it) },
+            removeBookmark = { viewModel.removeBookmark(it) },
+            addBookmark = { viewModel.addBookmark(it) },
+        )
+    }
 }
 
 @Composable
@@ -144,6 +122,8 @@ private fun ListScreenContentNew(
     markAsUnanswered: (Question) -> Unit,
     questionsAnsweredCount: Int,
     questionsTotalCount: Int,
+    addBookmark: (Question) -> Unit,
+    removeBookmark: (Question) -> Unit,
 ) {
     Scaffold(
         topBar = { KTITopAppBar(title = topBarTitle) },
@@ -156,7 +136,9 @@ private fun ListScreenContentNew(
                         markAsAnswered = markAsAnswered,
                         markAsUnanswered = markAsUnanswered,
                         questionsTotalCount = questionsTotalCount,
-                        questionsAnsweredCount = questionsAnsweredCount
+                        questionsAnsweredCount = questionsAnsweredCount,
+                        addBookmark = addBookmark,
+                        removeBookmark = removeBookmark
                     )
                 }
 
@@ -181,6 +163,8 @@ private fun QuestionList(
     markAsUnanswered: (Question) -> Unit,
     questionsAnsweredCount: Int,
     questionsTotalCount: Int,
+    addBookmark: (Question) -> Unit,
+    removeBookmark: (Question) -> Unit,
 ) {
     Column {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -192,6 +176,8 @@ private fun QuestionList(
                     item = item,
                     markAsAnswered = markAsAnswered,
                     markAsUnanswered = markAsUnanswered,
+                    addBookmark = addBookmark,
+                    removeBookmark = removeBookmark
                 )
             }
         }
@@ -203,6 +189,8 @@ fun QuestionCard(
     item: Question,
     markAsAnswered: (Question) -> Unit,
     markAsUnanswered: (Question) -> Unit,
+    addBookmark: (Question) -> Unit,
+    removeBookmark: (Question) -> Unit,
 ) {
     var isExpanded by remember(item) { mutableStateOf(false) }
     var isAnswered by remember(item) { mutableStateOf(false) }
@@ -259,14 +247,14 @@ fun QuestionCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (item.isBookmarked) {
-                        KTIIconButton(onClick = {}, icon = { KTIIcon(Icons.Outlined.Bookmark) })
+                        KTIIconButton(onClick = { removeBookmark.invoke(item) }, icon = { KTIIcon(Icons.Outlined.Bookmark) })
                     } else {
-                        KTIIconButton(onClick = {}, icon = { KTIIcon(Icons.Outlined.BookmarkAdd) })
+                        KTIIconButton(onClick = { addBookmark.invoke(item) }, icon = { KTIIcon(Icons.Outlined.BookmarkAdd) })
                     }
                     if (isAnswered.not()) {
-                        KTIIconButton(onClick = {}, icon = { KTIIcon(Icons.Outlined.CheckBox) })
+                        KTIIconButton(onClick = { markAsAnswered.invoke(item) }, icon = { KTIIcon(Icons.Outlined.CheckBox) })
                     } else {
-                        KTIIconButton(onClick = {}, icon = { KTIIcon(Icons.Default.CheckBox, tint = kti_green) })
+                        KTIIconButton(onClick = { markAsUnanswered.invoke(item) }, icon = { KTIIcon(Icons.Default.CheckBox, tint = kti_green) })
                     }
                 }
                 // Expand answer

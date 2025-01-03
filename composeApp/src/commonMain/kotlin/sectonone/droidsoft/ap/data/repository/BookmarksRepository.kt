@@ -6,7 +6,7 @@ import sectonone.droidsoft.ap.model.parseCategoriesToDb
 
 class BookmarksRepository(private val dataSource: BookmarksDataSource) {
 
-    fun getAllBookmarks() = dataSource.getAllBookmarksAsFlow()
+    fun getAllBookmarksAsFlow() = dataSource.getAllBookmarksAsFlow()
 
     fun getBookmarkById(id: Long) = dataSource.getBookmarkByIdAsFlow(id)
 

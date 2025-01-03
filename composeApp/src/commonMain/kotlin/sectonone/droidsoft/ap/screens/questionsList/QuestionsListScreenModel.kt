@@ -8,12 +8,14 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.data.repository.BookmarksRepository
 import sectonone.droidsoft.ap.data.repository.QuestionsRepository
 import sectonone.droidsoft.ap.model.Category
 import sectonone.droidsoft.ap.model.Question
 
 class QuestionsListScreenModel(
     private val questionsRepository: QuestionsRepository,
+    private val bookmarksRepository: BookmarksRepository,
 ) : ScreenModel {
 
     sealed interface ViewState {
@@ -51,10 +53,10 @@ class QuestionsListScreenModel(
 
     fun initialize(categories: List<Category>) {
         screenModelScope.launch {
-            val resultNew = questionsRepository.getQuestions(categories) ?: return@launch // TODO: Handle better
-
-            _viewState.update { ViewState.QuestionsLoaded(resultNew) }
-
+            questionsRepository.getQuestionsAsFlow(categories).collect { questions ->
+                println("2137 - questionsFlow collect: ${questions.map { "${it.id}, isBookmarked: ${it.isBookmarked}" }}")
+                _viewState.update { ViewState.QuestionsLoaded(questions) }
+            }
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
         }
@@ -72,6 +74,18 @@ class QuestionsListScreenModel(
 
         val updatedList = answeredQuestions.value.filterNot { it == question }
         _answeredQuestions.update { updatedList }
+    }
+
+    fun addBookmark(question: Question) {
+        screenModelScope.launch {
+            bookmarksRepository.addBookmark(question)
+        }
+    }
+
+    fun removeBookmark(question: Question) {
+        screenModelScope.launch {
+            bookmarksRepository.deleteBookmark(question.id.toLong())
+        }
     }
 
     private fun collectSortModeUpdates() {

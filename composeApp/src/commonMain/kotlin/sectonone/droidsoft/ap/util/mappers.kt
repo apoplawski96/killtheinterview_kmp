@@ -27,6 +27,17 @@ val QuestionScheme.toDomainModel
             }
     )
 
+fun QuestionScheme.toDomainModelWithBookmark(isBookmark: Boolean) = Question(
+    id = id,
+    answer = answer,
+    question = question,
+    isBookmarked = isBookmark,
+    categories = categories
+        .mapNotNull {
+            Category.getForKey(it)
+        },
+)
+
 val QuestionBookmark.toDomainModel
     get() = Question(
         id = questionId.toInt(),

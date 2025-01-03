@@ -21,6 +21,8 @@ private fun PreviewQuestionCardNotBookmarked() {
             ),
             markAsAnswered = {},
             markAsUnanswered = {},
+            addBookmark = {},
+            removeBookmark = {},
         )
     }
 }
@@ -38,7 +40,9 @@ private fun PreviewQuestionCardBookmarked() {
                 isBookmarked = true
             ),
             markAsAnswered = {},
-            markAsUnanswered = {}
+            markAsUnanswered = {},
+            addBookmark = {},
+            removeBookmark = {},
         )
     }
 }
