@@ -42,11 +42,11 @@ fun KTIButton(
         enabled = enabled,
     ) {
         if (iconResId != null) {
-            Icon(
-                painter = painterResource(res = iconResId),
-                contentDescription = "Button icon",
-                tint = labelColor
-            )
+//            Icon(
+//                painter = painterResource(res = iconResId),
+//                contentDescription = "Button icon",
+//                tint = labelColor
+//            )
         }
         KTITextNew(
             text = label,
@@ -144,11 +144,11 @@ fun KTIButton(
         enabled = isLoading.not(),
     ) {
         if (iconResId != null) {
-            Icon(
-                painter = painterResource(res = iconResId),
-                contentDescription = "Button icon",
-                tint = labelColor
-            )
+//            Icon(
+//                painter = painterResource(res = iconResId),
+//                contentDescription = "Button icon",
+//                tint = labelColor
+//            )
         }
         KTITextNew(text = label, fontSize = 12.sp, fontWeight = FontWeight.W400, color = labelColor)
         if (isLoading) {

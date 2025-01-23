@@ -49,6 +49,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.seiko.imageloader.rememberImagePainter
+import killtheinterview_kmp.composeapp.resources.Res
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.ui.components.AnimatedPagerIndicator
 import sectonone.droidsoft.ap.ui.components.KTIIcon
@@ -112,23 +114,24 @@ internal fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
                 animationSpec = tween(durationMillis = 700),
                 label = "Blurred background image"
             ) { imagePath ->
-                Image(
-                    painter = painterResource(imagePath.toString()),
-                    modifier = Modifier
-                        .scale(1.5f)
-                        .fillMaxWidth()
-                        .graphicsLayer { alpha = 0.8f }
-                        .heightIn(min = containerHeight)
-                        .border(
-                            width = 0.5.dp,
-                            color = ktiColors.backgroundSurfaceVariant,
-                            shape = RoundedCornerShape(size = 40.dp)
-                        )
-                        .blur(150.dp),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.FillWidth,
-                    contentDescription = ""
-                )
+                // TODO
+//                Image(
+//                    painter = rememberImagePai,
+//                    modifier = Modifier
+//                        .scale(1.5f)
+//                        .fillMaxWidth()
+//                        .graphicsLayer { alpha = 0.8f }
+//                        .heightIn(min = containerHeight)
+//                        .border(
+//                            width = 0.5.dp,
+//                            color = ktiColors.backgroundSurfaceVariant,
+//                            shape = RoundedCornerShape(size = 40.dp)
+//                        )
+//                        .blur(150.dp),
+//                    alignment = Alignment.Center,
+//                    contentScale = ContentScale.FillWidth,
+//                    contentDescription = ""
+//                )
             }
             Column(
                 modifier = Modifier.fillMaxWidth().heightIn(min = containerHeight),
@@ -146,18 +149,19 @@ internal fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
                                 shape = RoundedCornerShape(cornerRadius),
                                 elevation = 8.dp,
                             ) {
-                                Image(
-                                    painter = painterResource(currentItem?.imagePath.toString()),
-                                    modifier = Modifier
-                                        .size(imageSize)
-                                        .clip(RoundedCornerShape(cornerRadius))
-                                        .border(
-                                            width = 0.5.dp,
-                                            color = white80,
-                                            shape = RoundedCornerShape(size = cornerRadius)
-                                        ),
-                                    contentDescription = ""
-                                )
+                                // TODO
+//                                Image(
+//                                    painter = painterResource(currentItem?.imagePath.toString()),
+//                                    modifier = Modifier
+//                                        .size(imageSize)
+//                                        .clip(RoundedCornerShape(cornerRadius))
+//                                        .border(
+//                                            width = 0.5.dp,
+//                                            color = white80,
+//                                            shape = RoundedCornerShape(size = cornerRadius)
+//                                        ),
+//                                    contentDescription = ""
+//                                )
                             }
                         }
                     }

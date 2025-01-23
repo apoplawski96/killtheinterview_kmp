@@ -38,5 +38,5 @@ inline fun <reified T : Enum<T>> getRandomUniqueEnumValues(n: Int): List<T> {
     return enumValues.shuffled(Random).take(adjustedN)
 }
 
-@Composable
-fun Category.getCoverResource() = painterResource("${this.key}_cover.png")
+//@Composable
+//fun Category.getCoverResource() = painterResource("${this.key}_cover.png")

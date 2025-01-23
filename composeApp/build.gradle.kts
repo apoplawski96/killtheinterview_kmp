@@ -26,6 +26,10 @@ kotlin {
         binaries.executable()
     }
 
+    wasm {
+        browser() // or nodejs() if you're using Node.js
+    }
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -43,6 +47,9 @@ kotlin {
                 optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
             }
         }
+        val commonMain by getting
+        val commonTest by getting
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.material3)
@@ -67,6 +74,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
+            implementation(libs.coil.compose)
             implementation(libs.kstore)
 //            implementation(libs.apollo.runtime)
             implementation("co.touchlab:stately-common:2.0.5")
@@ -102,6 +110,11 @@ kotlin {
             implementation(libs.sqlDelight.driver.native)
         }
 
+        val wasmJsMain by getting {
+            dependencies {
+                implementation("app.cash.sqldelight:runtime-js:2.0.1")
+            }
+        }
     }
 }
 
@@ -163,4 +176,10 @@ sqldelight {
             packageName.set("sectonone.droidsoft.ap.db")
         }
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "killtheinterview_kmp.composeapp.resources"
+    generateResClass = auto
 }

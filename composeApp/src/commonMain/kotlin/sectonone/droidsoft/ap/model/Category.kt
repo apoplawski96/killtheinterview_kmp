@@ -1,5 +1,7 @@
 package sectonone.droidsoft.ap.model
 
+import org.jetbrains.compose.resources.DrawableResource
+
 enum class Category(
     val key: String,
     val displayName: String,

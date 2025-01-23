@@ -66,12 +66,12 @@ fun CategoryWithCoverCard(
                         translationY = 10.dp.toPx()
                     }
             ) {
-                Image(
-                    painter = painterResource(category.imageFile),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+//                Image(
+//                    painter = painterResource(category.imageFile),
+//                    contentDescription = "",
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier.fillMaxSize()
+//                )
             }
         }
     }
@@ -116,12 +116,12 @@ fun SelectableCategoryWithCoverCard(
                         translationY = 10.dp.toPx()
                     }
             ) {
-                Image(
-                    painter = painterResource(selectableCategory.categoryV2.imageFile),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+//                Image(
+//                    painter = painterResource(selectableCategory.categoryV2.imageFile),
+//                    contentDescription = "",
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier.fillMaxSize()
+//                )
             }
         }
     }
