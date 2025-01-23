@@ -164,11 +164,3 @@ sqldelight {
         }
     }
 }
-
-//apollo {
-//    service("api") {
-//        // GraphQL configuration here.
-//        // https://www.apollographql.com/docs/kotlin/advanced/plugin-configuration/
-//        packageName.set("sectonone.droidsoft.ap.graphql")
-//    }
-//}
