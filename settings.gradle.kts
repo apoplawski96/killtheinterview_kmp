@@ -2,7 +2,7 @@ rootProject.name = "KillTheInterviewKMP"
 //enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":composeApp")
-//include(":wasmApp")
+include(":wasmApp")
 
 pluginManagement {
     repositories {

@@ -26,18 +26,18 @@ fun KTIIcon(
     Icon(imageVector = imageResource, contentDescription = null, modifier = modifier then Modifier.size(size), tint = tint)
 }
 
-@Composable
-fun KTIIllustration(
-    resourcePath: String,
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null,
-) {
-    Image(
-        painter = painterResource(resourcePath),
-        contentDescription = contentDescription,
-        modifier = modifier
-    )
-}
+//@Composable
+//fun KTIIllustration(
+//    resourcePath: String,
+//    modifier: Modifier = Modifier,
+//    contentDescription: String? = null,
+//) {
+//    Image(
+//        painter = painterResource(resourcePath),
+//        contentDescription = contentDescription,
+//        modifier = modifier
+//    )
+//}
 
 @Composable
 fun KTIIconButton(
