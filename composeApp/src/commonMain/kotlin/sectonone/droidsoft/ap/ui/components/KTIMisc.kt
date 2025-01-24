@@ -49,7 +49,9 @@ import sectonone.droidsoft.ap.theme.white50
 
 @Composable
 fun KTIAvatarWithAnimation(
-    avatarResource: Painter = painterResource("avatar.png"),
+    avatarResource: Painter
+//    = painterResource("avatar.png")
+    ,
     size: Dp = 36.dp,
     strokeWidth: Float = 4f
 ) {

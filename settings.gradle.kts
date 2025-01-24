@@ -1,5 +1,6 @@
 rootProject.name = "KillTheInterviewKMP"
 include(":composeApp")
+include(":wasmApp")
 include(":data")
 
 pluginManagement {

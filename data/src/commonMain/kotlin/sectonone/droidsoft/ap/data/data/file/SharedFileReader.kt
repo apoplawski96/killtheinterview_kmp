@@ -1,10 +1,10 @@
 package sectonone.droidsoft.ap.data.data.file
 
+import killtheinterviewkmp.data.generated.resources.Res
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
 
 class ResourcesFileReader {
 
@@ -12,8 +12,8 @@ class ResourcesFileReader {
     suspend fun readFile(fileName: String): String? {
         return try {
             withContext(Dispatchers.IO) {
-                val resource = resource(fileName)
-                val resourceDecoded = resource.readBytes().decodeToString()
+                val resource = Res.readBytes(fileName)
+                val resourceDecoded = resource.decodeToString()
                 resourceDecoded
             }
         } catch (e: Exception) {

@@ -229,9 +229,7 @@ fun KTITheme(content: @Composable () -> Unit = {}) {
             colors = debugColors(),
             shapes = Shapes,
         ) {
-            ProvideKTIRipple(darkTheme = isDark) {
-                content()
-            }
+            content()
         }
     }
 }

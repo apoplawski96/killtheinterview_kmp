@@ -35,6 +35,7 @@ class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        println("2137 - halo")
         setContent {
             App()
         }

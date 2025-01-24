@@ -60,6 +60,7 @@ internal object HomeScreen : Screen {
         val viewState = screenModel.viewState.collectAsState().value
 
         LaunchedEffect(null) {
+            println("2137 - home screen initialize")
             screenModel.initialize()
         }
 
@@ -137,7 +138,7 @@ private fun TopSection() {
                 color = KTITheme.colors.textVariant2
             )
         }
-        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f)
+//        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f)
     }
 }
 

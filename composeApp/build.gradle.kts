@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -48,8 +49,6 @@ kotlin {
             implementation(compose.material)
             implementation(compose.materialIconsExtended)
             implementation(compose.foundation)
-//            implementation(compose.uiTooling)
-//            implementation(compose.preview)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             api(libs.voyager.navigator)
@@ -58,7 +57,6 @@ kotlin {
             implementation(libs.voyager.koin)
             implementation(libs.composeImageLoader)
             implementation(libs.napier)
-//            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.moko.mvvm)
             implementation(libs.ktor.core)
             implementation(libs.composeIcons.featherIcons)
@@ -67,7 +65,6 @@ kotlin {
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.kstore)
-//            implementation(libs.apollo.runtime)
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)
         }

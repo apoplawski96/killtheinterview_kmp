@@ -32,11 +32,11 @@ fun KTIIllustration(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
 ) {
-    Image(
-        painter = painterResource(resourcePath),
-        contentDescription = contentDescription,
-        modifier = modifier
-    )
+//    Image(
+//        painter = painterResource(resourcePath),
+//        contentDescription = contentDescription,
+//        modifier = modifier
+//    )
 }
 
 @Composable

@@ -59,7 +59,7 @@ fun KTIChatTopAppBar(themeToggle: Boolean = false) {
             horizontalArrangement = Arrangement.Start,
         ) {
             KTIBackButton()
-            KTIAvatarWithAnimation()
+//            KTIAvatarWithAnimation()
             HorizontalSpacer(16.dp)
             Column {
                 KTITextNew("Mr Interviewer", fontSize = 16.sp, fontWeight = FontWeight.W500, color = ktiColors.textMain)

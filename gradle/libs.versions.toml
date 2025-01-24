@@ -1,16 +1,16 @@
 [versions]
 
-kotlin = "1.9.21"
+kotlin = "2.1.0"
 agp = "8.2.0"
-compose = "1.5.11"
-androidx-appcompat = "1.6.1"
+compose = "1.7.0"
+androidx-appcompat = "1.7.0"
 androidx-activityCompose = "1.8.1"
-compose-uitooling = "1.5.4"
+compose-uitooling = "1.7.0"
 voyager = "1.0.0"
 composeImageLoader = "1.7.1"
 napier = "2.6.1"
 buildConfig = "4.1.1"
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.7.3"
 moko-mvvm = "0.16.1"
 ktor = "2.3.7"
 composeIcons = "1.1.0"
@@ -21,7 +21,9 @@ koin = "3.5.0"
 kstore = "0.7.1"
 sqlDelight = "2.0.1"
 apollo = "4.0.0-beta.4"
-jetbrainsKotlinJvm = "1.9.0"
+jetbrainsKotlinJvm = "2.1.0"
+androidx-lifecycle = "2.8.4"
+
 
 [libraries]
 
@@ -53,6 +55,9 @@ sqlDelight-driver-native = { module = "app.cash.sqldelight:native-driver", versi
 sqlDelight-driver-js = { module = "app.cash.sqldelight:web-worker-driver", version.ref = "sqlDelight" }
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
 
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
 [plugins]
 
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -63,3 +68,4 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

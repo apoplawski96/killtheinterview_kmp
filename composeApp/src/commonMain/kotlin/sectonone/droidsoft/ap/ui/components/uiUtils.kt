@@ -32,5 +32,5 @@ fun List<Any>.prettyPrint(): String {
     return joinToString(separator = ", ") { it.toString() }
 }
 
-@Composable
-fun Category.getCoverResource() = painterResource("${this.key}_cover.png")
+//@Composable
+//fun Category.getCoverResource() = painterResource("${this.key}_cover.png")
