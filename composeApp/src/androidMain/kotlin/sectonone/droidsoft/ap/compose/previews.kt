@@ -2,8 +2,8 @@ package sectonone.droidsoft.ap.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.screens.questions.QuestionCard
 import sectonone.droidsoft.ap.theme.KTITheme
 

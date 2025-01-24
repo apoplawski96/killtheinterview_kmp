@@ -22,7 +22,7 @@ import sectonone.droidsoft.ap.ui.components.KTICardItem
 import sectonone.droidsoft.ap.ui.components.KTICardVariant
 import sectonone.droidsoft.ap.ui.components.KTIGridWithCards
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
-import sectonone.droidsoft.ap.di.getScreenModel
+import sectonone.droidsoft.ap.data.di.getScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.ktiColors

@@ -47,18 +47,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import sectonone.droidsoft.ap.ui.components.KTIButtonShared
-import sectonone.droidsoft.ap.ui.components.KTIChatTopAppBar
-import sectonone.droidsoft.ap.ui.components.KTIFloatingActionButton
-import sectonone.droidsoft.ap.ui.components.HorizontalSpacer
-import sectonone.droidsoft.ap.ui.components.KTIIcon
-import sectonone.droidsoft.ap.ui.components.KTIScaffold
-import sectonone.droidsoft.ap.ui.components.KTITextNew
-import sectonone.droidsoft.ap.ui.components.VerticalSpacer
-import sectonone.droidsoft.ap.ui.components.LoadingAnimation
-import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.data.di.getScreenModel
+import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -66,6 +57,15 @@ import sectonone.droidsoft.ap.theme.kti_dark_grey
 import sectonone.droidsoft.ap.theme.kti_green
 import sectonone.droidsoft.ap.theme.kti_grey
 import sectonone.droidsoft.ap.theme.kti_softwhite
+import sectonone.droidsoft.ap.ui.components.HorizontalSpacer
+import sectonone.droidsoft.ap.ui.components.KTIButtonShared
+import sectonone.droidsoft.ap.ui.components.KTIChatTopAppBar
+import sectonone.droidsoft.ap.ui.components.KTIFloatingActionButton
+import sectonone.droidsoft.ap.ui.components.KTIIcon
+import sectonone.droidsoft.ap.ui.components.KTIScaffold
+import sectonone.droidsoft.ap.ui.components.KTITextNew
+import sectonone.droidsoft.ap.ui.components.LoadingAnimation
+import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 
 internal class InterviewChatScreen(private val categories: List<Category>) : Screen {
 

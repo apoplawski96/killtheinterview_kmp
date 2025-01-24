@@ -27,6 +27,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import sectonone.droidsoft.ap.data.di.getScreenModel
+import sectonone.droidsoft.ap.data.model.Role
+import sectonone.droidsoft.ap.data.model.schema.AIQuestionScheme
+import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.kti_accent
+import sectonone.droidsoft.ap.theme.kti_softblack
+import sectonone.droidsoft.ap.theme.kti_softwhite
 import sectonone.droidsoft.ap.ui.components.KTIButton
 import sectonone.droidsoft.ap.ui.components.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.ui.components.KTIIcon
@@ -36,10 +43,6 @@ import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
 import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.ui.components.clickableNoRipple
-import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.Role
-import sectonone.droidsoft.ap.model.schema.AIQuestionScheme
-import sectonone.droidsoft.ap.theme.*
 
 internal class AIInterviewScreen(private val role: Role) : Screen {
 

@@ -2,14 +2,14 @@ package sectonone.droidsoft.ap.screens.interviewAi
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
-import sectonone.droidsoft.ap.model.schema.AIQuestion
-import sectonone.droidsoft.ap.model.schema.AIQuestionScheme
-import sectonone.droidsoft.ap.model.Role
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.data.model.Role
+import sectonone.droidsoft.ap.data.model.schema.AIQuestion
+import sectonone.droidsoft.ap.data.model.schema.AIQuestionScheme
+import sectonone.droidsoft.ap.data.data.openAi.AIInterviewQuestionsPrompter
 
 class AIInterviewScreenModel(
     private val aiInterviewQuestionsPrompter: AIInterviewQuestionsPrompter,

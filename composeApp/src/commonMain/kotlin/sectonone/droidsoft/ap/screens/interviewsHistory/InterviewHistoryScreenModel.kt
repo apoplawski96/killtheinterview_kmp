@@ -5,8 +5,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import sectonone.droidsoft.ap.data.repository.InterviewRepository
-import sectonone.droidsoft.ap.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.data.data.repository.InterviewRepository
 
 internal class InterviewHistoryScreenModel(
     interviewRepository: InterviewRepository,

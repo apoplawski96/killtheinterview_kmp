@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import sectonone.droidsoft.ap.data.di.getScreenModel
+import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryVariant
+import sectonone.droidsoft.ap.screens.interviewDetails.InterviewDetailsScreen
+import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.ui.components.InterviewSummaryCard
 import sectonone.droidsoft.ap.ui.components.KTICircularProgressIndicator
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
-import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.InterviewHistorySummary
-import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryVariant
-import sectonone.droidsoft.ap.screens.interviewDetails.InterviewDetailsScreen
-import sectonone.droidsoft.ap.theme.ktiColors
 
 internal object InterviewHistoryScreen : Screen {
 

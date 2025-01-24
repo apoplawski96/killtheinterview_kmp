@@ -3,7 +3,7 @@ package sectonone.droidsoft.ap.screens.interviewSetup
 import cafe.adriel.voyager.core.model.ScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 
 internal class InterviewSetupScreenModel : ScreenModel {

@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.screens.questions.QuestionsScreen
 import sectonone.droidsoft.ap.ui.components.KTIBackgroundSurface
 import sectonone.droidsoft.ap.ui.components.KTICardItem
 import sectonone.droidsoft.ap.ui.components.KTICardVariant
 import sectonone.droidsoft.ap.ui.components.KTIGridWithCards
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
-import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.screens.questions.QuestionsScreen
 
 internal object CategoriesListScreen : Screen {
 

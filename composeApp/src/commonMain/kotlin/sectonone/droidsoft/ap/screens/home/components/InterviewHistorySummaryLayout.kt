@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.ui.components.InterviewSummaryCard
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.VerticalSpacer
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 
 enum class InterviewHistorySummaryVariant { GridSingleRow, GridTwoRows, Column; }

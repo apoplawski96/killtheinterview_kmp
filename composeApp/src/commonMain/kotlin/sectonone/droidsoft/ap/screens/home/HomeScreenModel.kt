@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.Hejka
-import sectonone.droidsoft.ap.data.repository.HomeRepository
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
+import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
+import sectonone.droidsoft.ap.data.data.repository.HomeRepository
 
 internal class HomeScreenModel(
     private val getHomeScreenFeedItems: HomeRepository,

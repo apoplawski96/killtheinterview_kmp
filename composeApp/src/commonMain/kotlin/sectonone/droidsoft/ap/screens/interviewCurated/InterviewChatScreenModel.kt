@@ -2,10 +2,6 @@ package sectonone.droidsoft.ap.screens.interviewCurated
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import sectonone.droidsoft.ap.data.repository.QuestionsRepository
-import sectonone.droidsoft.ap.model.Question
-import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
-import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,9 +9,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.data.repository.InterviewRepository
-import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.QuestionHistory
+import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.Question
+import sectonone.droidsoft.ap.data.model.QuestionHistory
+import sectonone.droidsoft.ap.data.data.repository.InterviewRepository
+import sectonone.droidsoft.ap.data.data.repository.QuestionsRepository
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
+import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
 import kotlin.random.Random
 
 private const val interval = 200L

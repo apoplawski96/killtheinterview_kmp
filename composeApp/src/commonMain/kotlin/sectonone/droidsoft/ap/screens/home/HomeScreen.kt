@@ -36,17 +36,15 @@ import sectonone.droidsoft.ap.ui.components.KTICardItem
 import sectonone.droidsoft.ap.ui.components.KTIIcon
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.VerticalSpacer
-import sectonone.droidsoft.ap.ui.components.getRandomUniqueEnumValues
-import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.Category
-import sectonone.droidsoft.ap.model.HomeScreenMenuItem
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
-import sectonone.droidsoft.ap.model.interviewSummary
-import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
+import sectonone.droidsoft.ap.data.di.getScreenModel
+import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem
+import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
+import sectonone.droidsoft.ap.data.model.interviewSummary
+import sectonone.droidsoft.ap.data.data.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryLayout
 import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
-import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewHistoryScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -68,7 +66,8 @@ internal object HomeScreen : Screen {
         HomeScreenContent(
             state = viewState,
             onMenuItemClicked = { item ->
-                navigator.push(item.screen)
+                val screen = InterviewHistoryScreen
+                navigator.push(screen)
             },
             onSeeAllInterviewsClick = {
                 navigator.push(InterviewHistoryScreen)

@@ -50,13 +50,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.ui.components.AnimatedPagerIndicator
 import sectonone.droidsoft.ap.ui.components.KTIIcon
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.VerticalSpacer
 import sectonone.droidsoft.ap.ui.components.clickableNoRipple
 import sectonone.droidsoft.ap.ui.components.rememberAutoSwipeTimer
-import sectonone.droidsoft.ap.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.white
 import sectonone.droidsoft.ap.theme.white80

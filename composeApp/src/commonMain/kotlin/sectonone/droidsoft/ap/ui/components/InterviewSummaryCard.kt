@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import sectonone.droidsoft.ap.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryVariant
 import sectonone.droidsoft.ap.screens.home.components.interviewSummaryCardSize
 import sectonone.droidsoft.ap.theme.ktiColors

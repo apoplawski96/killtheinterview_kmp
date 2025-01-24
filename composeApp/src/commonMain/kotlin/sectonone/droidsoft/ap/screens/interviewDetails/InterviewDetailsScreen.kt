@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import sectonone.droidsoft.ap.ui.components.KTITextNew
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar
-import sectonone.droidsoft.ap.di.getScreenModel
+import sectonone.droidsoft.ap.data.di.getScreenModel
 import sectonone.droidsoft.ap.theme.ktiColors
 
 internal class InterviewDetailsScreen(private val interviewId: Int) : Screen {

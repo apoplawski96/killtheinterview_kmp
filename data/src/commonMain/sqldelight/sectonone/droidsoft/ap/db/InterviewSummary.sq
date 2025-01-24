@@ -1,0 +1,56 @@
+import kotlin.Boolean;
+
+CREATE TABLE InterviewSummary (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    answeredCount INTEGER NOT NULL,
+    failedCount INTEGER NOT NULL,
+    interviewDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    categoriesSummary TEXT NOT NULL
+);
+
+CREATE TABLE Category (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    interviewId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    key TEXT NOT NULL,
+    FOREIGN KEY (interviewId) REFERENCES InterviewSummary(id)
+);
+
+CREATE TABLE QuestionHistory (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    interviewId INTEGER NOT NULL,
+    question TEXT NOT NULL,
+    questionId INTEGER NOT NULL,
+    answer TEXT NOT NULL,
+    isCorrect INTEGER AS Boolean NOT NULL,
+    FOREIGN KEY (interviewId) REFERENCES InterviewSummary(id)
+);
+
+lastInsertedId:
+SELECT last_insert_rowid();
+
+insertInterviewSummary:
+INSERT INTO InterviewSummary (
+    answeredCount, failedCount, categoriesSummary
+) VALUES ( ?, ?, ?);
+
+selectInterviewSummaryById:
+SELECT * FROM InterviewSummary WHERE id = ?;
+
+selectWholeInterviewSummaryHistory:
+SELECT * FROM InterviewSummary;
+
+insertCategory:
+INSERT INTO Category (interviewId, name, key) VALUES (?, ?, ?);
+
+-- Select Categories by Interview ID
+selectCategoriesByInterviewId:
+SELECT * FROM Category WHERE interviewId = ?;
+
+-- Insert QuestionHistory
+insertQuestionHistory:
+INSERT INTO QuestionHistory (interviewId, question, questionId, answer, isCorrect) VALUES (?, ?, ?, ?, ?);
+
+-- Select QuestionHistory by Interview ID
+selectQuestionHistoryByInterviewId:
+SELECT * FROM QuestionHistory WHERE interviewId = ?;

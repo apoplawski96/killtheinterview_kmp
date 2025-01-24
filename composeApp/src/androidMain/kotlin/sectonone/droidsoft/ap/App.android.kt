@@ -7,8 +7,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import org.koin.dsl.module
+import sectonone.droidsoft.ap.data.di.initKoin
 import sectonone.droidsoft.ap.di.databaseModule
-import sectonone.droidsoft.ap.di.initKoin
+import sectonone.droidsoft.ap.di.presentationModule
 
 class AndroidApp : Application() {
 
@@ -20,7 +21,7 @@ class AndroidApp : Application() {
         super.onCreate()
         INSTANCE = this
 
-        initKoin {
+        initKoin(presentationModule) {
             module {
                 single { applicationContext }
             }

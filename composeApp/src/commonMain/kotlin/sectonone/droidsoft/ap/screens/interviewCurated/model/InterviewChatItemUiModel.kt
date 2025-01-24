@@ -1,6 +1,6 @@
 package sectonone.droidsoft.ap.screens.interviewCurated.model
 
-import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.data.model.Question
 
 sealed class InterviewChatItemUiModel {
 

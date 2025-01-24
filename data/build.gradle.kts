@@ -104,4 +104,14 @@ android {
     }
 }
 
+sqldelight {
+    databases {
+        create("KTIDatabase2") {
+            // Database configuration here.
+            // https://cashapp.github.io/sqldelight
+            packageName.set("sectonone.droidsoft.ap.data.db")
+        }
+    }
+}
+
 

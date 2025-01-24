@@ -10,8 +10,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import sectonone.droidsoft.ap.di.getScreenModel
-import sectonone.droidsoft.ap.model.Question
+import sectonone.droidsoft.ap.data.di.getScreenModel
+import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.screens.questions.QuestionCard
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.ui.components.KTITopAppBar

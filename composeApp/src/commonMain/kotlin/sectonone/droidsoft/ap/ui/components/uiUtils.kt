@@ -3,7 +3,7 @@ package sectonone.droidsoft.ap.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import org.jetbrains.compose.resources.painterResource
-import sectonone.droidsoft.ap.model.Category
+import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.theme.*
 import kotlin.random.Random
 
@@ -30,12 +30,6 @@ fun rememberRandomCardColor() = remember {
 
 fun List<Any>.prettyPrint(): String {
     return joinToString(separator = ", ") { it.toString() }
-}
-
-inline fun <reified T : Enum<T>> getRandomUniqueEnumValues(n: Int): List<T> {
-    val enumValues = enumValues<T>().toList()
-    val adjustedN = n.coerceAtMost(enumValues.size) // Cap N to the size of the enum
-    return enumValues.shuffled(Random).take(adjustedN)
 }
 
 @Composable
