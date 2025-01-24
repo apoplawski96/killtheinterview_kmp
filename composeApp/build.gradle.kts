@@ -19,8 +19,6 @@ kotlin {
         }
     }
 
-    jvm()
-
     js {
         browser()
         binaries.executable()
@@ -85,13 +83,6 @@ kotlin {
             implementation(libs.sqlDelight.driver.android)
         }
 
-        jvmMain.dependencies {
-            implementation(compose.desktop.common)
-            implementation(compose.desktop.currentOs)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqlDelight.driver.sqlite)
-        }
-
         jsMain.dependencies {
             implementation(compose.html.core)
             implementation(libs.sqlDelight.driver.js)
@@ -134,18 +125,6 @@ android {
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "sectonone.droidsoft.ap.desktopApp"
-            packageVersion = "1.0.0"
-        }
-    }
-}
-
 compose.experimental {
     web.application {}
 }
@@ -164,11 +143,3 @@ sqldelight {
         }
     }
 }
-
-//apollo {
-//    service("api") {
-//        // GraphQL configuration here.
-//        // https://www.apollographql.com/docs/kotlin/advanced/plugin-configuration/
-//        packageName.set("sectonone.droidsoft.ap.graphql")
-//    }
-//}
