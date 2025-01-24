@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.Hejka
 import sectonone.droidsoft.ap.data.repository.HomeRepository
 import sectonone.droidsoft.ap.model.UIHomeScreenSection
 
@@ -22,6 +23,7 @@ internal class HomeScreenModel(
     val viewState = _viewState.asStateFlow()
 
     fun initialize() {
+        println("2137 - ${Hejka.accessMe}")
         screenModelScope.launch {
             _viewState.update {
                 ViewState.HomeItems(items = getHomeScreenFeedItems.get())

@@ -3,11 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.buildConfig)
-    alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.sqlDelight)
-    alias(libs.plugins.apollo)
+    id("com.android.library")
 }
 
 kotlin {
@@ -30,19 +26,13 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "DataLayer"
             isStatic = true
         }
     }
 
     sourceSets {
-        all {
-            languageSettings {
-                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
-            }
-        }
         commonMain.dependencies {
-            api(project(":data"))
             implementation(compose.runtime)
             implementation(compose.material3)
             implementation(compose.material)
@@ -71,49 +61,16 @@ kotlin {
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)
         }
-
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
-
-        androidMain.dependencies {
-            implementation(libs.androidx.appcompat)
-            implementation(libs.androidx.activityCompose)
-            implementation(libs.compose.uitooling)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqlDelight.driver.android)
-        }
-
-        jsMain.dependencies {
-            implementation(compose.html.core)
-            implementation(libs.sqlDelight.driver.js)
-        }
-
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-            implementation(libs.sqlDelight.driver.native)
-        }
-
     }
 }
 
+compose.experimental {
+    web.application {}
+}
+
 android {
-    namespace = "sectonone.droidsoft.ap"
+    namespace = "sectonone.droidsoft.ap.data"
     compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-        targetSdk = 34
-
-        applicationId = "sectonone.droidsoft.ap.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-    }
-    sourceSets["main"].apply {
-        manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.srcDirs("src/androidMain/resources")
-        resources.srcDirs("src/commonMain/resources")
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -126,21 +83,4 @@ android {
     }
 }
 
-compose.experimental {
-    web.application {}
-}
 
-buildConfig {
-    // BuildConfig configuration here.
-    // https://github.com/gmazzo/gradle-buildconfig-plugin#usage-in-kts
-}
-
-sqldelight {
-    databases {
-        create("KTIDatabase") {
-            // Database configuration here.
-            // https://cashapp.github.io/sqldelight
-            packageName.set("sectonone.droidsoft.ap.db")
-        }
-    }
-}
