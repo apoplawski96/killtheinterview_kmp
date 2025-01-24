@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
     id("com.android.library")
+    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -60,6 +63,24 @@ kotlin {
 //            implementation(libs.apollo.runtime)
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.androidx.appcompat)
+            implementation(libs.androidx.activityCompose)
+            implementation(libs.compose.uitooling)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqlDelight.driver.android)
+        }
+
+        jsMain.dependencies {
+            implementation(compose.html.core)
+            implementation(libs.sqlDelight.driver.js)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.sqlDelight.driver.native)
         }
     }
 }
