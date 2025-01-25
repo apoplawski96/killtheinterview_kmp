@@ -1,8 +1,10 @@
-package sectonone.droidsoft.ap.data.data
+package sectonone.droidsoft.ap.data
 
+import dev.gitlive.firebase.auth.FirebaseUser
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.data.model.Question
+import sectonone.droidsoft.ap.data.model.User
 import sectonone.droidsoft.ap.data.model.schema.QuestionScheme
 import sectonone.droidsoft.ap.db.InterviewSummary
 import sectonone.droidsoft.ap.db.QuestionBookmark
@@ -51,3 +53,13 @@ val QuestionBookmark.toDomainModel
                 Category.getForKey(it)
             }
     )
+
+fun FirebaseUser?.toUser(): User? {
+    if (this == null) return null
+    return User(
+        uid = uid,
+        email = email,
+        displayName = displayName,
+        photoUrl = photoURL?.toString()
+    )
+}

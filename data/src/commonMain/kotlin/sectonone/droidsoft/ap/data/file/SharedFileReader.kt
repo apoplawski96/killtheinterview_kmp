@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.file
+package sectonone.droidsoft.ap.data.file
 
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.Dispatchers

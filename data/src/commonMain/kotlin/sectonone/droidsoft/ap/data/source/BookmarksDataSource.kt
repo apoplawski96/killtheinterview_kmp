@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.source
+package sectonone.droidsoft.ap.data.source
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import sectonone.droidsoft.ap.data.db.KTIDatabase2
-import sectonone.droidsoft.ap.data.data.toDomainModel
+import sectonone.droidsoft.ap.data.toDomainModel
 
 // TODO: Rename to BookmarksLocalDb
 class BookmarksDataSource(database: KTIDatabase2) {

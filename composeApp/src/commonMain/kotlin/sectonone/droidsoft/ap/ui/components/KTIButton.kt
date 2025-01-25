@@ -1,6 +1,10 @@
 package sectonone.droidsoft.ap.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -9,7 +13,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.School
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem
 import sectonone.droidsoft.ap.theme.*
 
 @OptIn(ExperimentalResourceApi::class)
@@ -125,41 +135,6 @@ fun KTIFloatingActionButton(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun KTIButton(
-    label: String,
-    labelColor: Color = kti_softblack,
-    backgroundColor: Color = kti_accent,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    iconResId: String? = null,
-    iconRes: DrawableResource? = null,
-    isLoading: Boolean = false,
-    enabled: Boolean = true,
-) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
-        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 8.dp),
-        shape = RoundedCornerShape(8.dp),
-        modifier = modifier,
-        enabled = isLoading.not(),
-    ) {
-        if (iconRes != null) {
-            Icon(
-                painter = painterResource(iconRes),
-                contentDescription = "Button icon",
-                tint = labelColor
-            )
-        }
-        KTITextNew(text = label, fontSize = 12.sp, fontWeight = FontWeight.W400, color = labelColor)
-        if (isLoading) {
-            KTICircularProgressIndicator()
-        }
-    }
-}
-
 @Composable
 fun KTITextButton(
     onClick: () -> Unit,
@@ -177,4 +152,60 @@ fun KTITextButton(
             modifier = modifier
         )
     }
+}
+
+@Composable
+fun KTIButtonLong(
+    label: String,
+    onClick: () -> Unit,
+) {
+    Button(
+        onClick = {
+            onClick.invoke()
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(24.dp),
+        contentPadding = PaddingValues(),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .then(
+                    Modifier.background(
+                        brush = nightskyGradient,
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                )
+                    then Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            KTITextNew(
+                text = label,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .padding(horizontal = 12.dp, vertical = 12.dp),
+                color = ktiColors.textMain,
+                fontWeight = FontWeight.Normal
+            )
+            // TODO:
+//            KTIIcon(
+//                tint = when (item.value) {
+//                    HomeScreenMenuItem.LEARN_QUESTIONS, HomeScreenMenuItem.BOOKMARKS -> ktiColors.textMain
+//                    HomeScreenMenuItem.CHAT_INTERVIEW -> ktiColors.secondary
+//                },
+//                imageResource = when (item.value) {
+//                    HomeScreenMenuItem.LEARN_QUESTIONS -> Icons.Default.School
+//                    HomeScreenMenuItem.CHAT_INTERVIEW -> Icons.Default.PlayArrow
+//                    HomeScreenMenuItem.BOOKMARKS -> Icons.Default.Bookmark
+//                }
+//            )
+        }
+    }
+    VerticalSpacer(height = 12.dp)
 }

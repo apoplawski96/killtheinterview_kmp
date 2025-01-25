@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.apollo)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -67,6 +68,10 @@ kotlin {
             implementation(libs.kstore)
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)
+
+            implementation("io.github.mirzemehdi:kmpauth-google:2.3.1") //Google One Tap Sign-In
+            implementation("io.github.mirzemehdi:kmpauth-firebase:2.3.1") //Integrated Authentications with Firebase
+            implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1") //UiHelper SignIn buttons (AppleSignIn, GoogleSignInButton
         }
 
         commonTest.dependencies {
@@ -102,7 +107,7 @@ android {
         minSdk = 24
         targetSdk = 34
 
-        applicationId = "sectonone.droidsoft.ap.androidApp"
+        applicationId = "ap.droidsoft.killtheinterview"
         versionCode = 1
         versionName = "1.0.0"
     }

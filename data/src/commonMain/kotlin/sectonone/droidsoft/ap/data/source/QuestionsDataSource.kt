@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.source
+package sectonone.droidsoft.ap.data.source
 
 import sectonone.droidsoft.ap.data.model.schema.QuestionScheme
 

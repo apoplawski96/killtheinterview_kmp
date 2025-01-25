@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.openAi
+package sectonone.droidsoft.ap.data.openAi
 
 
 class OpenAIPrompter {

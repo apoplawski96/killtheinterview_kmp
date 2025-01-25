@@ -1,6 +1,7 @@
 package sectonone.droidsoft.ap.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -41,7 +42,7 @@ import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem
 import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.data.model.interviewSummary
-import sectonone.droidsoft.ap.data.data.getRandomUniqueEnumValues
+import sectonone.droidsoft.ap.data.getRandomUniqueEnumValues
 import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem.*
 import sectonone.droidsoft.ap.screens.bookmarks.BookmarksScreen
 import sectonone.droidsoft.ap.screens.categories.CategoriesListScreen
@@ -50,7 +51,7 @@ import sectonone.droidsoft.ap.screens.home.components.PagerCarouselLayout
 import sectonone.droidsoft.ap.screens.home.components.RecommendedCategoriesLayout
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreen
 import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewHistoryScreen
-import sectonone.droidsoft.ap.screens.questions.QuestionsScreen
+import sectonone.droidsoft.ap.screens.settings.SettingsScreen
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.nightskyGradient
@@ -81,6 +82,9 @@ internal object HomeScreen : Screen {
             },
             onSeeAllInterviewsClick = {
                 navigator.push(InterviewHistoryScreen)
+            },
+            onAvatarClick = {
+                navigator.push(SettingsScreen)
             }
         )
     }
@@ -91,6 +95,7 @@ private fun HomeScreenContent(
     state: HomeScreenModel.ViewState,
     onMenuItemClicked: (HomeScreenMenuItem) -> Unit,
     onSeeAllInterviewsClick: () -> Unit,
+    onAvatarClick: () -> Unit,
 ) {
     Scaffold(
         backgroundColor = KTITheme.colors.backgroundSurface
@@ -103,7 +108,7 @@ private fun HomeScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             VerticalSpacer(16.dp)
-            TopSection()
+            TopSection(onAvatarClick)
             VerticalSpacer(height = 24.dp)
             when (state) {
                 is HomeScreenModel.ViewState.HomeItems -> {
@@ -123,7 +128,9 @@ private fun HomeScreenContent(
 }
 
 @Composable
-private fun TopSection() {
+private fun TopSection(
+    onAvatarClick: () -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -147,7 +154,9 @@ private fun TopSection() {
                 color = KTITheme.colors.textVariant2
             )
         }
-//        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f)
+        KTIAvatarWithAnimation(size = 36.dp, strokeWidth = 5f, modifier = Modifier.clickable {
+            onAvatarClick.invoke()
+        })
     }
 }
 

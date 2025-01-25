@@ -44,16 +44,17 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.painterResource
+import sectonone.droidsoft.ap.data.resources.Res
+import sectonone.droidsoft.ap.data.resources.avatar
 import sectonone.droidsoft.ap.theme.white
 import sectonone.droidsoft.ap.theme.white50
 
 @Composable
 fun KTIAvatarWithAnimation(
-    avatarResource: Painter
-//    = painterResource("avatar.png")
-    ,
+    avatarResource: Painter = painterResource(Res.drawable.avatar),
     size: Dp = 36.dp,
-    strokeWidth: Float = 4f
+    strokeWidth: Float = 4f,
+    modifier: Modifier = Modifier,
 ) {
     val infiniteTransition = rememberInfiniteTransition()
     val rotationAnimation = infiniteTransition.animateFloat(
@@ -74,7 +75,7 @@ fun KTIAvatarWithAnimation(
     Image(
         painter = avatarResource,
         contentDescription = "",
-        modifier = Modifier.clip(CircleShape).size(size).drawBehind {
+        modifier = modifier then Modifier.clip(CircleShape).size(size).drawBehind {
             rotate(rotationAnimation.value) {
                 drawCircle(rainbowColorsBrush, style = Stroke(strokeWidth))
             }

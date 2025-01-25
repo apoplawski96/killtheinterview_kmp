@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "969974281440",
+    "project_id": "killtheinterview-5c355",
+    "storage_bucket": "killtheinterview-5c355.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969974281440:android:63284ec711e23141a34c85",
+        "android_client_info": {
+          "package_name": "ap.droidsoft.killtheinterview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969974281440-njkvemij9l97q2ppsjb1oh00hs0sao8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9cioUwV3xzR2uymVoVqPLWWHUY_s8PMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969974281440-njkvemij9l97q2ppsjb1oh00hs0sao8k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

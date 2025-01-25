@@ -1,10 +1,10 @@
-package sectonone.droidsoft.ap.data.data.repository
+package sectonone.droidsoft.ap.data.repository
 
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem
 import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
 import sectonone.droidsoft.ap.data.model.interviewSummary
-import sectonone.droidsoft.ap.data.data.getRandomUniqueEnumValues
+import sectonone.droidsoft.ap.data.getRandomUniqueEnumValues
 
 class HomeRepository(private val questionsRepository: QuestionsRepository) {
 

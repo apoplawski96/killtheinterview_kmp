@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.openAi
+package sectonone.droidsoft.ap.data.openAi
 
 import sectonone.droidsoft.ap.data.model.Role
 import sectonone.droidsoft.ap.data.model.schema.AIQuestionScheme

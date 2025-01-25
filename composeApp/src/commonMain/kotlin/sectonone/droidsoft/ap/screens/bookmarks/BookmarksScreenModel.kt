@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Question
-import sectonone.droidsoft.ap.data.data.repository.BookmarksRepository
+import sectonone.droidsoft.ap.data.repository.BookmarksRepository
 
 internal class BookmarksScreenModel(private val bookmarksRepository: BookmarksRepository) : ScreenModel {
 

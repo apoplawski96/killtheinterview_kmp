@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data.source
+package sectonone.droidsoft.ap.data.source
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import sectonone.droidsoft.ap.data.db.KTIDatabase2
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.QuestionHistory
-import sectonone.droidsoft.ap.data.data.toDomainModel
+import sectonone.droidsoft.ap.data.toDomainModel
 
 class InterviewHistoryDataSource(private val database: KTIDatabase2) {
 

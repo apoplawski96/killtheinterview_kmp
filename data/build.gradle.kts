@@ -62,6 +62,12 @@ kotlin {
             implementation(libs.kstore)
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)
+            implementation("dev.gitlive:firebase-auth:1.8.1")
+            implementation("dev.gitlive:firebase-firestore:1.8.1")
+
+            implementation("io.github.mirzemehdi:kmpauth-google:2.3.1") //Google One Tap Sign-In
+            implementation("io.github.mirzemehdi:kmpauth-firebase:2.3.1") //Integrated Authentications with Firebase
+            implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1") //UiHelper SignIn buttons (AppleSignIn, GoogleSignInButton
         }
 
         androidMain.dependencies {

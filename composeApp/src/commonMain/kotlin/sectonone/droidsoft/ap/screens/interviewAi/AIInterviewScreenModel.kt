@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Role
 import sectonone.droidsoft.ap.data.model.schema.AIQuestion
 import sectonone.droidsoft.ap.data.model.schema.AIQuestionScheme
-import sectonone.droidsoft.ap.data.data.openAi.AIInterviewQuestionsPrompter
+import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
 
 class AIInterviewScreenModel(
     private val aiInterviewQuestionsPrompter: AIInterviewQuestionsPrompter,

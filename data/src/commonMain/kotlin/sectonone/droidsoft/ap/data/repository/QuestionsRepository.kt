@@ -1,12 +1,12 @@
-package sectonone.droidsoft.ap.data.data.repository
+package sectonone.droidsoft.ap.data.repository
 
 import kotlinx.coroutines.flow.map
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.data.model.allQuestionsFiles
-import sectonone.droidsoft.ap.data.data.source.QuestionsDataSource
-import sectonone.droidsoft.ap.data.data.toDomainModel
-import sectonone.droidsoft.ap.data.data.toDomainModelWithBookmark
+import sectonone.droidsoft.ap.data.source.QuestionsDataSource
+import sectonone.droidsoft.ap.data.toDomainModel
+import sectonone.droidsoft.ap.data.toDomainModelWithBookmark
 
 class QuestionsRepository(
     private val questionsDataSource: QuestionsDataSource,

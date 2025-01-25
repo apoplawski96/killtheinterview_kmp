@@ -1,5 +1,4 @@
 [versions]
-
 kotlin = "2.1.0"
 agp = "8.2.0"
 compose = "1.7.0"
@@ -23,10 +22,11 @@ sqlDelight = "2.0.1"
 apollo = "4.0.0-beta.4"
 jetbrainsKotlinJvm = "2.1.0"
 androidx-lifecycle = "2.8.4"
+google-services = "4.4.1"
+
 
 
 [libraries]
-
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
@@ -59,7 +59,6 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 [plugins]
-
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -69,3 +68,4 @@ sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }

@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.data
+package sectonone.droidsoft.ap.data
 
 import kotlin.random.Random
 

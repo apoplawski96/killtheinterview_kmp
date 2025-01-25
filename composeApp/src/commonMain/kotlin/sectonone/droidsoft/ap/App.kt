@@ -27,6 +27,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,22 +40,38 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
+import com.mmk.kmpauth.google.GoogleAuthCredentials
+import com.mmk.kmpauth.google.GoogleAuthProvider
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
 @Composable
-internal fun App() = AppTheme {
-    println("2137 - app()")
-    KTITheme {
-        Navigator(HomeScreen) { navigator ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-            ) {
-                SlideTransition(navigator)
+internal fun App() {
+
+    var authReady by remember { mutableStateOf(false) }
+    LaunchedEffect(null) {
+        GoogleAuthProvider.create(
+            credentials = GoogleAuthCredentials(
+                serverId = "969974281440-j6649vr2ec4l6ore4qkhvta7egob54t5.apps.googleusercontent.com"
+            )
+        )
+        authReady = true
+    }
+
+    AppTheme {
+        if (authReady) {
+            KTITheme {
+                Navigator(HomeScreen) { navigator ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .windowInsetsPadding(WindowInsets.safeDrawing)
+                    ) {
+                        SlideTransition(navigator)
+                    }
+                }
             }
         }
     }
