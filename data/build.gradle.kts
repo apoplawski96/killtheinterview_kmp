@@ -113,4 +113,8 @@ sqldelight {
     }
 }
 
-
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "sectonone.droidsoft.ap.data.resources"
+    generateResClass = always
+}

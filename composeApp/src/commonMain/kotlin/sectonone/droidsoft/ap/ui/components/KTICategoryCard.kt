@@ -66,12 +66,12 @@ fun CategoryWithCoverCard(
                         translationY = 10.dp.toPx()
                     }
             ) {
-//                Image(
-//                    painter = painterResource(category.imageFile),
-//                    contentDescription = "",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier.fillMaxSize()
-//                )
+                Image(
+                    painter = painterResource(category.imageRes),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
@@ -96,7 +96,7 @@ fun SelectableCategoryWithCoverCard(
             modifier = Modifier.fillMaxSize()
         ) {
             KTITextNew(
-                text = selectableCategory.categoryV2.displayName,
+                text = selectableCategory.category.displayName,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -116,12 +116,12 @@ fun SelectableCategoryWithCoverCard(
                         translationY = 10.dp.toPx()
                     }
             ) {
-//                Image(
-//                    painter = painterResource(selectableCategory.categoryV2.imageFile),
-//                    contentDescription = "",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier.fillMaxSize()
-//                )
+                Image(
+                    painter = painterResource(selectableCategory.category.imageRes),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }

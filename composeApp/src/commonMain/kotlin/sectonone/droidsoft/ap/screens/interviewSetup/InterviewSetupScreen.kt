@@ -45,7 +45,7 @@ internal object InterviewSetupScreen : Screen {
             onGoToInterviewClick = {
                 navigator.push(
                     InterviewChatScreen(
-                        categories = categoriesState.filter { it.isSelected }.map { it.categoryV2 }
+                        categories = categoriesState.filter { it.isSelected }.map { it.category }
                     )
                 )
             }
@@ -72,7 +72,7 @@ private fun InterviewSetupScreenContent(
                 items = categories.map { category: SelectableCategory ->
                     KTICardItem(
                         value = category,
-                        label = category.categoryV2.displayName,
+                        label = category.category.displayName,
                     )
                 },
                 onClick = onCategoryClick,

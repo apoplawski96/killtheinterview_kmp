@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.theme.*
@@ -31,6 +32,7 @@ fun KTIButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     iconResId: String? = null,
+    iconRes: DrawableResource? = null,
     enabled: Boolean = true,
 ) {
     Button(
@@ -41,12 +43,12 @@ fun KTIButton(
         modifier = modifier,
         enabled = enabled,
     ) {
-        if (iconResId != null) {
-//            Icon(
-//                painter = painterResource(res = iconResId),
-//                contentDescription = "Button icon",
-//                tint = labelColor
-//            )
+        if (iconRes != null) {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = "Button icon",
+                tint = labelColor
+            )
         }
         KTITextNew(
             text = label,
@@ -132,6 +134,7 @@ fun KTIButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     iconResId: String? = null,
+    iconRes: DrawableResource? = null,
     isLoading: Boolean = false,
     enabled: Boolean = true,
 ) {
@@ -143,12 +146,12 @@ fun KTIButton(
         modifier = modifier,
         enabled = isLoading.not(),
     ) {
-        if (iconResId != null) {
-//            Icon(
-//                painter = painterResource(res = iconResId),
-//                contentDescription = "Button icon",
-//                tint = labelColor
-//            )
+        if (iconRes != null) {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = "Button icon",
+                tint = labelColor
+            )
         }
         KTITextNew(text = label, fontSize = 12.sp, fontWeight = FontWeight.W400, color = labelColor)
         if (isLoading) {

@@ -13,14 +13,14 @@ internal class InterviewSetupScreenModel : ScreenModel {
 
     init {
         _viewState.value = Category.entries.map { category ->
-            SelectableCategory(isSelected = false, categoryV2 = category)
+            SelectableCategory(isSelected = false, category = category)
         }
     }
 
     fun toggleCategory(toggledCategory: SelectableCategory) {
         val currentState = viewState.value
         val stateModified = currentState.map { currentCategory ->
-            if (currentCategory.categoryV2.ordinal == toggledCategory.categoryV2.ordinal) {
+            if (currentCategory.category.ordinal == toggledCategory.category.ordinal) {
                 currentCategory.copy(isSelected = !currentCategory.isSelected)
             } else {
                 currentCategory

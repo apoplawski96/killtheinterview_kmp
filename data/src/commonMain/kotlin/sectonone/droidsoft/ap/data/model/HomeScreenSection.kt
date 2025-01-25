@@ -1,5 +1,9 @@
 package sectonone.droidsoft.ap.data.model
 
+import org.jetbrains.compose.resources.DrawableResource
+import sectonone.droidsoft.ap.data.resources.Res
+import sectonone.droidsoft.ap.data.resources.image
+
 // IDEAS
 // 1. Add interview history summary section with option to "View all" // DONE
 // 2. Add search bar?
@@ -63,6 +67,7 @@ sealed interface UIHomeScreenSection {
 
         sealed class CarouselItem(
             val imagePath: String,
+            val imageResource: DrawableResource,
             open val question: Question,
             open val categories: List<Category>,
         ) {
@@ -72,6 +77,7 @@ sealed interface UIHomeScreenSection {
                 question = item,
                 categories = item.categories,
                 imagePath = item.categories.firstOrNull()?.imageFile ?: "",
+                imageResource = item.categories.firstOrNull()?.imageRes ?: Res.drawable.image
             )
 
             data class CategoryCard(
@@ -81,6 +87,7 @@ sealed interface UIHomeScreenSection {
                 imagePath = item.imageFile,
                 question = question,
                 categories = listOf(item),
+                imageResource = item.imageRes
             )
         }
     }

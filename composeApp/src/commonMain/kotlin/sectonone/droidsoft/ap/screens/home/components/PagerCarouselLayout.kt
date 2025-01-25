@@ -51,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.data.model.UIHomeScreenSection
+import sectonone.droidsoft.ap.data.resources.Res
+import sectonone.droidsoft.ap.data.resources.image
 import sectonone.droidsoft.ap.ui.components.AnimatedPagerIndicator
 import sectonone.droidsoft.ap.ui.components.KTIIcon
 import sectonone.droidsoft.ap.ui.components.KTITextNew
@@ -108,27 +110,27 @@ internal fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
         VerticalSpacer(16.dp)
         Box(Modifier.clip(RoundedCornerShape(40.dp))) {
             Crossfade(
-                targetState = currentItem?.imagePath,
+                targetState = currentItem?.imageResource,
                 animationSpec = tween(durationMillis = 700),
                 label = "Blurred background image"
-            ) { imagePath ->
-//                Image(
-//                    painter = painterResource(imagePath.toString()),
-//                    modifier = Modifier
-//                        .scale(1.5f)
-//                        .fillMaxWidth()
-//                        .graphicsLayer { alpha = 0.8f }
-//                        .heightIn(min = containerHeight)
-//                        .border(
-//                            width = 0.5.dp,
-//                            color = ktiColors.backgroundSurfaceVariant,
-//                            shape = RoundedCornerShape(size = 40.dp)
-//                        )
-//                        .blur(150.dp),
-//                    alignment = Alignment.Center,
-//                    contentScale = ContentScale.FillWidth,
-//                    contentDescription = ""
-//                )
+            ) { resource ->
+                Image(
+                    painter = painterResource(resource ?: Res.drawable.image),
+                    modifier = Modifier
+                        .scale(1.5f)
+                        .fillMaxWidth()
+                        .graphicsLayer { alpha = 0.8f }
+                        .heightIn(min = containerHeight)
+                        .border(
+                            width = 0.5.dp,
+                            color = ktiColors.backgroundSurfaceVariant,
+                            shape = RoundedCornerShape(size = 40.dp)
+                        )
+                        .blur(150.dp),
+                    alignment = Alignment.Center,
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = ""
+                )
             }
             Column(
                 modifier = Modifier.fillMaxWidth().heightIn(min = containerHeight),
@@ -146,18 +148,18 @@ internal fun PagerCarouselLayout(uiState: UIHomeScreenSection.PagerCarousel) {
                                 shape = RoundedCornerShape(cornerRadius),
                                 elevation = 8.dp,
                             ) {
-//                                Image(
-//                                    painter = painterResource(currentItem?.imagePath.toString()),
-//                                    modifier = Modifier
-//                                        .size(imageSize)
-//                                        .clip(RoundedCornerShape(cornerRadius))
-//                                        .border(
-//                                            width = 0.5.dp,
-//                                            color = white80,
-//                                            shape = RoundedCornerShape(size = cornerRadius)
-//                                        ),
-//                                    contentDescription = ""
-//                                )
+                                Image(
+                                    painter = painterResource(currentItem?.imageResource ?: Res.drawable.image),
+                                    modifier = Modifier
+                                        .size(imageSize)
+                                        .clip(RoundedCornerShape(cornerRadius))
+                                        .border(
+                                            width = 0.5.dp,
+                                            color = white80,
+                                            shape = RoundedCornerShape(size = cornerRadius)
+                                        ),
+                                    contentDescription = ""
+                                )
                             }
                         }
                     }

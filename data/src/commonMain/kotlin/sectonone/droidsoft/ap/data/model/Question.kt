@@ -5,5 +5,5 @@ data class Question(
     val question: String,
     val answer: String,
     val categories: List<Category> = emptyList(),
-    val isBookmarked: Boolean = false
+    val isBookmarked: Boolean = false,
 )
