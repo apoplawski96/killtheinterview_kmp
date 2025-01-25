@@ -28,8 +28,8 @@ kotlin {
     }
 
     sourceSets {
-
         commonMain.dependencies {
+//            api(project(":data"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
