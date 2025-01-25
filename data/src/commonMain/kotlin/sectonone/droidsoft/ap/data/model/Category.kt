@@ -35,6 +35,8 @@ enum class Category(
     Kotlin("kotlin", "Kotlin", imageRes = Res.drawable.kotlin),
     ProgrammingParadigms("programming_paradigms", "Programming Paradigms", imageRes = Res.drawable.programming_paradigms);
 
+    val isFreemium get() = this.ordinal < 5
+
     companion object {
         fun getForKey(key: String?): Category? = entries.find { it.key == key }
     }

@@ -1,8 +1,6 @@
 package sectonone.droidsoft.ap
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -50,13 +47,15 @@ import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 @Composable
 internal fun App() {
 
+    // TODO: I need to inject AuthSessionManager somehow here with Koin
+
     var authReady by remember { mutableStateOf(false) }
     LaunchedEffect(null) {
-        GoogleAuthProvider.create(
-            credentials = GoogleAuthCredentials(
-                serverId = "969974281440-j6649vr2ec4l6ore4qkhvta7egob54t5.apps.googleusercontent.com"
-            )
-        )
+//        GoogleAuthProvider.create(
+//            credentials = GoogleAuthCredentials(
+//                serverId = "969974281440-j6649vr2ec4l6ore4qkhvta7egob54t5.apps.googleusercontent.com"
+//            )
+//        )
         authReady = true
     }
 

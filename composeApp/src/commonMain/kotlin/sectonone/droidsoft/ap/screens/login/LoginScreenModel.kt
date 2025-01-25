@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.auth.AuthSessionManager
-import sectonone.droidsoft.ap.data.model.User
+import sectonone.droidsoft.ap.data.model.UserAuth
 import sectonone.droidsoft.ap.data.repository.AuthRepository
 
 class LoginScreenModel(
@@ -14,11 +14,11 @@ class LoginScreenModel(
     private val authSession: AuthSessionManager,
 ) : ScreenModel {
 
-    private val _loginState = MutableStateFlow<Result<User?>?>(null)
-    val loginState: StateFlow<Result<User?>?> get() = _loginState
+    private val _loginState = MutableStateFlow<Result<UserAuth?>?>(null)
+    val loginState: StateFlow<Result<UserAuth?>?> get() = _loginState
 
-    private val _createAccountState = MutableStateFlow<Result<User?>?>(null)
-    val createAccountState: StateFlow<Result<User?>?> get() = _createAccountState
+    private val _createAccountState = MutableStateFlow<Result<UserAuth?>?>(null)
+    val createAccountState: StateFlow<Result<UserAuth?>?> get() = _createAccountState
 
     fun createAccount(email: String, password: String) {
         screenModelScope.launch {

@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.data.source
 
+import com.mmk.kmpauth.google.GoogleAuthCredentials
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -11,6 +12,14 @@ class FirebaseAuthDataSource(private val firebaseAuth: FirebaseAuth) {
     val onAuthStateChanged = firebaseAuth.authStateChanged
 
     val currentUser get() = firebaseAuth.currentUser
+
+    fun createGoogleAuthProvider() {
+        com.mmk.kmpauth.google.GoogleAuthProvider.create(
+            credentials = GoogleAuthCredentials(
+                serverId = "969974281440-j6649vr2ec4l6ore4qkhvta7egob54t5.apps.googleusercontent.com"
+            )
+        )
+    }
 
     suspend fun signInWithGoogle(googleToken: String): FirebaseUser? {
         return try {

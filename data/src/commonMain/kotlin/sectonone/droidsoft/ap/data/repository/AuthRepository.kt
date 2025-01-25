@@ -1,34 +1,37 @@
 package sectonone.droidsoft.ap.data.repository
 
 import kotlinx.coroutines.flow.map
-import sectonone.droidsoft.ap.data.model.User
+import sectonone.droidsoft.ap.data.mapUser
+import sectonone.droidsoft.ap.data.model.UserAuth
 import sectonone.droidsoft.ap.data.source.FirebaseAuthDataSource
-import sectonone.droidsoft.ap.data.toUser
 
-class AuthRepository(private val firebaseAuthDataSource: FirebaseAuthDataSource) {
+class AuthRepository(private val auth: FirebaseAuthDataSource) {
 
-    val onAuthStateChanged = firebaseAuthDataSource.onAuthStateChanged.map { it.toUser() }
-    val currentUser get() = firebaseAuthDataSource.currentUser.toUser()
+    val authStateChangeFlow get() = auth.onAuthStateChanged.map { it.mapUser() }
 
-    suspend fun signInWithGoogle(googleToken: String): Result<User?> {
+    fun createGoogleAuthProvider() {
+        auth.createGoogleAuthProvider()
+    }
+
+    suspend fun signInWithGoogle(googleToken: String): Result<UserAuth?> {
         return runCatching {
-            firebaseAuthDataSource.signInWithGoogle(googleToken).toUser()
+            auth.signInWithGoogle(googleToken).mapUser()
         }
     }
 
-    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<User?> {
+    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<UserAuth?> {
         return runCatching {
-            firebaseAuthDataSource.signInWithEmailAndPassword(email, password).toUser()
+            auth.signInWithEmailAndPassword(email, password).mapUser()
         }
     }
 
-    suspend fun createAccount(email: String, password: String): Result<User?> {
+    suspend fun createAccount(email: String, password: String): Result<UserAuth?> {
         return runCatching {
-            firebaseAuthDataSource.createAccount(email, password).toUser()
+            auth.createAccount(email, password).mapUser()
         }
     }
 
     suspend fun logOut() {
-        firebaseAuthDataSource.logOut()
+        auth.logOut()
     }
 }

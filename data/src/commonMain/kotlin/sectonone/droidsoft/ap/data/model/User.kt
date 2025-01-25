@@ -1,8 +1,7 @@
 package sectonone.droidsoft.ap.data.model
 
 data class User(
-    val uid: String,
-    val email: String?,
-    val displayName: String?,
-    val photoUrl: String?,
+    val info: UserAuth,
+    val subscription: Subscription?,
+    val isPremium: Boolean = subscription != Subscription.Freemium,
 )

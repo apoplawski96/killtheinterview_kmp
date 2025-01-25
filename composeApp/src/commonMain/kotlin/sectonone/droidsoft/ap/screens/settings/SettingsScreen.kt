@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,10 +33,9 @@ internal object SettingsScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
 
         val screenModel = getScreenModel<SettingsScreenModel>()
-        val authState = screenModel.authState.collectAsState()
+        val authState = screenModel.userState.collectAsState()
 
         val snackbarHostState = remember { SnackbarHostState() }
-        val coroutineScope = rememberCoroutineScope()
 
         LaunchedEffect(null) {
             screenModel.logoutState
@@ -85,8 +83,8 @@ internal object SettingsScreen : Screen {
 
 @Composable
 private fun SettingsScreen(
-    isAuthenticated: Boolean,
     user: User?,
+    isAuthenticated: Boolean,
     onCreateAccountClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onLogInClick: () -> Unit,

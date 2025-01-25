@@ -2,14 +2,11 @@ package sectonone.droidsoft.ap.screens.settings
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dev.gitlive.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.auth.AuthSessionManager
-import sectonone.droidsoft.ap.data.model.User
+import sectonone.droidsoft.ap.data.model.UserAuth
 import sectonone.droidsoft.ap.data.repository.AuthRepository
 
 class SettingsScreenModel(
@@ -20,10 +17,10 @@ class SettingsScreenModel(
     private val _logoutState = MutableStateFlow<Result<Unit>?>(null)
     val logoutState = _logoutState.asStateFlow()
 
-    private val _googleSignInState = MutableStateFlow<Result<User?>?>(null)
+    private val _googleSignInState = MutableStateFlow<Result<UserAuth?>?>(null)
     val googleSignInState = _googleSignInState.asStateFlow()
 
-    val authState = authSession.authState
+    val userState = authSession.user
 
     fun signInWithGoogle(googleToken: String?) {
         if (googleToken == null) {

@@ -66,7 +66,6 @@ internal object HomeScreen : Screen {
         val viewState = screenModel.viewState.collectAsState().value
 
         LaunchedEffect(null) {
-            println("2137 - home screen initialize")
             screenModel.initialize()
         }
 

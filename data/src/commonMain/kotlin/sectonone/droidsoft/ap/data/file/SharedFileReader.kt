@@ -13,9 +13,7 @@ class ResourcesFileReader {
         return try {
             withContext(Dispatchers.IO) {
                 val resource = Res.readBytes("files/$fileName")
-                val resourceDecoded = resource.decodeToString().also {
-                    println("2137 - resource decoded: $it")
-                }
+                val resourceDecoded = resource.decodeToString()
                 resourceDecoded
             }
         } catch (e: Exception) {
