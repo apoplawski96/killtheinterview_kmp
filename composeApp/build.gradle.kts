@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
             implementation(libs.kstore)
             implementation("co.touchlab:stately-common:2.0.5")
             implementation(libs.sqlDelight.coroutines)

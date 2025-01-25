@@ -39,23 +39,22 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
+import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
+import sectonone.droidsoft.ap.data.auth.AuthSessionManager
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 
 @Composable
-internal fun App() {
+internal fun App() = KoinContext() {
 
-    // TODO: I need to inject AuthSessionManager somehow here with Koin
-
+    val authSessionManager = koinInject<AuthSessionManager>()
     var authReady by remember { mutableStateOf(false) }
+
     LaunchedEffect(null) {
-//        GoogleAuthProvider.create(
-//            credentials = GoogleAuthCredentials(
-//                serverId = "969974281440-j6649vr2ec4l6ore4qkhvta7egob54t5.apps.googleusercontent.com"
-//            )
-//        )
+        authSessionManager.initialize()
         authReady = true
     }
 

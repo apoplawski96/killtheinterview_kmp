@@ -19,7 +19,7 @@ class AuthSessionManager(
     private val _user = MutableStateFlow<User?>(null)
     val user = _user.asStateFlow()
 
-    init {
+    fun initialize() {
         authRepository.createGoogleAuthProvider()
         supervisorScope.launch {
             authRepository.authStateChangeFlow
