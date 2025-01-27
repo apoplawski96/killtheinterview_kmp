@@ -12,7 +12,6 @@ class InterviewRepository(
     private val dataSource: InterviewHistoryDataSource,
     private val questionsRepository: QuestionsRepository,
 ) {
-
     fun getAllInterviewsSummaryAsFlow() = dataSource.getAllInterviewsSummaryAsFlow()
 
     suspend fun getInterviewSummary(interviewId: Long) =
@@ -25,7 +24,7 @@ class InterviewRepository(
 
             InterviewDetails(
                 categories = categories.mapNotNull {
-                    Category.getForKey(it.key)
+                    Category.mapFromString(it.key)
                 },
                 questionsHistory = questionsRepository.getQuestionsForIds(
                     questions.map { it.questionId.toInt() }

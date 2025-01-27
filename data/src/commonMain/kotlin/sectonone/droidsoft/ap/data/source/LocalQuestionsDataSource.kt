@@ -4,8 +4,9 @@ import kotlinx.serialization.json.Json
 import sectonone.droidsoft.ap.data.file.ResourcesFileReader
 import sectonone.droidsoft.ap.data.model.schema.QuestionScheme
 
-class LocalQuestionsDataSource(private val resourcesFileReader: ResourcesFileReader) :
-    QuestionsDataSource {
+class LocalQuestionsDataSource(
+    private val resourcesFileReader: ResourcesFileReader
+) : QuestionsDataSource {
 
     override suspend fun getQuestions(files: List<String>): List<QuestionScheme>? = try {
         buildList {

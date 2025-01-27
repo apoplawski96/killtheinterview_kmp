@@ -38,7 +38,7 @@ enum class Category(
     val isFreemium get() = this.ordinal < 5
 
     companion object {
-        fun getForKey(key: String?): Category? = entries.find { it.key == key }
+        fun mapFromString(key: String?): Category? = entries.find { it.key == key }
     }
 }
 

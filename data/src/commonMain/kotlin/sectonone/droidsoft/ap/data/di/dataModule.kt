@@ -8,7 +8,7 @@ import kotlinx.coroutines.SupervisorJob
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import sectonone.droidsoft.ap.data.auth.AuthSessionManager
+import sectonone.droidsoft.ap.data.auth.UserSessionState
 import sectonone.droidsoft.ap.data.file.ResourcesFileReader
 import sectonone.droidsoft.ap.data.openAi.AIInterviewQuestionsPrompter
 import sectonone.droidsoft.ap.data.openAi.OpenAIPrompter
@@ -27,7 +27,7 @@ import sectonone.droidsoft.ap.data.source.QuestionsDataSource
 
 val dataModule = module {
     // Core
-    singleOf(::AuthSessionManager)
+    singleOf(::UserSessionState)
     // File
     singleOf(::ResourcesFileReader)
     // Data sources

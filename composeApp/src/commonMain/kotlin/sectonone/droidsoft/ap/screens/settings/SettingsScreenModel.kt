@@ -5,13 +5,13 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import sectonone.droidsoft.ap.data.auth.AuthSessionManager
+import sectonone.droidsoft.ap.data.auth.UserSessionState
 import sectonone.droidsoft.ap.data.model.UserAuth
 import sectonone.droidsoft.ap.data.repository.AuthRepository
 
 class SettingsScreenModel(
     private val authRepository: AuthRepository,
-    authSession: AuthSessionManager,
+    authSession: UserSessionState,
 ) : ScreenModel {
 
     private val _logoutState = MutableStateFlow<Result<Unit>?>(null)

@@ -25,7 +25,7 @@ val QuestionScheme.toDomainModel
         question = question,
         categories = categories
             .mapNotNull {
-                Category.getForKey(it)
+                Category.mapFromString(it)
             }
     )
 
@@ -36,7 +36,7 @@ fun QuestionScheme.toDomainModelWithBookmark(isBookmark: Boolean) = Question(
     isBookmarked = isBookmark,
     categories = categories
         .mapNotNull {
-            Category.getForKey(it)
+            Category.mapFromString(it)
         },
 )
 
@@ -50,7 +50,7 @@ val QuestionBookmark.toDomainModel
             .split(",")
             .mapNotNull {
                 println("2137 - mapNotNull, $it")
-                Category.getForKey(it)
+                Category.mapFromString(it)
             }
     )
 

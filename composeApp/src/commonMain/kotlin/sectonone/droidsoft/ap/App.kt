@@ -37,11 +37,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import com.mmk.kmpauth.google.GoogleAuthCredentials
-import com.mmk.kmpauth.google.GoogleAuthProvider
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
-import sectonone.droidsoft.ap.data.auth.AuthSessionManager
+import sectonone.droidsoft.ap.data.auth.UserSessionState
 import sectonone.droidsoft.ap.screens.home.HomeScreen
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.KTITheme
@@ -50,11 +48,11 @@ import sectonone.droidsoft.ap.theme.LocalThemeIsDark
 @Composable
 internal fun App() = KoinContext() {
 
-    val authSessionManager = koinInject<AuthSessionManager>()
+    val userSessionState = koinInject<UserSessionState>()
     var authReady by remember { mutableStateOf(false) }
 
     LaunchedEffect(null) {
-        authSessionManager.initialize()
+        userSessionState.initialize()
         authReady = true
     }
 

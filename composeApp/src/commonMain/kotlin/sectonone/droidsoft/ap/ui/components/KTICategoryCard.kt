@@ -9,10 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +28,8 @@ import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.kti_grayish
+import sectonone.droidsoft.ap.theme.kti_grayish_variant
 import sectonone.droidsoft.ap.theme.white
 
 private val recommendedCategoryCardWidth = 164.dp
@@ -79,7 +87,7 @@ fun CategoryWithCoverCard(
 
 @Composable
 fun SelectableCategoryWithCoverCard(
-    selectableCategory: SelectableCategory,
+    category: SelectableCategory,
     onClick: () -> Unit = {},
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -90,20 +98,27 @@ fun SelectableCategoryWithCoverCard(
             .padding(padding)
             .clickable { onClick.invoke() },
         elevation = 4.dp,
-        backgroundColor = if (!selectableCategory.isSelected) KTITheme.colors.backgroundSurfaceVariant else KTITheme.colors.secondary,
+        backgroundColor = if (!category.isSelected) {
+            KTITheme.colors.backgroundSurfaceVariant
+        } else {
+            KTITheme.colors.secondary
+        }
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
             KTITextNew(
-                text = selectableCategory.category.displayName,
+                text = category.category.displayName,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(12.dp),
-                color = white
+                color = if (category.isUnlocked) white else white.copy(alpha = 0.5f)
             )
+            if (category.isUnlocked.not()) {
+                Icon(Icons.Default.Lock, null, modifier = Modifier.alpha(0.5f).align(Alignment.Center).size(64.dp))
+            }
             Card(
                 elevation = 6.dp,
                 shape = RoundedCornerShape(8.dp),
@@ -117,10 +132,20 @@ fun SelectableCategoryWithCoverCard(
                     }
             ) {
                 Image(
-                    painter = painterResource(selectableCategory.category.imageRes),
+                    painter = painterResource(category.category.imageRes),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithContent {
+                            drawContent() // Draw the image
+                            if (category.isUnlocked.not()) {
+                                drawRect(
+                                    color = Color.Gray.copy(alpha = 0.5f), // Semi-transparent grey
+                                    size = size
+                                )
+                            }
+                        }
                 )
             }
         }

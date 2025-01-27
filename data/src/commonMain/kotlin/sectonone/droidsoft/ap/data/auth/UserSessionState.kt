@@ -1,6 +1,7 @@
 package sectonone.droidsoft.ap.data.auth
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -10,18 +11,21 @@ import sectonone.droidsoft.ap.data.model.User
 import sectonone.droidsoft.ap.data.repository.AuthRepository
 import sectonone.droidsoft.ap.data.repository.UserRepository
 
-class AuthSessionManager(
+class UserSessionState(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
-    private val supervisorScope: CoroutineScope,
 ) {
+
+    private val supervisorScope: CoroutineScope = CoroutineScope(SupervisorJob())
 
     private val _user = MutableStateFlow<User?>(null)
     val user = _user.asStateFlow()
 
+    val userHasPremium get() = user.value?.isPremium ?: false
+
     fun initialize() {
-        authRepository.createGoogleAuthProvider()
         supervisorScope.launch {
+            authRepository.createGoogleAuthProvider()
             authRepository.authStateChangeFlow
                 .collectLatest { authUser ->
                     if (authUser != null) {

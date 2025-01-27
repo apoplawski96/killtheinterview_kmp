@@ -33,7 +33,7 @@ internal object InterviewSetupScreen : Screen {
     @Composable
     override fun Content() {
 
-        val screenModel: InterviewSetupScreenModel = getScreenModel()
+        val screenModel = getScreenModel<InterviewSetupScreenModel>()
         val navigator = LocalNavigator.currentOrThrow
 
         val categoriesState = screenModel.viewState.collectAsState().value
