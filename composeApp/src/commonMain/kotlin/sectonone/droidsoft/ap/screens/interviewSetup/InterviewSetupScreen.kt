@@ -27,6 +27,7 @@ import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreen
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_accent
+import sectonone.droidsoft.ap.ui.components.KTITextNew
 
 internal object InterviewSetupScreen : Screen {
 
@@ -43,9 +44,10 @@ internal object InterviewSetupScreen : Screen {
             onCategoryClick = { screenModel.toggleCategory(it) },
             lazyGridState = rememberLazyGridState(),
             onGoToInterviewClick = {
+                if (categoriesState == null) return@InterviewSetupScreenContent
                 navigator.push(
                     InterviewChatScreen(
-                        categories = categoriesState.filter { it.isSelected }.map { it.category }
+                        categories = categoriesState.filter { it.isSelected }.map { it.category.item }
                     )
                 )
             }
@@ -55,7 +57,7 @@ internal object InterviewSetupScreen : Screen {
 
 @Composable
 private fun InterviewSetupScreenContent(
-    categories: List<SelectableCategory>,
+    categories: List<SelectableCategory>?,
     onCategoryClick: (SelectableCategory) -> Unit,
     onGoToInterviewClick: () -> Unit,
     lazyGridState: LazyGridState,
@@ -68,33 +70,37 @@ private fun InterviewSetupScreenContent(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            KTIGridWithCards(
-                items = categories.map { category: SelectableCategory ->
-                    KTICardItem(
-                        value = category,
-                        label = category.category.displayName,
-                    )
-                },
-                onClick = onCategoryClick,
-                variant = KTICardVariant.WithImageCoverSelectable,
-                modifier = Modifier.weight(10f)
-            )
-            val isActive = categories.any { it.isSelected }
-            AnimatedVisibility(visible = isActive) {
-                Column(
-                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    KTIButtonShared(
-                        label = "Go to interview",
-                        labelColor = ktiColors.onSecondary,
-                        backgroundColor = kti_accent,
-                        onClick = onGoToInterviewClick,
-                        enabled = isActive,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                    )
+            if (categories != null) {
+                KTIGridWithCards(
+                    items = categories.map { category: SelectableCategory ->
+                        KTICardItem(
+                            value = category,
+                            label = category.category.item.displayName,
+                        )
+                    },
+                    onClick = onCategoryClick,
+                    variant = KTICardVariant.WithImageCoverSelectable,
+                    modifier = Modifier.weight(10f)
+                )
+                val isActive = categories.any { it.isSelected }
+                AnimatedVisibility(visible = isActive) {
+                    Column(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        KTIButtonShared(
+                            label = "Go to interview",
+                            labelColor = ktiColors.onSecondary,
+                            backgroundColor = kti_accent,
+                            onClick = onGoToInterviewClick,
+                            enabled = isActive,
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                        )
+                    }
                 }
+            } else {
+                KTITextNew("ERROR")
             }
         }
     }

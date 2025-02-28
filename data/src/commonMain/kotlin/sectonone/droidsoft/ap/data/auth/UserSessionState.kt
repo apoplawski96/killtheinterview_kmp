@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.User
-import sectonone.droidsoft.ap.data.repository.AuthRepository
-import sectonone.droidsoft.ap.data.repository.UserRepository
+import sectonone.droidsoft.ap.data.repositories.AuthRepository
+import sectonone.droidsoft.ap.data.repositories.UserRepository
 
 class UserSessionState(
     private val authRepository: AuthRepository,

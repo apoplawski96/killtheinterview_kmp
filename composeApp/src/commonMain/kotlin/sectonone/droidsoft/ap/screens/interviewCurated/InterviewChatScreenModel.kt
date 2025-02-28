@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.data.model.QuestionHistory
-import sectonone.droidsoft.ap.data.repository.InterviewRepository
-import sectonone.droidsoft.ap.data.repository.QuestionsRepository
+import sectonone.droidsoft.ap.data.repositories.InterviewRepository
+import sectonone.droidsoft.ap.data.repositories.QuestionsRepository
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
 import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
 import kotlin.random.Random

@@ -1,8 +1,8 @@
-package sectonone.droidsoft.ap.data.repository
+package sectonone.droidsoft.ap.data.repositories
 
 import kotlinx.coroutines.flow.map
 import sectonone.droidsoft.ap.data.model.Subscription
-import sectonone.droidsoft.ap.data.source.FirebaseFirestoreDataSource
+import sectonone.droidsoft.ap.data.source.impl.FirebaseFirestoreDataSource
 
 class UserRepository(private val firestore: FirebaseFirestoreDataSource) {
 

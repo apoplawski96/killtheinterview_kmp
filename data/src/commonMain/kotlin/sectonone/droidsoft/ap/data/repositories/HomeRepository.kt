@@ -1,4 +1,4 @@
-package sectonone.droidsoft.ap.data.repository
+package sectonone.droidsoft.ap.data.repositories
 
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.HomeScreenMenuItem

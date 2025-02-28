@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
-import sectonone.droidsoft.ap.data.repository.InterviewRepository
+import sectonone.droidsoft.ap.data.repositories.InterviewRepository
 
 internal class InterviewHistoryScreenModel(
     interviewRepository: InterviewRepository,

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.Question
-import sectonone.droidsoft.ap.data.repository.BookmarksRepository
-import sectonone.droidsoft.ap.data.repository.QuestionsRepository
+import sectonone.droidsoft.ap.data.repositories.BookmarksRepository
+import sectonone.droidsoft.ap.data.repositories.QuestionsRepository
 
 class QuestionsScreenModel(
     private val questionsRepository: QuestionsRepository,

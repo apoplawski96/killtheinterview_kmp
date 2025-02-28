@@ -42,6 +42,4 @@ enum class Category(
     }
 }
 
-val allQuestionsFiles get() = Category.entries.map { it.fileWithQuestions }
-
 val List<Category>.parseCategoriesToDb get() = this.joinToString(",") { it.key }

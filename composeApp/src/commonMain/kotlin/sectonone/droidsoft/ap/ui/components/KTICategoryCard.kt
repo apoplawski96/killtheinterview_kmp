@@ -28,8 +28,6 @@ import org.jetbrains.compose.resources.painterResource
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.KTITheme
-import sectonone.droidsoft.ap.theme.kti_grayish
-import sectonone.droidsoft.ap.theme.kti_grayish_variant
 import sectonone.droidsoft.ap.theme.white
 
 private val recommendedCategoryCardWidth = 164.dp
@@ -87,7 +85,7 @@ fun CategoryWithCoverCard(
 
 @Composable
 fun SelectableCategoryWithCoverCard(
-    category: SelectableCategory,
+    item: SelectableCategory,
     onClick: () -> Unit = {},
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -98,7 +96,7 @@ fun SelectableCategoryWithCoverCard(
             .padding(padding)
             .clickable { onClick.invoke() },
         elevation = 4.dp,
-        backgroundColor = if (!category.isSelected) {
+        backgroundColor = if (!item.isSelected) {
             KTITheme.colors.backgroundSurfaceVariant
         } else {
             KTITheme.colors.secondary
@@ -108,15 +106,15 @@ fun SelectableCategoryWithCoverCard(
             modifier = Modifier.fillMaxSize()
         ) {
             KTITextNew(
-                text = category.category.displayName,
+                text = item.category.item.displayName,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(12.dp),
-                color = if (category.isUnlocked) white else white.copy(alpha = 0.5f)
+                color = if (item.category.unlocked) white else white.copy(alpha = 0.5f)
             )
-            if (category.isUnlocked.not()) {
+            if (item.category.unlocked.not()) {
                 Icon(Icons.Default.Lock, null, modifier = Modifier.alpha(0.5f).align(Alignment.Center).size(64.dp))
             }
             Card(
@@ -132,14 +130,14 @@ fun SelectableCategoryWithCoverCard(
                     }
             ) {
                 Image(
-                    painter = painterResource(category.category.imageRes),
+                    painter = painterResource(item.category.item.imageRes),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
                         .drawWithContent {
                             drawContent() // Draw the image
-                            if (category.isUnlocked.not()) {
+                            if (item.category.unlocked.not()) {
                                 drawRect(
                                     color = Color.Gray.copy(alpha = 0.5f), // Semi-transparent grey
                                     size = size

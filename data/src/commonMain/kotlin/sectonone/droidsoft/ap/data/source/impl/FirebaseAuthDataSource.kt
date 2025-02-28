@@ -1,11 +1,9 @@
-package sectonone.droidsoft.ap.data.source
+package sectonone.droidsoft.ap.data.source.impl
 
 import com.mmk.kmpauth.google.GoogleAuthCredentials
-import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
-import dev.gitlive.firebase.auth.auth
 
 class FirebaseAuthDataSource(private val firebaseAuth: FirebaseAuth) {
 

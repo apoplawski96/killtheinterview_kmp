@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.auth.UserSessionState
 import sectonone.droidsoft.ap.data.model.UserAuth
-import sectonone.droidsoft.ap.data.repository.AuthRepository
+import sectonone.droidsoft.ap.data.repositories.AuthRepository
 
 class SettingsScreenModel(
     private val authRepository: AuthRepository,

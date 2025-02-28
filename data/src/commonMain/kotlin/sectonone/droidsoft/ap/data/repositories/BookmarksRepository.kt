@@ -1,8 +1,8 @@
-package sectonone.droidsoft.ap.data.repository
+package sectonone.droidsoft.ap.data.repositories
 
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.data.model.parseCategoriesToDb
-import sectonone.droidsoft.ap.data.source.BookmarksDataSource
+import sectonone.droidsoft.ap.data.source.impl.BookmarksDataSource
 
 
 class BookmarksRepository(private val dataSource: BookmarksDataSource) {
