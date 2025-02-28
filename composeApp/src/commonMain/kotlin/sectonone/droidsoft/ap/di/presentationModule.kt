@@ -3,6 +3,7 @@ package sectonone.droidsoft.ap.di
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import sectonone.droidsoft.ap.screens.bookmarks.BookmarksScreenModel
+import sectonone.droidsoft.ap.screens.categories.CategoriesListScreenModel
 import sectonone.droidsoft.ap.screens.home.HomeScreenModel
 import sectonone.droidsoft.ap.screens.interviewAi.AIInterviewScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreenModel
@@ -24,4 +25,5 @@ val presentationModule = module {
     factoryOf(::BookmarksScreenModel)
     factoryOf(::LoginScreenModel)
     factoryOf(::SettingsScreenModel)
+    factoryOf(::CategoriesListScreenModel)
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.screens.categories.CategoryListItem
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.*
 
@@ -69,7 +70,7 @@ fun <T> KTIGridWithCards(
                     }
 
                     KTICardVariant.WithImageCover -> {
-                        if (item.value is Category) {
+                        if (item.value is CategoryListItem) {
                             CategoryWithCoverCard(
                                 item.value,
                                 padding = PaddingValues(8.dp),

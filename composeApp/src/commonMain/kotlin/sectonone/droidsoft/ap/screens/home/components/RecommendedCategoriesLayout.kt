@@ -50,7 +50,7 @@ internal fun RecommendedCategoriesLayout(
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                CategoryWithCoverCard(uiState.items[index])
+//                                CategoryWithCoverCard(uiState.items[index])
                             }
                         }
                     }
@@ -62,11 +62,11 @@ internal fun RecommendedCategoriesLayout(
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 // First item in the row
-                                if (index * 2 < itemsCount) {
-                                    CategoryWithCoverCard(uiState.items[index])                                }
-                                // Second item in the row
-                                if ((index * 2) + 1 < itemsCount) {
-                                    CategoryWithCoverCard(uiState.items[index])                                }
+//                                if (index * 2 < itemsCount) {
+//                                    CategoryWithCoverCard(uiState.items[index])                                }
+//                                // Second item in the row
+//                                if ((index * 2) + 1 < itemsCount) {
+//                                    CategoryWithCoverCard(uiState.items[index])                                }
                             }
                         }
                     }

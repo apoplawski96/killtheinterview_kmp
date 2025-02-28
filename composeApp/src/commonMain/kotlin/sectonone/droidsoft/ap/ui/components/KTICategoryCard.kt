@@ -2,8 +2,11 @@ package sectonone.droidsoft.ap.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,17 +28,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
-import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.screens.categories.CategoryListItem
 import sectonone.droidsoft.ap.screens.interviewSetup.model.SelectableCategory
 import sectonone.droidsoft.ap.theme.KTITheme
+import sectonone.droidsoft.ap.theme.kti_grey
 import sectonone.droidsoft.ap.theme.white
 
 private val recommendedCategoryCardWidth = 164.dp
-private val recommendedCategoryCardHeight = 96.dp
+private val recommendedCategoryCardHeight = 128.dp
 
 @Composable
 fun CategoryWithCoverCard(
-    category: Category,
+    item: CategoryListItem,
     onClick: () -> Unit = {},
     padding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -46,20 +50,49 @@ fun CategoryWithCoverCard(
             .padding(padding)
             .clickable { onClick.invoke() },
         elevation = 4.dp,
-        backgroundColor = rememberRandomCardColor(),
+        backgroundColor = rememberRandomCardColor().copy(
+            alpha = if (item.category.unlocked.not()) 0.7f else 1f
+        ),
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            KTITextNew(
-                text = category.displayName,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(12.dp),
-                color = white
-            )
+            Column(
+                modifier = Modifier.align(Alignment.TopStart),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    KTITextNew(
+                        text = if (item.category.item.isFreemium) "Free" else "Premium",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(12.dp),
+                        color = kti_grey
+                    )
+                    if (item.category.unlocked.not()) {
+                        Icon(
+                            Icons.Default.Lock,
+                            null,
+                            modifier = Modifier.alpha(0.5f).size(14.dp)
+                        )
+                    }
+                }
+                KTITextNew(
+                    text = item.category.item.displayName,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(12.dp),
+                    color = white
+                )
+            }
+//            if (item.category.unlocked.not()) {
+//                Icon(
+//                    Icons.Default.Lock,
+//                    null,
+//                    modifier = Modifier.alpha(0.5f).align(Alignment.Center).size(64.dp)
+//                )
+//            }
             Card(
                 elevation = 6.dp,
                 shape = RoundedCornerShape(8.dp),
@@ -73,7 +106,7 @@ fun CategoryWithCoverCard(
                     }
             ) {
                 Image(
-                    painter = painterResource(category.imageRes),
+                    painter = painterResource(item.category.item.imageRes),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -115,7 +148,11 @@ fun SelectableCategoryWithCoverCard(
                 color = if (item.category.unlocked) white else white.copy(alpha = 0.5f)
             )
             if (item.category.unlocked.not()) {
-                Icon(Icons.Default.Lock, null, modifier = Modifier.alpha(0.5f).align(Alignment.Center).size(64.dp))
+                Icon(
+                    Icons.Default.Lock,
+                    null,
+                    modifier = Modifier.alpha(0.5f).align(Alignment.Center).size(64.dp)
+                )
             }
             Card(
                 elevation = 6.dp,
