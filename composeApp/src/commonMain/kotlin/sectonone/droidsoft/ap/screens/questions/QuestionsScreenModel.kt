@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import sectonone.droidsoft.ap.data.auth.UserSessionState
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.PremiumItem
 import sectonone.droidsoft.ap.data.model.Question
@@ -17,6 +18,7 @@ import sectonone.droidsoft.ap.data.repositories.QuestionsRepository
 class QuestionsScreenModel(
     private val questionsRepository: QuestionsRepository,
     private val bookmarksRepository: BookmarksRepository,
+    private val userSessionState: UserSessionState,
 ) : ScreenModel {
 
     sealed interface ViewState {
@@ -28,6 +30,8 @@ class QuestionsScreenModel(
     sealed interface ViewEvent {
         data object ToggleBottomSheet : ViewEvent
         data object PremiumPaywall : ViewEvent
+        data object BookmarkAdded : ViewEvent
+        data object BookmarkRemoved : ViewEvent
     }
 
     enum class SortMode(val displayName: String) {
@@ -55,7 +59,7 @@ class QuestionsScreenModel(
             questionsRepository.getQuestionsAsFlow(categories).collect { questions ->
                 _state.update {
                     ViewState.QuestionsLoaded(questions.mapIndexed { index, question ->
-                        PremiumItem(question, unlocked = index < 3)
+                        PremiumItem(question, unlocked = if (userSessionState.proSubscription) true else index < 3)
                     })
                 }
             }

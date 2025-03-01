@@ -27,7 +27,9 @@ internal class InterviewChatScreenModel(
 
     data class ScoreboardState(
         val questionsAnswered: Int,
-        val questionsAsked: Int
+        val questionsAsked: Int,
+        val questionsTotal: Int,
+        val progress: Float = questionsAsked.toFloat() / questionsTotal.toFloat()
     )
 
     sealed interface ScreenState {
@@ -40,10 +42,11 @@ internal class InterviewChatScreenModel(
 
     private var _categories = listOf<Category>()
 
-    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.InterviewActive(chatItems = emptyList()))
+    private val _screenState =
+        MutableStateFlow<ScreenState>(ScreenState.InterviewActive(chatItems = emptyList()))
     val screenState = _screenState.asStateFlow()
 
-    private val _scoreboardState = MutableStateFlow(ScoreboardState(questionsAnswered = 0, questionsAsked = 0))
+    private val _scoreboardState = MutableStateFlow(ScoreboardState(0, 0, 0))
     val scoreboardState = _scoreboardState.asStateFlow()
 
     val inputEnabled = screenState.map { screenState ->
@@ -75,13 +78,19 @@ internal class InterviewChatScreenModel(
 
     fun initQuestions(categories: List<Category>) {
         screenModelScope.launch {
-            val questions = questionsRepository.getQuestions(categories, questionsLimit = 5) ?: return@launch // todo: handle better
+            val questions = questionsRepository.getQuestions(categories, questionsLimit = 5)
+                ?: return@launch // todo: handle better
             _categories = categories
             _questionsBase.clear()
             _questionsBase.addAll(questions)
+            _scoreboardState.value = _scoreboardState.value.copy(questionsTotal = questions.count())
             emitInterviewerProgress()
             delay(interval)
-            emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.OtherMessage("Hello candidate."))
+            emitMessageItemAndUpdateTheState(
+                InterviewChatItemUiModel.InterviewerMessage.OtherMessage(
+                    "Hello candidate."
+                )
+            )
             dropNextQuestion()
         }
     }
@@ -134,7 +143,11 @@ internal class InterviewChatScreenModel(
             delay(interval)
             emitInterviewerProgress()
             delay(interval)
-            emitMessageItemAndUpdateTheState(InterviewChatItemUiModel.InterviewerMessage.QuestionAsked(randomQuestion))
+            emitMessageItemAndUpdateTheState(
+                InterviewChatItemUiModel.InterviewerMessage.QuestionAsked(
+                    randomQuestion
+                )
+            )
             delay(interval)
             emitCandidateProgress()
         } else {
@@ -153,7 +166,8 @@ internal class InterviewChatScreenModel(
     private fun emitMessageItemAndUpdateTheState(item: InterviewChatItemUiModel) {
         val screenState = screenState.value
         if (screenState is ScreenState.InterviewActive) {
-            val updatedItems = screenState.chatItems.toMutableList().apply { add(item) }.filterNot { it is ProgressObject }
+            val updatedItems = screenState.chatItems.toMutableList().apply { add(item) }
+                .filterNot { it is ProgressObject }
             _screenState.value = ScreenState.InterviewActive(updatedItems)
         }
     }

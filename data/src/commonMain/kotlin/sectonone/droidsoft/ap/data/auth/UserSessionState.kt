@@ -21,7 +21,7 @@ class UserSessionState(
     private val _user = MutableStateFlow<User?>(null)
     val user = _user.asStateFlow()
 
-    val userHasPremium get() = user.value?.isPremium ?: false
+    val proSubscription get() = user.value?.isPremium ?: false
 
     fun initialize() {
         supervisorScope.launch {

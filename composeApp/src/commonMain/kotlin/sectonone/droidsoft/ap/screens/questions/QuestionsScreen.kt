@@ -100,6 +100,8 @@ internal class QuestionsScreen(private val categories: List<Category>) : Screen 
                     }
 
                     QuestionsScreenModel.ViewEvent.PremiumPaywall -> TODO()
+                    QuestionsScreenModel.ViewEvent.BookmarkAdded -> TODO()
+                    QuestionsScreenModel.ViewEvent.BookmarkRemoved -> TODO()
                 }
             }
         }

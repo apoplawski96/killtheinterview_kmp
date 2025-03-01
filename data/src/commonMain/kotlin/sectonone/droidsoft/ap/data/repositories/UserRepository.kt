@@ -1,12 +1,13 @@
 package sectonone.droidsoft.ap.data.repositories
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import sectonone.droidsoft.ap.data.model.Subscription
 import sectonone.droidsoft.ap.data.source.impl.FirebaseFirestoreDataSource
 
 class UserRepository(private val firestore: FirebaseFirestoreDataSource) {
 
-    fun userSubscriptionFlow(uid: String) =
+    fun userSubscriptionFlow(uid: String): Flow<Subscription?> =
         firestore
             .userSubscriptionFlow(uid)
             .map {

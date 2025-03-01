@@ -14,7 +14,7 @@ class CategoriesRepository(
         return dataSource.getCategories()?.map {
             PremiumItem(
                 item = it,
-                unlocked = it.isFreemium || userSessionState.userHasPremium
+                unlocked = it.isFreemium || userSessionState.proSubscription
             )
         }
     }

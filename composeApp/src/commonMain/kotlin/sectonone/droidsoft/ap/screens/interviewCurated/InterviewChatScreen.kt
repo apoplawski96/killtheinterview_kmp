@@ -118,7 +118,7 @@ private fun InterviewChatScreenContent(
             val setIsAnswerExpanded = { isAnswerExpanded.value = !isAnswerExpanded.value }
             KTIScaffold(
                 topBar = {
-                    KTIChatTopAppBar()
+                    KTIChatTopAppBar(progress = { scoreboardState.questionsAsked.toFloat() / scoreboardState.questionsTotal.toFloat() })
                 },
                 bottomBar = {
                     ControlSection(
@@ -164,7 +164,7 @@ private fun InterviewChatScreenContent(
                 }
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(top = it.calculateTopPadding()),
                     verticalArrangement = Arrangement.Bottom,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
