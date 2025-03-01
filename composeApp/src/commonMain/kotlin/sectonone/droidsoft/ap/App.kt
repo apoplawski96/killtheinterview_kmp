@@ -40,7 +40,11 @@ import cafe.adriel.voyager.transitions.SlideTransition
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import sectonone.droidsoft.ap.data.auth.UserSessionState
+import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.screens.home.HomeScreen
+import sectonone.droidsoft.ap.screens.interviewCurated.finished.InterviewFinishedScreen
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeScore
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeSummary
 import sectonone.droidsoft.ap.theme.AppTheme
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.LocalThemeIsDark
@@ -59,7 +63,14 @@ internal fun App() = KoinContext() {
     AppTheme {
         if (authReady) {
             KTITheme {
-                Navigator(HomeScreen) { navigator ->
+                Navigator(
+                    HomeScreen
+//                    InterviewFinishedScreen(summary = InterviewPracticeSummary(
+//                        InterviewPracticeScore(8, 10, 18),
+//                        categories = listOf(Category.Android, Category.AndroidSecurity),
+//                        questionsHistory = emptyList()
+//                    ))
+                ) { navigator ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()

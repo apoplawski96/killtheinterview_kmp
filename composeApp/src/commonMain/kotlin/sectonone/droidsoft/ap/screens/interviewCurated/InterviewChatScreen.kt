@@ -30,9 +30,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.QuestionMark
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -47,10 +49,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import kotlinx.coroutines.delay
 import sectonone.droidsoft.ap.data.di.getScreenModel
 import sectonone.droidsoft.ap.data.model.Category
 import sectonone.droidsoft.ap.data.model.Question
+import sectonone.droidsoft.ap.screens.home.HomeScreen
+import sectonone.droidsoft.ap.screens.interviewCurated.finished.InterviewFinishedScreen
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeScore
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeSummary
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
 import sectonone.droidsoft.ap.theme.kti_dark_grey
@@ -77,11 +86,24 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
         val chatState = screenModel.screenState.collectAsState().value
         val inputEnabledState = screenModel.inputEnabled.collectAsState().value
         val currentQuestion = screenModel.currentQuestion.collectAsState().value
+        val practiceFinished by screenModel.practiceFinished.collectAsState()
+
+        val navigator = LocalNavigator.current
 
         val chatListState = rememberLazyListState()
 
         LaunchedEffect(null) {
             screenModel.initQuestions(categories)
+        }
+
+        LaunchedEffect(null) {
+            screenModel.practiceFinished.collect { practiceSummary ->
+                if (practiceSummary != null) {
+                    delay(300)
+                    navigator?.popUntil { it is HomeScreen }
+                    navigator?.push(InterviewFinishedScreen(practiceSummary))
+                }
+            }
         }
 
         LaunchedEffect(chatState, inputEnabledState) {
@@ -98,6 +120,7 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
             inputEnabled = inputEnabledState,
             chatListState = chatListState,
             currentQuestion = currentQuestion,
+            practiceFinished = practiceFinished
         )
     }
 }
@@ -105,12 +128,13 @@ internal class InterviewChatScreen(private val categories: List<Category>) : Scr
 @Composable
 private fun InterviewChatScreenContent(
     screenStateChat: InterviewChatScreenModel.ScreenState,
-    scoreboardState: InterviewChatScreenModel.ScoreboardState,
+    scoreboardState: InterviewPracticeScore,
     onAddPointClick: () -> Unit,
     onNoPointClick: () -> Unit,
     inputEnabled: Boolean,
     chatListState: LazyListState,
     currentQuestion: Question?,
+    practiceFinished: InterviewPracticeSummary?,
 ) {
     when (screenStateChat) {
         is InterviewChatScreenModel.ScreenState.InterviewActive -> {
@@ -168,6 +192,7 @@ private fun InterviewChatScreenContent(
                     verticalArrangement = Arrangement.Bottom,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    if (practiceFinished != null) CircularProgressIndicator()
                     Box(Modifier.weight(10f)) {
                         LazyColumn(
                             modifier = Modifier.align(Alignment.TopCenter),
@@ -228,16 +253,16 @@ private fun InterviewChatScreenContent(
             }
         }
 
-        is InterviewChatScreenModel.ScreenState.InterviewFinished -> {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Red)) {
-                KTITextNew(
-                    "no questions left",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W700,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
+//        is InterviewChatScreenModel.ScreenState.InterviewFinished -> {
+//            Box(modifier = Modifier.fillMaxSize().background(Color.Red)) {
+//                KTITextNew(
+//                    "no questions left",
+//                    fontSize = 16.sp,
+//                    fontWeight = FontWeight.W700,
+//                    modifier = Modifier.align(Alignment.Center)
+//                )
+//            }
+//        }
     }
 }
 

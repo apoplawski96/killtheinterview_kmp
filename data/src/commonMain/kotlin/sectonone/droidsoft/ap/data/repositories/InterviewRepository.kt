@@ -1,5 +1,6 @@
 package sectonone.droidsoft.ap.data.repositories
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import sectonone.droidsoft.ap.data.model.Category
@@ -12,7 +13,8 @@ class InterviewRepository(
     private val dataSource: InterviewHistoryDataSource,
     private val questionsRepository: QuestionsRepository,
 ) {
-    fun getAllInterviewsSummaryAsFlow() = dataSource.getAllInterviewsSummaryAsFlow()
+
+    fun getAllInterviewsSummaryAsFlow(): Flow<List<InterviewHistorySummary>> = dataSource.getAllInterviewsSummaryAsFlow()
 
     suspend fun getInterviewSummary(interviewId: Long) =
         combine(

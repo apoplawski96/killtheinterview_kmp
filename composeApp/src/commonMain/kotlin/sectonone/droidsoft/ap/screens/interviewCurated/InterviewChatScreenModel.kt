@@ -10,11 +10,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.data.model.QuestionHistory
 import sectonone.droidsoft.ap.data.repositories.InterviewRepository
 import sectonone.droidsoft.ap.data.repositories.QuestionsRepository
 import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewChatItemUiModel
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeScore
+import sectonone.droidsoft.ap.screens.interviewCurated.model.InterviewPracticeSummary
 import sectonone.droidsoft.ap.screens.interviewCurated.model.ProgressObject
 import kotlin.random.Random
 
@@ -25,16 +28,8 @@ internal class InterviewChatScreenModel(
     private val interviewRepository: InterviewRepository,
 ) : ScreenModel {
 
-    data class ScoreboardState(
-        val questionsAnswered: Int,
-        val questionsAsked: Int,
-        val questionsTotal: Int,
-        val progress: Float = questionsAsked.toFloat() / questionsTotal.toFloat()
-    )
-
     sealed interface ScreenState {
         data class InterviewActive(val chatItems: List<InterviewChatItemUiModel>) : ScreenState
-        data class InterviewFinished(val scoreboard: ScoreboardState) : ScreenState
     }
 
     private val _questionsBase = mutableListOf<Question>()
@@ -42,12 +37,14 @@ internal class InterviewChatScreenModel(
 
     private var _categories = listOf<Category>()
 
-    private val _screenState =
-        MutableStateFlow<ScreenState>(ScreenState.InterviewActive(chatItems = emptyList()))
+    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.InterviewActive(emptyList()))
     val screenState = _screenState.asStateFlow()
 
-    private val _scoreboardState = MutableStateFlow(ScoreboardState(0, 0, 0))
+    private val _scoreboardState = MutableStateFlow(InterviewPracticeScore(0, 0, 0))
     val scoreboardState = _scoreboardState.asStateFlow()
+
+    private val _practiceFinished = MutableStateFlow<InterviewPracticeSummary?>(null)
+    val practiceFinished = _practiceFinished.asStateFlow()
 
     val inputEnabled = screenState.map { screenState ->
         if (screenState is ScreenState.InterviewActive) {
@@ -135,7 +132,7 @@ internal class InterviewChatScreenModel(
     }
 
     private suspend fun dropNextQuestion() {
-        if (_questionsBase.size > 1) {
+        if (_questionsBase.size >= 1) {
             println("2137 - questionsBase, size: ${_questionsBase.size}, count: ${_questionsBase.count()}, lastIndex: ${_questionsBase.lastIndex}, size: ${_questionsBase.size}")
             val randomIndex = Random.nextInt(from = 0, until = _questionsBase.size)
             val randomQuestion = _questionsBase.removeAt(randomIndex)
@@ -152,13 +149,18 @@ internal class InterviewChatScreenModel(
             emitCandidateProgress()
         } else {
             println("2137 - we are in else")
-            _screenState.value = ScreenState.InterviewFinished(scoreboardState.value)
             val scoreboard = scoreboardState.value
             interviewRepository.saveInterview(
                 answeredCount = scoreboard.questionsAnswered,
                 failedCount = scoreboard.questionsAsked - scoreboard.questionsAnswered,
                 categories = _categories,
                 questionsHistory = _questionsHistory
+            )
+            //            _screenState.value = ScreenState.InterviewFinished(scoreboardState.value)
+            _practiceFinished.value = InterviewPracticeSummary(
+                score = scoreboardState.value,
+                questionsHistory = _questionsHistory.toList(),
+                categories = _categories,
             )
         }
     }

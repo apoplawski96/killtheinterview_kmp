@@ -7,6 +7,7 @@ import sectonone.droidsoft.ap.screens.categories.CategoriesListScreenModel
 import sectonone.droidsoft.ap.screens.home.HomeScreenModel
 import sectonone.droidsoft.ap.screens.interviewAi.AIInterviewScreenModel
 import sectonone.droidsoft.ap.screens.interviewCurated.InterviewChatScreenModel
+import sectonone.droidsoft.ap.screens.interviewCurated.finished.InterviewFinishedScreenModel
 import sectonone.droidsoft.ap.screens.interviewDetails.InterviewDetailsScreenModel
 import sectonone.droidsoft.ap.screens.interviewSetup.InterviewSetupScreenModel
 import sectonone.droidsoft.ap.screens.interviewsHistory.InterviewHistoryScreenModel
@@ -26,4 +27,5 @@ val presentationModule = module {
     factoryOf(::LoginScreenModel)
     factoryOf(::SettingsScreenModel)
     factoryOf(::CategoriesListScreenModel)
+    factoryOf(::InterviewFinishedScreenModel)
 }

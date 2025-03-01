@@ -14,14 +14,12 @@ data class InterviewHistorySummary(
     val mainCategory: String = categoriesSummary.first(),
     val scorePercent: Float = if (answeredCount + failedCount > 0) answeredCount.toFloat() / (answeredCount + failedCount) else 0f,
     val scorePercentDisplay: String = "${(scorePercent * 100).toInt()}%",
-    val successSummary: SuccessSummary = when {
-        scorePercent < 0.33f -> SuccessSummary.Failed
-        scorePercent < 0.66f -> SuccessSummary.Average
-        else -> SuccessSummary.Success
+    val practiceResult: PracticeResult = when {
+        scorePercent < 0.33f -> PracticeResult.Failed
+        scorePercent < 0.66f -> PracticeResult.Average
+        else -> PracticeResult.Goat
     }
-) {
-    enum class SuccessSummary { Failed, Average, Success; }
-}
+)
 
 fun interviewSummary(
     id: Int = 1,

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import sectonone.droidsoft.ap.data.model.InterviewHistorySummary
+import sectonone.droidsoft.ap.data.model.PracticeResult
 import sectonone.droidsoft.ap.screens.home.components.InterviewHistorySummaryVariant
 import sectonone.droidsoft.ap.screens.home.components.interviewSummaryCardSize
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -86,10 +87,13 @@ fun InterviewSummaryCard(
                 VerticalSpacer(12.dp)
                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
                     KTIIcon(
-                        when (item.successSummary) {
-                            InterviewHistorySummary.SuccessSummary.Failed -> Icons.Default.ThumbDownOffAlt
-                            InterviewHistorySummary.SuccessSummary.Average -> Icons.Default.ThumbsUpDown
-                            InterviewHistorySummary.SuccessSummary.Success -> Icons.Default.ThumbUp
+                        when (item.practiceResult) {
+                            PracticeResult.Failed -> Icons.Default.ThumbDownOffAlt
+                            PracticeResult.Average -> Icons.Default.ThumbsUpDown
+                            PracticeResult.Goat -> Icons.Default.ThumbUp
+                            PracticeResult.Bronze -> Icons.Default.ThumbUp
+                            PracticeResult.Silver -> Icons.Default.ThumbUp
+                            PracticeResult.Golden -> Icons.Default.ThumbUp
                         }
                     )
                     HorizontalSpacer(12.dp)
