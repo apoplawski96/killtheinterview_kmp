@@ -23,6 +23,8 @@ private fun PreviewQuestionCardNotBookmarked() {
             markAsUnanswered = {},
             addBookmark = {},
             removeBookmark = {},
+            locked = false,
+            showPaywall = {}
         )
     }
 }
@@ -43,6 +45,8 @@ private fun PreviewQuestionCardBookmarked() {
             markAsUnanswered = {},
             addBookmark = {},
             removeBookmark = {},
+            locked = false,
+            showPaywall = {}
         )
     }
 }

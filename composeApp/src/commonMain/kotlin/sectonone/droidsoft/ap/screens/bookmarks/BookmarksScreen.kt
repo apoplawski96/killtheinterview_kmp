@@ -58,7 +58,9 @@ private fun BookmarksScreenLayout(
                         markAsAnswered = markAsAnswered,
                         markAsUnanswered = markAsUnanswered,
                         addBookmark = addBookmark,
-                        removeBookmark = removeBookmark
+                        removeBookmark = removeBookmark,
+                        locked = false,
+                        showPaywall = {}
                     )
                 }
             }

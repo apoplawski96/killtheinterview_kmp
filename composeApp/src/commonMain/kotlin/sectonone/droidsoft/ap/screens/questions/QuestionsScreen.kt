@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
@@ -41,6 +43,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +55,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.di.getScreenModel
 import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.PremiumItem
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.theme.KTITheme
 import sectonone.droidsoft.ap.theme.ktiColors
@@ -93,6 +98,8 @@ internal class QuestionsScreen(private val categories: List<Category>) : Screen 
                             bottomSheetState = bottomSheetState,
                         )
                     }
+
+                    QuestionsScreenModel.ViewEvent.PremiumPaywall -> TODO()
                 }
             }
         }
@@ -110,6 +117,7 @@ internal class QuestionsScreen(private val categories: List<Category>) : Screen 
             markAsUnanswered = { screenModel.markQuestionAsUnanswered(it) },
             removeBookmark = { screenModel.removeBookmark(it) },
             addBookmark = { screenModel.addBookmark(it) },
+            showPaywall = { screenModel.showPaywall() }
         )
     }
 }
@@ -124,6 +132,7 @@ private fun QuestionsScreenLayout(
     questionsTotalCount: Int,
     addBookmark: (Question) -> Unit,
     removeBookmark: (Question) -> Unit,
+    showPaywall: () -> Unit
 ) {
     Scaffold(
         topBar = { KTITopAppBar(title = topBarTitle) },
@@ -138,7 +147,8 @@ private fun QuestionsScreenLayout(
                         questionsTotalCount = questionsTotalCount,
                         questionsAnsweredCount = questionsAnsweredCount,
                         addBookmark = addBookmark,
-                        removeBookmark = removeBookmark
+                        removeBookmark = removeBookmark,
+                        showPaywall = showPaywall
                     )
                 }
 
@@ -157,27 +167,30 @@ private fun QuestionsScreenLayout(
 private val horizontalPadding = 8.dp
 
 @Composable
-fun QuestionsList(
-    questions: List<Question>,
+private fun QuestionsList(
+    questions: List<PremiumItem<Question>>,
     markAsAnswered: (Question) -> Unit,
     markAsUnanswered: (Question) -> Unit,
     questionsAnsweredCount: Int,
     questionsTotalCount: Int,
     addBookmark: (Question) -> Unit,
     removeBookmark: (Question) -> Unit,
+    showPaywall: () -> Unit,
 ) {
     Column {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             itemsIndexed(
                 items = questions,
-                key = { _, item -> "${item.id} + ${item.hashCode()}" }
+                key = { _, item -> "${item.item.id} + ${item.hashCode()}" }
             ) { _, item ->
                 QuestionCard(
-                    item = item,
+                    item = item.item,
                     markAsAnswered = markAsAnswered,
                     markAsUnanswered = markAsUnanswered,
                     addBookmark = addBookmark,
-                    removeBookmark = removeBookmark
+                    removeBookmark = removeBookmark,
+                    locked = !item.unlocked,
+                    showPaywall = showPaywall,
                 )
             }
         }
@@ -191,6 +204,8 @@ fun QuestionCard(
     markAsUnanswered: (Question) -> Unit,
     addBookmark: (Question) -> Unit,
     removeBookmark: (Question) -> Unit,
+    locked: Boolean,
+    showPaywall: () -> Unit,
 ) {
     var isExpanded by remember(item) { mutableStateOf(false) }
     var isAnswered by remember(item) { mutableStateOf(false) }
@@ -213,7 +228,9 @@ fun QuestionCard(
                 text = item.question,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W400,
-                modifier = Modifier.padding(horizontal = horizontalPadding + 2.dp),
+                modifier = Modifier
+                    .padding(horizontal = horizontalPadding + 2.dp)
+                        then if (locked) Modifier.blur(5.dp).alpha(0.5f) else Modifier,
                 color = if (isAnswered.not()) ktiColors.textMain else ktiColors.textVariant2,
                 lineHeight = 14.sp,
             )
@@ -247,22 +264,45 @@ fun QuestionCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (item.isBookmarked) {
-                        KTIIconButton(onClick = { removeBookmark.invoke(item) }, icon = { KTIIcon(Icons.Outlined.Bookmark) })
+                        KTIIconButton(
+                            onClick = {  if (locked) showPaywall() else removeBookmark.invoke(item) },
+                            icon = { KTIIcon(Icons.Outlined.Bookmark) },
+                            modifier = if (locked) Modifier.alpha(0.5f) else Modifier,
+                        )
                     } else {
-                        KTIIconButton(onClick = { addBookmark.invoke(item) }, icon = { KTIIcon(Icons.Outlined.BookmarkAdd) })
+                        KTIIconButton(
+                            onClick = {
+                                if (locked) showPaywall() else addBookmark.invoke(item)
+                            },
+                            icon = { KTIIcon(Icons.Outlined.BookmarkAdd) },
+                            modifier = if (locked) Modifier.alpha(0.5f) else Modifier,
+                        )
                     }
                     if (isAnswered.not()) {
-                        KTIIconButton(onClick = { markAsAnswered.invoke(item) }, icon = { KTIIcon(Icons.Outlined.CheckBox) })
+                        KTIIconButton(
+                            onClick = {  if (locked) showPaywall() else markAsAnswered.invoke(item) },
+                            icon = { KTIIcon(Icons.Outlined.CheckBox) },
+                            modifier = if (locked) Modifier.alpha(0.5f) else Modifier,
+                        )
                     } else {
-                        KTIIconButton(onClick = { markAsUnanswered.invoke(item) }, icon = { KTIIcon(Icons.Default.CheckBox, tint = kti_green) })
+                        KTIIconButton(
+                            onClick = { if (locked) showPaywall() else markAsUnanswered.invoke(item) },
+                            icon = { KTIIcon(Icons.Default.CheckBox, tint = kti_green) },
+                            modifier = if (locked) Modifier.alpha(0.5f) else Modifier,
+                        )
                     }
                 }
                 // Expand answer
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(end = 8.dp)) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
                     if (isAnswered.not()) {
                         ToggleAnswerButton(
                             shouldDisplayAnswer = isExpanded,
-                            displayAnswerOnClick = { isExpanded = !isExpanded },
+                            displayAnswerOnClick = {
+                                if (locked.not()) isExpanded = !isExpanded
+                            },
                         )
                     } else {
                         IconButton(onClick = {
@@ -279,9 +319,19 @@ fun QuestionCard(
                         }
                     }
                 }
+                VerticalSpacer(8.dp)
             }
         }
-        VerticalSpacer(8.dp)
+        if (locked) {
+            Box(Modifier.fillMaxSize()) {
+                Icon(
+                    Icons.Default.Lock,
+                    null,
+                    modifier = Modifier.alpha(0.3f).size(64.dp).align(Alignment.Center)
+                        .padding(16.dp)
+                )
+            }
+        }
     }
 }
 

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import sectonone.droidsoft.ap.data.model.Category
+import sectonone.droidsoft.ap.data.model.PremiumItem
 import sectonone.droidsoft.ap.data.model.Question
 import sectonone.droidsoft.ap.data.repositories.BookmarksRepository
 import sectonone.droidsoft.ap.data.repositories.QuestionsRepository
@@ -21,11 +22,12 @@ class QuestionsScreenModel(
     sealed interface ViewState {
         data object Loading : ViewState
         data object Error : ViewState
-        data class QuestionsLoaded(val questions: List<Question>) : ViewState
+        data class QuestionsLoaded(val questions: List<PremiumItem<Question>>) : ViewState
     }
 
     sealed interface ViewEvent {
         data object ToggleBottomSheet : ViewEvent
+        data object PremiumPaywall : ViewEvent
     }
 
     enum class SortMode(val displayName: String) {
@@ -51,7 +53,11 @@ class QuestionsScreenModel(
     fun initialize(categories: List<Category>) {
         screenModelScope.launch {
             questionsRepository.getQuestionsAsFlow(categories).collect { questions ->
-                _state.update { ViewState.QuestionsLoaded(questions) }
+                _state.update {
+                    ViewState.QuestionsLoaded(questions.mapIndexed { index, question ->
+                        PremiumItem(question, unlocked = index < 3)
+                    })
+                }
             }
             collectSortModeUpdates()
             collectAnsweredQuestionsUpdates()
@@ -82,6 +88,10 @@ class QuestionsScreenModel(
         screenModelScope.launch {
             bookmarksRepository.deleteBookmark(question.id.toLong())
         }
+    }
+
+    fun showPaywall() {
+
     }
 
     private fun collectSortModeUpdates() {

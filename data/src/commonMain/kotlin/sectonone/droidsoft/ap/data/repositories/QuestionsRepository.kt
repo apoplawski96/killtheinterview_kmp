@@ -61,7 +61,7 @@ class QuestionsRepository(
         val isUserFreemium = userSessionState.user.value?.isPremium?.not() ?: true
 
         // Filter categories if the user is freemium
-        val filteredCategories = if (isUserFreemium) {
+        val filteredCategories = if (false) {
             categories.filter { it.isFreemium }
         } else {
             categories
